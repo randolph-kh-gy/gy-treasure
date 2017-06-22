@@ -99,7 +99,7 @@ class ApiRequestTest extends TestCase
     }
 
     /**
-     * @expectedException \GyTreasure\Fetcher\RemoteApi\Api1680210Com\ApiParseException
+     * @expectedException \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiParseException
      */
     public function testApiParseExceptionNull()
     {
@@ -108,7 +108,7 @@ class ApiRequestTest extends TestCase
     }
 
     /**
-     * @expectedException \GyTreasure\Fetcher\RemoteApi\Api1680210Com\ApiParseException
+     * @expectedException \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiParseException
      */
     public function testApiParseExceptionFalse()
     {
@@ -117,7 +117,7 @@ class ApiRequestTest extends TestCase
     }
 
     /**
-     * @expectedException \GyTreasure\Fetcher\RemoteApi\Api1680210Com\ApiParseException
+     * @expectedException \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiParseException
      */
     public function testApiParseExceptionEmptyArray()
     {
@@ -126,7 +126,7 @@ class ApiRequestTest extends TestCase
     }
 
     /**
-     * @expectedException \GyTreasure\Fetcher\RemoteApi\Api1680210Com\ApiErrorException
+     * @expectedException \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiErrorException
      * @expectedExceptionCode -1
      * @expectedExceptionMessage 测试错误讯息
      */

@@ -3,6 +3,8 @@
 namespace GyTreasure\Fetcher\RemoteApi\Api1680210Com;
 
 use GyTreasure\Fetcher\Request;
+use GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiParseException;
+use GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiErrorException;
 
 class ApiRequest
 {
@@ -63,8 +65,8 @@ class ApiRequest
      * @param  string  $response
      * @return \GyTreasure\Fetcher\RemoteApi\Api1680210Com\ApiResponse
      *
-     * @throws \GyTreasure\Fetcher\RemoteApi\Api1680210Com\ApiParseException 无法分析 API 回应
-     * @throws \GyTreasure\Fetcher\RemoteApi\Api1680210Com\ApiErrorException API 错误
+     * @throws \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiParseException 无法分析 API 回应
+     * @throws \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiErrorException API 错误
      */
     public function parseResponse($response)
     {

@@ -5,6 +5,8 @@ namespace GyTreasure\Fetcher\RemoteApi\Api1680210Com;
 use ArrayAccess;
 use ArrayIterator;
 use IteratorAggregate;
+use GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiBusinessParseException;
+use GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiBusinessErrorException;
 
 class ApiBusiness implements ArrayAccess, IteratorAggregate
 {
@@ -22,8 +24,8 @@ class ApiBusiness implements ArrayAccess, IteratorAggregate
      * ApiBusiness constructor.
      * @param  \GyTreasure\Fetcher\RemoteApi\Api1680210Com\ApiResponse $apiResponse
      *
-     * @throws \GyTreasure\Fetcher\RemoteApi\Api1680210Com\ApiBusinessParseException 无法分析 API 回应
-     * @throws \GyTreasure\Fetcher\RemoteApi\Api1680210Com\ApiBusinessErrorException API 错误
+     * @throws \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiBusinessParseException 无法分析 API 回应
+     * @throws \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiBusinessErrorException API 错误
      */
     public function __construct(ApiResponse $apiResponse)
     {
