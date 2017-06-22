@@ -9,8 +9,6 @@ use GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiUnreachableExceptio
 
 class ApiRequest
 {
-    const BASE_URL = 'http://api.1680210.com/';
-
     /**
      * @var \GyTreasure\Fetcher\Request
      */
@@ -57,6 +55,16 @@ class ApiRequest
     }
 
     /**
+     * API 位址
+     *
+     * @return string
+     */
+    public function baseUrl()
+    {
+        return 'http://api.1680210.com/';
+    }
+
+    /**
      * 取得实际上 API 的 URL.
      *
      * @param  string  $path  API 路径
@@ -65,7 +73,7 @@ class ApiRequest
      */
     public function apiUrl($path, array $query = [])
     {
-        $baseUrl = static::BASE_URL . $this->_normalizePath($path);
+        $baseUrl = $this->baseUrl() . $this->_normalizePath($path);
         return ($query) ? $baseUrl . '?' . http_build_query($query) : $baseUrl;
     }
 
