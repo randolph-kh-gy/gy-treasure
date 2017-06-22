@@ -3,11 +3,7 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$client = \GyTreasure\Fetcher\Request::forge();
+$result = GyTreasure\Fetcher\RemoteApi\Api1680210Com\CQShiCai\getBaseCQShiCai::call('20170622059', 10002);
+//$result = GyTreasure\Fetcher\RemoteApi\Api1680210Com\CQShiCai\getBaseCQShiCaiList::call('10002');
 
-$data = $client->get('http://old.unreachable.com/Open/CurrentOpen?code=10011');
-
-print_r(gettype($data));
-
-// $res = $client->request('GET', 'http://old.1680210.com/Open/CurrentOpen?code=10011');
-// $res = $client->request('GET', 'http://old.unreachable.com/Open/CurrentOpen?code=10011');
+print_r($result);
