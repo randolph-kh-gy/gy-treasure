@@ -5,6 +5,7 @@ namespace GyTreasure\Fetcher\RemoteApi\Api1680210Com;
 use GyTreasure\Fetcher\Request;
 use GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiParseException;
 use GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiErrorException;
+use GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiUnreachableException;
 
 class ApiRequest
 {
@@ -37,12 +38,21 @@ class ApiRequest
      * @param  string  $path
      * @param  array   $query
      * @return ApiResponse
+     * 
+     * @throws \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiParseException 无法分析 API 回应
+     * @throws \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiErrorException API 错误
+     * @throws \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiUnreachableException 無法取得 API
      */
     public function call($path, array $query = [])
     {
         $url = $this->apiUrl($path, $query);
 
         $response = $this->request->get($url);
+
+        if ($response === null) {
+            throw new ApiUnreachableException('API is unreachable.');
+        }
+
         return $this->parseResponse($response);
     }
 

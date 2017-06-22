@@ -61,6 +61,19 @@ class ApiRequestTest extends TestCase
         $this->assertTrue((new ApiResponse($message, $data))->equals($returnValue));
     }
 
+    /**
+     * @expectedException \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiUnreachableException
+     */
+    public function testApiUnreachableException()
+    {
+        $this->requestMock
+            ->shouldReceive('get')
+            ->once()
+            ->andReturnNull();
+
+        $this->apiRequest->call('test/api.do');
+    }
+
     public function testApiUrl()
     {
         $path    = '/test/\\/api2.do';
