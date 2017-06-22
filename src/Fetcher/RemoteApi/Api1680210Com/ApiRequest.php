@@ -3,11 +3,12 @@
 namespace GyTreasure\Fetcher\RemoteApi\Api1680210Com;
 
 use GyTreasure\Fetcher\Request;
+use GyTreasure\Fetcher\RemoteApi\BaseApiRequest;
 use GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiParseException;
 use GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiErrorException;
 use GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiUnreachableException;
 
-class ApiRequest
+class ApiRequest extends BaseApiRequest
 {
     /**
      * @var \GyTreasure\Fetcher\Request
@@ -25,7 +26,7 @@ class ApiRequest
     }
 
     /**
-     * @return \GyTreasure\Fetcher\RemoteApi\Api1680210Com\ApiRequest
+     * @return static
      */
     public static function forge()
     {
@@ -65,19 +66,6 @@ class ApiRequest
     }
 
     /**
-     * 取得实际上 API 的 URL.
-     *
-     * @param  string  $path  API 路径
-     * @param  array   $query
-     * @return string
-     */
-    public function apiUrl($path, array $query = [])
-    {
-        $baseUrl = $this->baseUrl() . $this->_normalizePath($path);
-        return ($query) ? $baseUrl . '?' . http_build_query($query) : $baseUrl;
-    }
-
-    /**
      * 解析回应
      *
      * @param  string  $response
@@ -90,7 +78,7 @@ class ApiRequest
     {
         $response = json_decode($response, true);
         if (! $this->_isParseable($response)) {
-            throw new ApiParseException("Failed to parse the api response.");
+            throw new ApiParseException('Failed to parse the api response.');
         }
 
         if ($response['errorCode'] != 0) {
@@ -114,22 +102,10 @@ class ApiRequest
         }
 
         // 需要有 errorCode, message 及 result 栏位
-        if (! isset($data['errorCode']) || ! isset($data['message']) || ! isset($data['result']))
-        {
+        if (! isset($data['errorCode']) || ! isset($data['message']) || ! isset($data['result'])) {
             return false;
         }
 
         return true;
-    }
-
-    /**
-     * 正规化路径
-     *
-     * @param  string $path
-     * @return string
-     */
-    protected static function _normalizePath($path)
-    {
-        return ltrim(preg_replace('#[/\\\\]+#', '/', $path),'/');
     }
 }

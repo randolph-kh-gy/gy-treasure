@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Randolph
- * Date: 2017/6/22
- * Time: 下午 01:07
- */
 
 namespace Tests\Unit\Fetcher\RemoteApi\Api1680210Com;
 
@@ -45,9 +39,9 @@ class ApiRequestTest extends TestCase
 
     public function testCall()
     {
-        $path = 'test/api.do';
-        $message = '执行成功';
-        $data = ['test' => 'Hello World!'];
+        $path     = 'test/api.do';
+        $message  = '执行成功';
+        $data     = ['test' => 'Hello World!'];
         $response = json_encode(['errorCode' => 0, 'message' => $message, 'result' => $data]);
 
         $this->requestMock
@@ -72,24 +66,6 @@ class ApiRequestTest extends TestCase
             ->andReturnNull();
 
         $this->apiRequest->call('test/api.do');
-    }
-
-    public function testApiUrl()
-    {
-        $path    = '/test/\\/api2.do';
-        $expects = 'http://api.1680210.com/test/api2.do';
-
-        $returnValue = $this->apiRequest->apiUrl($path);
-
-        $this->assertEquals($expects, $returnValue);
-
-        $path    = '/test/\\/api2.do';
-        $query   = ['query1' => 'data1', 'query2' => 'data2'];
-        $expects = 'http://api.1680210.com/test/api2.do?query1=data1&query2=data2';
-
-        $returnValue = $this->apiRequest->apiUrl($path, $query);
-
-        $this->assertEquals($expects, $returnValue);
     }
 
     public function testParseResponse()
