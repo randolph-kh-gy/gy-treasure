@@ -22,6 +22,10 @@ abstract class ApiCall
      * @param  string  $path
      * @param  string  $query
      * @return \GyTreasure\Fetcher\RemoteApi\Api1680210Com\ApiBusiness
+     *
+     * @throws \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiParseException 无法分析 API 回应
+     * @throws \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiErrorException API 错误
+     * @throws \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiUnreachableException 無法取得 API
      */
     protected function _apiCall($path, $query)
     {
