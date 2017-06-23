@@ -2,7 +2,7 @@
 
 namespace GyTreasure\ApiFacades\Interfaces;
 
-interface ApiDrawLatestGroupIssues
+interface ApiDrawLatestGroupIssuesNum
 {
     /**
      * 取得最近的开号
@@ -11,5 +11,5 @@ interface ApiDrawLatestGroupIssues
      * @param  int     $num
      * @return array
      */
-    public function drawLatestGroupIssues($id, $num);
+    public function drawLatestGroupIssuesNum($id, $num);
 }

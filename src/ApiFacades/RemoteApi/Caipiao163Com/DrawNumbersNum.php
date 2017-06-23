@@ -5,10 +5,10 @@ namespace GyTreasure\ApiFacades\RemoteApi\Caipiao163Com;
 use GyTreasure\Fetcher\RemoteApi\Caipiao163Com\Award\GetAwardNumberInfo;
 use GyTreasure\Fetcher\RemoteApi\Caipiao163Com\Order\PreBetPeriodInfoTime;
 use GyTreasure\ApiFacades\Interfaces\ApiFromIssue;
-use GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssues;
+use GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssuesNum;
 use GyTreasure\ApiFacades\Interfaces\ApiCurrentIssue;
 
-class DrawNumbers implements ApiFromIssue, ApiDrawLatestGroupIssues, ApiCurrentIssue
+class DrawNumbersNum implements ApiFromIssue, ApiDrawLatestGroupIssuesNum, ApiCurrentIssue
 {
     /**
      * @var \GyTreasure\Fetcher\RemoteApi\Caipiao163Com\Award\GetAwardNumberInfo
@@ -90,7 +90,7 @@ class DrawNumbers implements ApiFromIssue, ApiDrawLatestGroupIssues, ApiCurrentI
      * @param  int     $num
      * @return array
      */
-    public function drawLatestGroupIssues($id, $num)
+    public function drawLatestGroupIssuesNum($id, $num)
     {
         $data = [
             'gameEn'    => $id,

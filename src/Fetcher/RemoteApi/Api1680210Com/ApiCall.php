@@ -19,14 +19,6 @@ abstract class ApiCall
     }
 
     /**
-     * @return static
-     */
-    public function forge()
-    {
-        return new static(ApiRequest::forge());
-    }
-
-    /**
      * @param  string  $path
      * @param  string  $query
      * @return \GyTreasure\Fetcher\RemoteApi\Api1680210Com\ApiBusiness
