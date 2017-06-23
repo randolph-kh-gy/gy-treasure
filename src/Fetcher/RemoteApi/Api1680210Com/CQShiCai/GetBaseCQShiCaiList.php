@@ -5,7 +5,7 @@ namespace GyTreasure\Fetcher\RemoteApi\Api1680210Com\CQShiCai;
 use GyTreasure\Fetcher\RemoteApi\Api1680210Com\ApiCall;
 use GyTreasure\Fetcher\RemoteApi\Api1680210Com\ApiCallForgeWithNoArgs;
 
-class getBaseCQShiCaiList extends ApiCall
+class GetBaseCQShiCaiList extends ApiCall
 {
     use ApiCallForgeWithNoArgs;
 
