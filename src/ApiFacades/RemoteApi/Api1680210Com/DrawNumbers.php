@@ -3,10 +3,11 @@
 namespace GyTreasure\ApiFacades\RemoteApi\Api1680210Com;
 
 use GyTreasure\ApiFacades\Interfaces\ApiCurrentIssue;
+use GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssues;
 use GyTreasure\Fetcher\RemoteApi\Api1680210Com\CQShiCai\GetBaseCQShiCai;
 use GyTreasure\Fetcher\RemoteApi\Api1680210Com\CQShiCai\GetBaseCQShiCaiList;
 
-class DrawNumbers implements ApiCurrentIssue
+class DrawNumbers implements ApiCurrentIssue, ApiDrawLatestGroupIssues
 {
     /**
      * @var \GyTreasure\Fetcher\RemoteApi\Api1680210Com\CQShiCai\GetBaseCQShiCai
@@ -48,6 +49,25 @@ class DrawNumbers implements ApiCurrentIssue
     public function currentIssue($id)
     {
         $response = $this->apiBaseCQShiCai->call('', $id);
-        return isset($response['drawIssue']) ? $response['drawIssue'] : null;
+        return isset($response['preDrawIssue']) ? $response['preDrawIssue'] : null;
+    }
+
+    /**
+     * 取得最近的开号
+     *
+     * @param  string  $id
+     * @return array
+     */
+    public function drawLatestGroupIssues($id)
+    {
+        $response = $this->apiBaseCQShiCaiList->call($id);
+        return array_map([$this, '_fetchWinningNumbers'], $response->getData());
+    }
+
+    protected function _fetchWinningNumbers(array $data)
+    {
+        $winningNumbers = explode(',', $data['preDrawCode']);
+        $issue = $data['preDrawIssue'];
+        return compact('winningNumbers', 'issue');
     }
 }

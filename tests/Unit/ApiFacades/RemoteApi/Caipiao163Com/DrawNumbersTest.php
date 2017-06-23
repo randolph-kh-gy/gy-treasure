@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\ApiFacades\RemoteApi\Caipiao163Com;
+namespace Tests\Unit\ApiFacades\RemoteApi\Caipiao163Com;
 
 use Mockery;
 use PHPUnit\Framework\TestCase;
