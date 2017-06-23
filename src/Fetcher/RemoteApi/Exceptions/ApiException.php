@@ -1,6 +1,6 @@
 <?php
 
-namespace GyTreasure\Fetcher\RemoteApi\SimpleJson\Exceptions;
+namespace GyTreasure\Fetcher\RemoteApi\Exceptions;
 
 use Exception;
 

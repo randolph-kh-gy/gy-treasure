@@ -4,9 +4,9 @@ namespace GyTreasure\Fetcher\RemoteApi\Api1680210Com;
 
 use GyTreasure\Fetcher\Request;
 use GyTreasure\Fetcher\RemoteApi\BaseApiRequest;
-use GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiParseException;
-use GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiErrorException;
-use GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiUnreachableException;
+use GyTreasure\Fetcher\RemoteApi\Exceptions\ApiParseException;
+use GyTreasure\Fetcher\RemoteApi\Exceptions\ApiErrorException;
+use GyTreasure\Fetcher\RemoteApi\Exceptions\ApiUnreachableException;
 
 class ApiRequest extends BaseApiRequest
 {
@@ -38,9 +38,9 @@ class ApiRequest extends BaseApiRequest
      * @param  array   $query
      * @return ApiResponse
      *
-     * @throws \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiParseException 无法分析 API 回应
-     * @throws \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiErrorException API 错误
-     * @throws \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiUnreachableException 無法取得 API
+     * @throws \GyTreasure\Fetcher\RemoteApi\Exceptions\ApiParseException 无法分析 API 回应
+     * @throws \GyTreasure\Fetcher\RemoteApi\Exceptions\ApiErrorException API 错误
+     * @throws \GyTreasure\Fetcher\RemoteApi\Exceptions\ApiUnreachableException 無法取得 API
      */
     public function call($path, array $query = [])
     {
@@ -71,8 +71,8 @@ class ApiRequest extends BaseApiRequest
      * @param  string  $response
      * @return \GyTreasure\Fetcher\RemoteApi\Api1680210Com\ApiResponse
      *
-     * @throws \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiParseException 无法分析 API 回应
-     * @throws \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiErrorException API 错误
+     * @throws \GyTreasure\Fetcher\RemoteApi\Exceptions\ApiParseException 无法分析 API 回应
+     * @throws \GyTreasure\Fetcher\RemoteApi\Exceptions\ApiErrorException API 错误
      */
     public function parseResponse($response)
     {

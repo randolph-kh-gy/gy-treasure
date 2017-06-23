@@ -1,6 +1,6 @@
 <?php
 
-namespace GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions;
+namespace GyTreasure\Fetcher\RemoteApi\Exceptions;
 
 class ApiErrorException extends ApiException
 {

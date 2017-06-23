@@ -3,28 +3,61 @@
 namespace GyTreasure\ApiFacades\RemoteApi\Caipiao163Com;
 
 use GyTreasure\Fetcher\RemoteApi\Caipiao163Com\Award\GetAwardNumberInfo;
+use GyTreasure\Fetcher\RemoteApi\Caipiao163Com\Order\PreBetPeriodInfoTime;
 use GyTreasure\ApiFacades\Interfaces\ApiFromIssue;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssues;
+use GyTreasure\ApiFacades\Interfaces\ApiCurrentIssue;
 
-class DrawNumbers implements ApiFromIssue, ApiDrawLatestGroupIssues
+class DrawNumbers implements ApiFromIssue, ApiDrawLatestGroupIssues, ApiCurrentIssue
 {
     /**
      * @var \GyTreasure\Fetcher\RemoteApi\Caipiao163Com\Award\GetAwardNumberInfo
      */
-    protected $remote;
+    protected $apiNumInfo;
+
+    /**
+     * @var \GyTreasure\Fetcher\RemoteApi\Caipiao163Com\Order\PreBetPeriodInfoTime
+     */
+    protected $apiPre;
 
     /**
      * DrawNumber constructor.
-     * @param \GyTreasure\Fetcher\RemoteApi\Caipiao163Com\Award\GetAwardNumberInfo $remote
+     * @param \GyTreasure\Fetcher\RemoteApi\Caipiao163Com\Award\GetAwardNumberInfo   $apiNumInfo
+     * @param \GyTreasure\Fetcher\RemoteApi\Caipiao163Com\Order\PreBetPeriodInfoTime $apiPre
      */
-    public function __construct(GetAwardNumberInfo $remote)
-    {
-        $this->remote = $remote;
+    public function __construct(
+        GetAwardNumberInfo $apiNumInfo,
+        PreBetPeriodInfoTime $apiPre
+    ) {
+        $this->apiNumInfo = $apiNumInfo;
+        $this->apiPre     = $apiPre;
     }
 
+    /**
+     * @return static
+     */
     public static function forge()
     {
-        return new static(GetAwardNumberInfo::forge());
+        return new static(
+            GetAwardNumberInfo::forge(),
+            PreBetPeriodInfoTime::forge()
+        );
+    }
+
+    /**
+     * 取得目前的开奖号
+     *
+     * @param  string  $id
+     * @return string|null
+     */
+    public function currentIssue($id)
+    {
+        $data = [
+            'gameEn' => $id,
+        ];
+
+        $response = $this->apiPre->call($data);
+        return isset($response['currentPeriod']) ? $response['currentPeriod'] : null;
     }
 
     /**
@@ -40,7 +73,7 @@ class DrawNumbers implements ApiFromIssue, ApiDrawLatestGroupIssues
             'gameEn' => $id,
             'period' => $issue
         ];
-        $response = $this->remote->call($data);
+        $response = $this->apiNumInfo->call($data);
 
         if (isset($response['awardNumberInfoList'][0])) {
             $result = $this->_fetchWinningNumbers($response['awardNumberInfoList'][0]);
@@ -53,8 +86,8 @@ class DrawNumbers implements ApiFromIssue, ApiDrawLatestGroupIssues
     /**
      * 取得最近的开号
      *
-     * @param string $id
-     * @param int $num
+     * @param  string  $id
+     * @param  int     $num
      * @return array
      */
     public function drawLatestGroupIssues($id, $num)
@@ -63,7 +96,7 @@ class DrawNumbers implements ApiFromIssue, ApiDrawLatestGroupIssues
             'gameEn'    => $id,
             'periodNum' => $num,
         ];
-        $response = $this->remote->call($data);
+        $response = $this->apiNumInfo->call($data);
 
         if (isset($response['awardNumberInfoList']) && is_array($response['awardNumberInfoList'])) {
             return array_values(array_filter(array_map([$this, '_fetchWinningNumbers'], $response['awardNumberInfoList'])));
@@ -72,11 +105,14 @@ class DrawNumbers implements ApiFromIssue, ApiDrawLatestGroupIssues
         return [];
     }
 
-    protected function _fetchWinningNumbers($data)
+    /**
+     * @param  array  $data
+     * @return array|null
+     */
+    protected function _fetchWinningNumbers(array $data)
     {
         if (
-               ! is_array($data)
-            || ! isset($data['winningNumber'])
+               ! isset($data['winningNumber'])
             || ! isset($data['period'])
         ) {
             return null;

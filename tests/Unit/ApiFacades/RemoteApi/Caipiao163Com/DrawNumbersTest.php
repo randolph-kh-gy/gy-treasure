@@ -8,13 +8,19 @@ use PHPUnit\Framework\TestCase;
 use Faker;
 use GyTreasure\ApiFacades\RemoteApi\Caipiao163Com\DrawNumbers;
 use GyTreasure\Fetcher\RemoteApi\Caipiao163Com\Award\GetAwardNumberInfo;
+use GyTreasure\Fetcher\RemoteApi\Caipiao163Com\Order\PreBetPeriodInfoTime;
 
 class DrawNumbersTest extends TestCase
 {
     /**
      * @var \Mockery\MockInterface
      */
-    protected $remoteMock;
+    protected $apiNumInfoMock;
+
+    /**
+     * @var \Mockery\MockInterface
+     */
+    protected $apiPreMock;
 
     /**
      * @var \GyTreasure\ApiFacades\RemoteApi\Caipiao163Com\DrawNumbers
@@ -25,9 +31,10 @@ class DrawNumbersTest extends TestCase
     {
         parent::setUp();
 
-        $this->remoteMock  = Mockery::mock(GetAwardNumberInfo::class);
+        $this->apiNumInfoMock   = Mockery::mock(GetAwardNumberInfo::class);
+        $this->apiPreMock       = Mockery::mock(PreBetPeriodInfoTime::class);
 
-        $this->drawNumbers = new DrawNumbers($this->remoteMock);
+        $this->drawNumbers      = new DrawNumbers($this->apiNumInfoMock, $this->apiPreMock);
     }
 
     public function tearDown()
@@ -35,6 +42,23 @@ class DrawNumbersTest extends TestCase
         Mockery::close();
 
         parent::tearDown();
+    }
+
+    public function testCurrentIssue()
+    {
+        $faker  = Faker\Factory::create();
+        $id     = $faker->word;
+        $issue  = date('ymd') . sprintf('%03d', rand(0, 999));
+
+        $this->apiPreMock
+            ->shouldReceive('call')
+            ->once()
+            ->with(['gameEn' => $id])
+            ->andReturn(['currentPeriod' => $issue]);
+
+        $returnValue = $this->drawNumbers->currentIssue($id);
+
+        $this->assertEquals($issue, $returnValue);
     }
 
     public function testFromIssue()
@@ -49,7 +73,7 @@ class DrawNumbersTest extends TestCase
             'status' => '0',
         ];
 
-        $this->remoteMock
+        $this->apiNumInfoMock
             ->shouldReceive('call')
             ->once()
             ->with(['gameEn' => $issue, 'period' => $row['period']])
@@ -78,7 +102,7 @@ class DrawNumbersTest extends TestCase
             'status' => '0',
         ];
 
-        $this->remoteMock
+        $this->apiNumInfoMock
             ->shouldReceive('call')
             ->once()
             ->with(['gameEn' => $issue, 'periodNum' => $num])

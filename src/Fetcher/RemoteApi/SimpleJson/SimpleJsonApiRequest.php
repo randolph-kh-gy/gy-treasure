@@ -4,8 +4,8 @@ namespace GyTreasure\Fetcher\RemoteApi\SimpleJson;
 
 use GyTreasure\Fetcher\Request;
 use GyTreasure\Fetcher\RemoteApi\BaseApiRequest;
-use GyTreasure\Fetcher\RemoteApi\SimpleJson\Exceptions\ApiUnreachableException;
-use GyTreasure\Fetcher\RemoteApi\SimpleJson\Exceptions\ApiParseException;
+use GyTreasure\Fetcher\RemoteApi\Exceptions\ApiUnreachableException;
+use GyTreasure\Fetcher\RemoteApi\Exceptions\ApiParseException;
 
 abstract class SimpleJsonApiRequest extends BaseApiRequest
 {
@@ -30,8 +30,8 @@ abstract class SimpleJsonApiRequest extends BaseApiRequest
      * @param  array   $query
      * @return array
      *
-     * @throws \GyTreasure\Fetcher\RemoteApi\SimpleJson\Exceptions\ApiUnreachableException 無法取得 API
-     * @throws \GyTreasure\Fetcher\RemoteApi\SimpleJson\Exceptions\ApiParseException 无法分析 API 回应
+     * @throws \GyTreasure\Fetcher\RemoteApi\Exceptions\ApiUnreachableException 無法取得 API
+     * @throws \GyTreasure\Fetcher\RemoteApi\Exceptions\ApiParseException 无法分析 API 回应
      */
     public function call($path, array $query = [])
     {
