@@ -20,22 +20,7 @@ class GetBaseCQShiCai extends ApiCall
      * @throws \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiErrorException API 错误
      * @throws \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiUnreachableException 無法取得 API
      */
-    public static function call($issue, $lotCode)
-    {
-        $instance = static::forge();
-        return $instance->remoteCall($issue, $lotCode);
-    }
-
-    /**
-     * @param  string  $issue
-     * @param  string  $lotCode
-     * @return \GyTreasure\Fetcher\RemoteApi\Api1680210Com\ApiBusiness
-     *
-     * @throws \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiParseException 无法分析 API 回应
-     * @throws \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiErrorException API 错误
-     * @throws \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Exceptions\ApiUnreachableException 無法取得 API
-     */
-    public function remoteCall($issue, $lotCode)
+    public function call($issue, $lotCode)
     {
         $query = compact('issue', 'lotCode');
         return $this->_apiCall(static::API_PATH, $query);

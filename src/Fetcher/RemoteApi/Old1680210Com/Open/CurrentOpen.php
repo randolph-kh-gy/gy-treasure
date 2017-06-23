@@ -33,20 +33,7 @@ class CurrentOpen
      * @throws \GyTreasure\Fetcher\RemoteApi\SimpleJson\Exceptions\ApiUnreachableException 無法取得 API
      * @throws \GyTreasure\Fetcher\RemoteApi\SimpleJson\Exceptions\ApiParseException 无法分析 API 回应
      */
-    public static function call($code)
-    {
-        $instance = static::forge();
-        return $instance->remoteCall($code);
-    }
-
-    /**
-     * @param  string  $code
-     * @return array
-     *
-     * @throws \GyTreasure\Fetcher\RemoteApi\SimpleJson\Exceptions\ApiUnreachableException 無法取得 API
-     * @throws \GyTreasure\Fetcher\RemoteApi\SimpleJson\Exceptions\ApiParseException 无法分析 API 回应
-     */
-    public function remoteCall($code)
+    public function call($code)
     {
         return $this->apiRequest->call(static::API_PATH, compact('code'));
     }

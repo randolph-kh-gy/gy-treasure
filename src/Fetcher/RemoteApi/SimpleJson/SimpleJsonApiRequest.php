@@ -4,6 +4,8 @@ namespace GyTreasure\Fetcher\RemoteApi\SimpleJson;
 
 use GyTreasure\Fetcher\Request;
 use GyTreasure\Fetcher\RemoteApi\BaseApiRequest;
+use GyTreasure\Fetcher\RemoteApi\SimpleJson\Exceptions\ApiUnreachableException;
+use GyTreasure\Fetcher\RemoteApi\SimpleJson\Exceptions\ApiParseException;
 
 abstract class SimpleJsonApiRequest extends BaseApiRequest
 {
