@@ -34,8 +34,8 @@ class GetAwardNumberInfo
      * @param  array  $data
      * @return array
      *
-     * @throws \GyTreasure\Fetcher\RemoteApi\SimpleJson\Exceptions\ApiUnreachableException 無法取得 API
-     * @throws \GyTreasure\Fetcher\RemoteApi\SimpleJson\Exceptions\ApiParseException 无法分析 API 回应
+     * @throws \GyTreasure\Fetcher\RemoteApi\Exceptions\ApiUnreachableException 無法取得 API
+     * @throws \GyTreasure\Fetcher\RemoteApi\Exceptions\ApiParseException 无法分析 API 回应
      */
     public function call(array $data = [])
     {

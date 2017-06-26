@@ -20,7 +20,7 @@ class DrawNumbers implements ApiCurrentIssue, ApiDrawLatestGroupIssues
     protected $apiBaseCQShiCaiList;
 
     /**
-     * DrawNumbersNum constructor.
+     * DrawNumbers constructor.
      * @param GetBaseCQShiCai $apiBaseCQShiCai
      * @param GetBaseCQShiCaiList $apiBaseCQShiCaiList
      */

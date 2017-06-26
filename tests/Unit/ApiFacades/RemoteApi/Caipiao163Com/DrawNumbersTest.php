@@ -6,7 +6,7 @@ use Mockery;
 use PHPUnit\Framework\TestCase;
 
 use Faker;
-use GyTreasure\ApiFacades\RemoteApi\Caipiao163Com\DrawNumbersNum;
+use GyTreasure\ApiFacades\RemoteApi\Caipiao163Com\DrawNumbers;
 use GyTreasure\Fetcher\RemoteApi\Caipiao163Com\Award\GetAwardNumberInfo;
 use GyTreasure\Fetcher\RemoteApi\Caipiao163Com\Order\PreBetPeriodInfoTime;
 
@@ -23,7 +23,7 @@ class DrawNumbersTest extends TestCase
     protected $apiPreMock;
 
     /**
-     * @var \GyTreasure\ApiFacades\RemoteApi\Caipiao163Com\DrawNumbersNum
+     * @var \GyTreasure\ApiFacades\RemoteApi\Caipiao163Com\DrawNumbers
      */
     protected $drawNumbers;
 
@@ -34,7 +34,7 @@ class DrawNumbersTest extends TestCase
         $this->apiNumInfoMock   = Mockery::mock(GetAwardNumberInfo::class);
         $this->apiPreMock       = Mockery::mock(PreBetPeriodInfoTime::class);
 
-        $this->drawNumbers      = new DrawNumbersNum($this->apiNumInfoMock, $this->apiPreMock);
+        $this->drawNumbers      = new DrawNumbers($this->apiNumInfoMock, $this->apiPreMock);
     }
 
     public function tearDown()

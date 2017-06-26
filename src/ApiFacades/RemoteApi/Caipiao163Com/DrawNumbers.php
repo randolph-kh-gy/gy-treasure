@@ -8,7 +8,7 @@ use GyTreasure\ApiFacades\Interfaces\ApiFromIssue;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssuesNum;
 use GyTreasure\ApiFacades\Interfaces\ApiCurrentIssue;
 
-class DrawNumbersNum implements ApiFromIssue, ApiDrawLatestGroupIssuesNum, ApiCurrentIssue
+class DrawNumbers implements ApiFromIssue, ApiDrawLatestGroupIssuesNum, ApiCurrentIssue
 {
     /**
      * @var \GyTreasure\Fetcher\RemoteApi\Caipiao163Com\Award\GetAwardNumberInfo

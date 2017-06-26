@@ -46,6 +46,7 @@ abstract class SimpleJsonApiRequest extends BaseApiRequest
         $data = json_decode($response, true);
 
         if (! is_array($data)) {
+            echo $response;exit;
             throw new ApiParseException('Failed to parse the api response.');
         }
 
