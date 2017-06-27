@@ -6,6 +6,8 @@ use GyTreasure\Support\Arr;
 
 abstract class ApiStrategy
 {
+    use ApiStrategyCall;
+
     /**
      * @var \GyTreasure\Process\Process
      */
@@ -77,48 +79,10 @@ abstract class ApiStrategy
     {
         $loader = $this->process()->loader();
 
-        $instanceName = $loader->instanceName($instance, 'DrawNumbers');
+        $instanceName = $loader->instanceName($instance);
         $config       = $loader->apiConfig($instanceName);
         $id           = Arr::get($config, 'id', $loader->identity());
 
         return compact('instanceName', 'config', 'id');
-    }
-
-    /**
-     * @param  array        $api
-     * @param  callable     $callback
-     * @param  array|null   $next
-     * @return mixed
-     */
-    public function call(array $api, $callback, $next = null)
-    {
-        $apiName   = Arr::get($api, 'apiName');
-        $forge     = Arr::get($api, 'forge');
-        $interface = Arr::get($api, 'interface');
-
-        $instances = $this->getApiInstances($apiName, $forge, $interface);
-
-        foreach ($instances as $instance) {
-            try {
-                $info = $this->info($instance);
-                return call_user_func_array($callback, [$instance, $info]);
-            } catch (ApiException $e) {
-                // Do nothing
-            }
-        }
-
-        if ($next && is_array($next)) {
-
-            if (count($next) > 2) {
-                list($class, $method, $args) = $next;
-            } else {
-                list($class, $method) = $next;
-                $args = [];
-            }
-            return call_user_func_array([$this->next($class), $method], $args);
-
-        } else {
-            return null;
-        }
     }
 }
