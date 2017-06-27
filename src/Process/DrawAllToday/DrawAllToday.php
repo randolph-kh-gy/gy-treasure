@@ -21,12 +21,12 @@ class DrawAllToday extends Process
      */
     public static function forge($identity)
     {
-        return new static(new ApiLoader($identity));
+        return new static(ApiLoader::forge($identity));
     }
 
     public function run()
     {
-        $data = $this->strategy()->getIssues('10002');
+        $data = $this->strategy()->getIssues();
         print_r($data);
     }
 }

@@ -3,11 +3,10 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-// use GyTreasure\ApiFacades\RemoteApi\Api1680210Com\DrawNumbers;
+$isWin = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
 
-// $number = DrawNumbers::forge()->drawLatestGroupIssues('10002');
-
-// print_r($number);
+// 若是 Windows系统, 使用 UTF-8 编码
+($isWin) && system('chcp 65001');
 
 $process = GyTreasure\Process\DrawAllToday\DrawAllToday::forge('chongqing_ssc');
 

@@ -7,23 +7,17 @@ use GyTreasure\Process\ApiStrategy;
 class ApiDrawLatestGroupIssuesStrategy extends ApiStrategy
 {
     /**
-     * @param  string  $id
      * @return array
      */
-    public function getIssues($id)
+    public function getIssues()
     {
-        /**
-         * @var \GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssues|null
-         */
-        $instance = $this->getApiInstance('DrawNumbers', 'forge', 'ApiDrawLatestGroupIssues');
+        $api  = ['apiName' => 'DrawNumbers', 'forge' => 'forge', 'interface' => 'ApiDrawLatestGroupIssues'];
+        $next = [ApiDrawLatestGroupIssuesNumStrategy::class, 'getIssues'];
 
-        if (! $instance) {
+        return $this->call($api, function ($instance, $info) {
 
-            $next = new ApiDrawLatestGroupIssuesNumStrategy($this->process());
-            $this->process->setStrategy($next);
-            return $next->getIssues($id);
-        }
+            return $instance->drawLatestGroupIssues($info['id']);
 
-        return $instance->drawLatestGroupIssues($id);
+        }, $next);
     }
 }

@@ -7,9 +7,14 @@ use ReflectionClass;
 class ApiLoader
 {
     /**
+     * @var string
+     */
+    protected $identity;
+
+    /**
      * @var array
      */
-    protected $apiNames;
+    protected $api;
 
     /**
      * @var array
@@ -18,15 +23,58 @@ class ApiLoader
 
     /**
      * @param  string  $identity
+     * @param  array   $config
      */
-    public function __construct($identity)
+    public function __construct($identity, array $config = [])
     {
-        $this->apiNames = Config::get("api.$identity", []);
+        $this->identity = $identity;
+        $this->api      = $config;
     }
 
-    public function getApiNames()
+    public static function forge($identity)
     {
-        return $this->apiNames;
+        $config = Config::get("api.$identity", []);
+        return new static($identity, $config);
+    }
+
+    /**
+     * @return string
+     */
+    public function identity()
+    {
+        return $this->identity;
+    }
+
+    /**
+     * @return array
+     */
+    public function apiNames()
+    {
+        return array_keys($this->api);
+    }
+
+    /**
+     * @param  string  $instanceName
+     * @return array
+     */
+    public function apiConfig($instanceName)
+    {
+        return $this->api[$instanceName];
+    }
+
+    /**
+     * @param  object  $instance
+     * @return string|null
+     */
+    public function instanceName($instance)
+    {
+        foreach ($this->instances as $groups) {
+            $instanceName = array_search($instance, $groups);
+            if ($instanceName !== false) {
+                return $instanceName;
+            }
+        }
+        return null;
     }
 
     /**
@@ -37,10 +85,10 @@ class ApiLoader
     public function loadInstances($name, $forge = null)
     {
         if (! isset($this->instances[$name])) {
-            foreach ($this->apiNames as $apiName) {
-                $instance = $this->getInstance($apiName, $name, $forge);
+            foreach ($this->api as $instanceName => $api) {
+                $instance = $this->getInstance($instanceName, $name, $forge);
                 if ($instance) {
-                    $this->instances[$name][] = $instance;
+                    $this->instances[$name][$instanceName] = $instance;
                 }
             }
         }
@@ -49,14 +97,14 @@ class ApiLoader
     }
 
     /**
-     * @param  string      $apiName
-     * @param  string      $name
-     * @param  string|null $forge
+     * @param  string       $instanceName
+     * @param  string       $name
+     * @param  string|null  $forge
      * @return object|null
      */
-    protected function getInstance($apiName, $name, $forge = null)
+    protected function getInstance($instanceName, $name, $forge = null)
     {
-        $namespace = '\\GyTreasure\\ApiFacades\\RemoteApi\\' . $apiName . '\\' . $name;
+        $namespace = '\\GyTreasure\\ApiFacades\\RemoteApi\\' . $instanceName . '\\' . $name;
         if (class_exists($namespace)) {
             $reflect = new ReflectionClass($namespace);
             if ($forge) {
