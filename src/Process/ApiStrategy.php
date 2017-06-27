@@ -25,15 +25,14 @@ abstract class ApiStrategy
     /**
      * @param  string       $apiName
      * @param  string|null  $forge
-     * @param  string|null  $interface
+     * @param  string|null  $instanceof
      * @return array
      */
-    public function getApiInstances($apiName, $forge = null, $interface = null)
+    public function getApiInstances($apiName, $forge = null, $instanceof = null)
     {
         $loader = $this->process->loader();
 
-        if ($interface) {
-            $instanceof = 'GyTreasure\\ApiFacades\\Interfaces\\' . $interface;
+        if ($instanceof) {
             return $loader->getInstances($apiName, $forge, $instanceof);
         } else {
             return $loader->getInstances($apiName, $forge);
@@ -43,12 +42,12 @@ abstract class ApiStrategy
     /**
      * @param  string       $apiName
      * @param  string|null  $forge
-     * @param  string|null  $interface
+     * @param  string|null  $instanceof
      * @return object|null
      */
-    public function getApiInstance($apiName, $forge = null, $interface = null)
+    public function getApiInstance($apiName, $forge = null, $instanceof = null)
     {
-        $instances = $this->getApiInstances($apiName, $forge, $interface);
+        $instances = $this->getApiInstances($apiName, $forge, $instanceof);
         return Arr::first($instances);
     }
 

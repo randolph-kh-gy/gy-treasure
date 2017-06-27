@@ -14,11 +14,11 @@ trait ApiStrategyCall
      */
     public function call(array $api, $callback, $next = null)
     {
-        $apiName   = Arr::get($api, 'apiName');
-        $forge     = Arr::get($api, 'forge');
-        $interface = Arr::get($api, 'interface');
+        $apiName    = Arr::get($api, 'apiName');
+        $forge      = Arr::get($api, 'forge');
+        $instanceof = Arr::get($api, 'instanceof');
 
-        $instances = $this->getApiInstances($apiName, $forge, $interface);
+        $instances = $this->getApiInstances($apiName, $forge, $instanceof);
 
         foreach ($instances as $instance) {
             try {

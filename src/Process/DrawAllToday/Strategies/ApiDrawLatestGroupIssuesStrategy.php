@@ -3,6 +3,7 @@
 namespace GyTreasure\Process\DrawAllToday\Strategies;
 
 use GyTreasure\Process\ApiStrategy;
+use GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssues;
 
 class ApiDrawLatestGroupIssuesStrategy extends ApiStrategy
 {
@@ -11,7 +12,7 @@ class ApiDrawLatestGroupIssuesStrategy extends ApiStrategy
      */
     public function getIssues()
     {
-        $api  = ['apiName' => 'DrawNumbers', 'forge' => 'forge', 'interface' => 'ApiDrawLatestGroupIssues'];
+        $api  = ['apiName' => 'DrawNumbers', 'forge' => 'forge', 'instanceof' => ApiDrawLatestGroupIssues::class];
         $next = [ApiDrawLatestGroupIssuesNumStrategy::class, 'getIssues'];
 
         return $this->call($api, function ($instance, $info) {

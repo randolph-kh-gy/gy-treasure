@@ -87,19 +87,19 @@ class ApiStrategyTest extends TestCase
 
     public function testGetApiInstancesCase3()
     {
-        $faker     = Faker\Factory::create();
-        $apiName   = ucfirst($faker->word);
-        $forge     = $faker->word;
-        $interface = ucfirst($faker->word);
-        $instances = $this->_fakeInstances(3);
+        $faker      = Faker\Factory::create();
+        $apiName    = ucfirst($faker->word);
+        $forge      = $faker->word;
+        $instanceof = implode('\\', $faker->words(3));
+        $instances  = $this->_fakeInstances(3);
 
         $this->apiLoaderMock
             ->shouldReceive('getInstances')
             ->once()
-            ->with($apiName, $forge, 'GyTreasure\\ApiFacades\\Interfaces\\' . $interface)
+            ->with($apiName, $forge, $instanceof)
             ->andReturn($instances);
 
-        $returnArray = $this->apiStrategy->getApiInstances($apiName, $forge, $interface);
+        $returnArray = $this->apiStrategy->getApiInstances($apiName, $forge, $instanceof);
 
         $this->assertSame($instances, $returnArray);
     }
