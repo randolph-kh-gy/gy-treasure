@@ -115,4 +115,39 @@ class Arr
 
         return $array;
     }
+
+    /**
+     * Collapse an array of arrays into a single array.
+     *
+     * @param  array  $array
+     * @return array
+     */
+    public static function collapse($array)
+    {
+        $results = [];
+
+        foreach ($array as $values) {
+            if ($values instanceof Collection) {
+                $values = $values->all();
+            } elseif (! is_array($values)) {
+                continue;
+            }
+
+            $results = array_merge($results, $values);
+        }
+
+        return $results;
+    }
+
+    /**
+     * Filter the array using the given callback.
+     *
+     * @param  array  $array
+     * @param  callable  $callback
+     * @return array
+     */
+    public static function where($array, callable $callback)
+    {
+        return array_filter($array, $callback, ARRAY_FILTER_USE_BOTH);
+    }
 }

@@ -4,7 +4,8 @@
         "php": ">=5.5",
         "guzzlehttp/guzzle": "~6",
         "fzaninotto/faker": "~1.4",
-        "catfan/Medoo": "^1.4"
+        "catfan/Medoo": "^1.4",
+        "nesbot/carbon": "^1.22"
     },
     "require-dev": {
         "phpunit/phpunit": "~5.7",
