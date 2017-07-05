@@ -5,7 +5,7 @@ namespace GyTreasure\Issue\IssueGenerator\LegacyIssueRules;
 use Exception;
 use Carbon\Carbon;
 use GyTreasure\Issue\IssueGenerator\IssueDateTime;
-use Illuminate\Support\Arr;
+use GyTreasure\Support\Arr;
 
 class IssueSet
 {
