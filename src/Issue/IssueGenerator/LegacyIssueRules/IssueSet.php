@@ -151,9 +151,9 @@ class IssueSet
      */
     public function prevCycle(IssueDateTime $dateTime)
     {
-        $range         = $this->getRange($dateTime->issueDate);
-        $firstendtime  = $this->setTime($dateTime->issueDate->copy(), $this->firstendtime);
-        $isSecondCycle = $dateTime->getDateTime()->eq($firstendtime);
+        $range         = $this->getRange($dateTime->getIssueDate());
+        $firstEndTime  = $this->setTime($dateTime->getIssueDate()->copy(), $this->firstendtime);
+        $isSecondCycle = $dateTime->getDateTime()->eq($firstEndTime);
 
         if ($isSecondCycle) {
             // 若为第二次周期，直接设定开始时间
@@ -259,7 +259,7 @@ class IssueSet
         if ($prev) {
             $startTime     = $prev->getDateTime();
         } else {
-            $range         = $this->getRange($dateTime->issueDate);
+            $range         = $this->getRange($dateTime->getIssueDate());
             $startTime     = $range['starttime'];
         }
 
@@ -269,13 +269,13 @@ class IssueSet
         $salestart         = $startTime->copy()->subSeconds($this->endsale);
 
         // 销售结束时间
-        $saleend           = $dateTime->dateTime->copy()->subSeconds($this->endsale);
+        $saleend           = $dateTime->getDateTime()->copy()->subSeconds($this->endsale);
 
         // 撤单时间
-        $canneldeadline    = $dateTime->dateTime->copy()->subSeconds($this->droptime);
+        $canneldeadline    = $dateTime->getDateTime()->copy()->subSeconds($this->droptime);
 
         // 最早录号时间
-        $earliestwritetime = $dateTime->dateTime->copy()->addSeconds($this->inputcodetime);
+        $earliestwritetime = $dateTime->getDateTime()->copy()->addSeconds($this->inputcodetime);
 
         return compact('belongdate', 'salestart', 'saleend', 'canneldeadline', 'earliestwritetime');
     }

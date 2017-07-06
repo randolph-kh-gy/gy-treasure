@@ -8,14 +8,14 @@ use GyTreasure\Issue\IssueGenerator\Exceptions\LegacyIssueRulesParsingException;
 class IssueRules
 {
     /**
-     * 格式化字串
+     * 格式化字串.
      *
      * @var string
      */
     public $format;
 
     /**
-     * 流水号重置规则
+     * 流水号重置规则.
      *
      * @var array
      */
@@ -59,6 +59,19 @@ class IssueRules
     }
 
     /**
+     * 回传是否需要起始期号.
+     *
+     * @return bool
+     */
+    public function startNumberRequired()
+    {
+        // 若以天重置流水号，则不需要起始期号
+        return $this->resetWhen['day'];
+    }
+
+    /**
+     * 格式化字串.
+     *
      * @param  \Carbon\Carbon  $dateTime
      * @param  int  $number
      * @return string

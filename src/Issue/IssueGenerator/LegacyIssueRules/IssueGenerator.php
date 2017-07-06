@@ -3,6 +3,7 @@
 namespace GyTreasure\Issue\IssueGenerator\LegacyIssueRules;
 
 use Carbon\Carbon;
+use GyTreasure\Support\TimeRange;
 use GyTreasure\Issue\IssueGenerator\IssueDateTime;
 
 class IssueGenerator
@@ -18,11 +19,16 @@ class IssueGenerator
     protected $issueSetHandler;
 
     /**
-     * 流水号
+     * 流水号.
      *
      * @var int
      */
     protected $number = 0;
+
+    /**
+     * @var \GyTreasure\Support\TimeRange
+     */
+    protected $ignoringTimeRange;
 
     /**
      * IssueGenerator constructor.
@@ -32,9 +38,10 @@ class IssueGenerator
      */
     public function __construct(IssueRules $rules, IssueSetHandler $issueSetHandler, $startNumber = 1)
     {
-        $this->rules           = $rules;
-        $this->issueSetHandler = $issueSetHandler;
-        $this->number          = $startNumber - 1;  // 往前推一号，让程式自行加 1
+        $this->rules             = $rules;
+        $this->issueSetHandler   = $issueSetHandler;
+        $this->number            = $startNumber - 1;  // 往前推一号，让程式自行加 1
+        $this->ignoringTimeRange = new TimeRange();
     }
 
     public static function forge($issueRule, array $issueSet)
@@ -50,6 +57,16 @@ class IssueGenerator
     }
 
     /**
+     * 忽略奖期区间.
+     *
+     * @return \GyTreasure\Support\TimeRange
+     */
+    public function ignoringTimeRange()
+    {
+        return $this->ignoringTimeRange;
+    }
+
+    /**
      * 下一个期号变动.
      *
      * @return bool
@@ -58,6 +75,12 @@ class IssueGenerator
     {
         if (! $this->issueSetHandler->nextTime()) {
             return false;
+        }
+
+        // 若在忽略的时间内, 跳至下一个区段
+        $dateTime = $this->issueSetHandler->getIssueDateTime()->getDateTime();
+        if ($this->ignoringTimeRange()->inRange($dateTime)) {
+            return $this->next();
         }
 
         $this->nextNumber();

@@ -34,7 +34,7 @@ class IssueSetHandler
     public function setUpTime()
     {
         $active = $this->getIssueSetGroup()->activated();
-        ($active) && $active->applyFirstTime($this->getIssueDateTime()->dateTime);
+        ($active) && $active->applyFirstTime($this->getIssueDateTime()->getDateTime());
         return $this;
     }
 

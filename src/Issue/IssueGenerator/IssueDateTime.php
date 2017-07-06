@@ -14,14 +14,14 @@ class IssueDateTime
      *
      * @var \Carbon\Carbon
      */
-    public $issueDate;
+    protected $issueDate;
 
     /**
      * 奖期时间.
      *
      * @var \Carbon\Carbon
      */
-    public $dateTime;
+    protected $dateTime;
 
     /**
      * IssueDateTime constructor.
@@ -35,7 +35,7 @@ class IssueDateTime
     }
 
     /**
-     * 取得奖期对应日期
+     * 取得奖期对应日期.
      *
      * @return \Carbon\Carbon
      */
@@ -45,7 +45,7 @@ class IssueDateTime
     }
 
     /**
-     * 设定奖期对应日期
+     * 设定奖期对应日期.
      *
      * @param  int  $year
      * @param  int  $month
