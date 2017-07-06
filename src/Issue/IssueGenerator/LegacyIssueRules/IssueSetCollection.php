@@ -7,15 +7,15 @@ use GyTreasure\Support\Collection;
 class IssueSetCollection extends Collection
 {
     /**
-     * 启用的 index
+     * 启用的 index.
      *
      * @var int
      */
-    protected $activeIndex = 0;
+    protected $activatedIndex = 0;
 
     /**
      * IssueSetCollection constructor.
-     * @param mixed $items
+     * @param \GyTreasure\Issue\IssueGenerator\LegacyIssueRules\IssueSet[] $items
      */
     public function __construct($items = [])
     {
@@ -27,7 +27,7 @@ class IssueSetCollection extends Collection
     }
 
     /**
-     * 从资料载入集合
+     * 从资料载入集合.
      *
      * @param  array  $raw
      * @return static
@@ -39,7 +39,7 @@ class IssueSetCollection extends Collection
     }
 
     /**
-     * 依照 sort 值排序
+     * 依照 sort 值排序.
      *
      * @return static
      */
@@ -56,7 +56,7 @@ class IssueSetCollection extends Collection
     }
 
     /**
-     * 取得已启用的集合
+     * 取得已启用的集合.
      *
      * @return static
      */
@@ -68,32 +68,34 @@ class IssueSetCollection extends Collection
     }
 
     /**
-     * 取得启用的项目
+     * 取得启用的项目.
      *
      * @return \GyTreasure\Issue\IssueGenerator\LegacyIssueRules\IssueSet|null
      */
-    public function active()
+    public function activated()
     {
-        return $this->get($this->activeIndex);
+        return $this->get($this->activatedIndex);
     }
 
     /**
-     * 取得下一个启用的项目
+     * 移动下一个启用的项目.
      *
-     * @return \GyTreasure\Issue\IssueGenerator\LegacyIssueRules\IssueSet|null
+     * @return $this
      */
     public function next()
     {
-        return $this->get(++$this->activeIndex);
+        ++$this->activatedIndex;
+        return $this;
     }
 
     /**
-     * 重设启用的项目
+     * 重设启用的项目.
      *
-     * @return \GyTreasure\Issue\IssueGenerator\LegacyIssueRules\IssueSet|null
+     * @return $this
      */
     public function reset()
     {
-        return $this->get($this->activeIndex = 0);
+        $this->activatedIndex = 0;
+        return $this;
     }
 }

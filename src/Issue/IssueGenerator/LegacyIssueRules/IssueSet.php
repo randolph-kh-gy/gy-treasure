@@ -79,7 +79,7 @@ class IssueSet
      *
      * @throws \Exception
      */
-    public function __construct($setting)
+    public function __construct(array $setting)
     {
         $this->starttime     = $this->parseTime(Arr::get($setting, 'starttime'));
         $this->endtime       = $this->parseTime(Arr::get($setting, 'endtime'));
@@ -108,7 +108,7 @@ class IssueSet
      * @param  array  $setting
      * @return static
      */
-    public static function forge($setting)
+    public static function forge(array $setting)
     {
         return new static($setting);
     }
@@ -144,6 +144,34 @@ class IssueSet
     }
 
     /**
+     * 上一次周期的时间.
+     *
+     * @param  \GyTreasure\Issue\IssueGenerator\IssueDateTime  $dateTime
+     * @return \GyTreasure\Issue\IssueGenerator\IssueDateTime|null
+     */
+    public function prevCycle(IssueDateTime $dateTime)
+    {
+        $range         = $this->getRange($dateTime->issueDate);
+        $firstendtime  = $this->setTime($dateTime->issueDate->copy(), $this->firstendtime);
+        $isSecondCycle = $dateTime->getDateTime()->eq($firstendtime);
+
+        if ($isSecondCycle) {
+            // 若为第二次周期，直接设定开始时间
+            $newDate   = $range['starttime'];
+        } else {
+            $newDate   = $dateTime->getDateTime()->copy()->subSeconds($this->cycle);
+        }
+
+        // 是否在有效范围
+        if ($newDate->between($range['starttime'], $range['endtime'])) {
+            $newIssueDateTime = $dateTime->copy();
+            $newIssueDateTime->setDateTime($newDate);
+            return $newIssueDateTime;
+        }
+        return null;
+    }
+
+    /**
      * 下一次周期的时间.
      *
      * @param  \GyTreasure\Issue\IssueGenerator\IssueDateTime  $dateTime
@@ -151,21 +179,21 @@ class IssueSet
      */
     public function nextCycle(IssueDateTime $dateTime)
     {
-        $range        = $this->getRange($dateTime->date);
-        $isFirstCycle = $dateTime->dateTime->eq($range['starttime']);
+        $range        = $this->getRange($dateTime->getIssueDate());
+        $isFirstCycle = $dateTime->getDateTime()->eq($range['starttime']);
 
         if ($isFirstCycle) {
             // 第一次不使用周期，直接设定时间
-            $newDate  = $this->setTime($dateTime->dateTime->copy(), $this->firstendtime);
+            $newDate  = $this->setTime($dateTime->getDateTime()->copy(), $this->firstendtime);
         } else {
             // 第二次以后使用周期设定时间
-            $newDate  = $dateTime->dateTime->copy()->addSeconds($this->cycle);
+            $newDate  = $dateTime->getDateTime()->copy()->addSeconds($this->cycle);
         }
 
         // 是否在有效范围
         if ($newDate->between($range['starttime'], $range['endtime'])) {
             $newIssueDateTime = $dateTime->copy();
-            $newIssueDateTime->dateTime = $newDate;
+            $newIssueDateTime->setDateTime($newDate);
             return $newIssueDateTime;
         }
         return null;
@@ -219,29 +247,54 @@ class IssueSet
     }
 
     /**
-     * 奖期日期时间信息
+     * 奖期日期时间信息.
      *
      * @param  \GyTreasure\Issue\IssueGenerator\IssueDateTime  $dateTime
      * @return array
      */
     public function issueDateTimeInfo(IssueDateTime $dateTime)
     {
-        $range = $this->getRange($dateTime->date);
+        // 取得开始时间
+        $prev  = $this->prevCycle($dateTime);
+        if ($prev) {
+            $startTime     = $prev->getDateTime();
+        } else {
+            $range         = $this->getRange($dateTime->issueDate);
+            $startTime     = $range['starttime'];
+        }
 
-        $belongdate = $dateTime->date->format('Y-m-d');
+        $belongdate        = $dateTime->getIssueDate()->format('Y-m-d');
 
         // 销售开始时间
-        $salestart = $range['starttime']->copy()->subSeconds($this->endsale);
+        $salestart         = $startTime->copy()->subSeconds($this->endsale);
 
         // 销售结束时间
-        $saleend = $dateTime->dateTime->copy()->subSeconds($this->endsale);
+        $saleend           = $dateTime->dateTime->copy()->subSeconds($this->endsale);
 
         // 撤单时间
-        $canneldeadline = $dateTime->dateTime->copy()->subSeconds($this->droptime);
+        $canneldeadline    = $dateTime->dateTime->copy()->subSeconds($this->droptime);
 
         // 最早录号时间
         $earliestwritetime = $dateTime->dateTime->copy()->addSeconds($this->inputcodetime);
 
         return compact('belongdate', 'salestart', 'saleend', 'canneldeadline', 'earliestwritetime');
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'starttime'     => $this->starttime,
+            'endtime'       => $this->endtime,
+            'firstendtime'  => $this->firstendtime,
+            'cycle'         => $this->cycle,
+            'endsale'       => $this->endsale,
+            'inputcodetime' => $this->inputcodetime,
+            'droptime'      => $this->droptime,
+            'status'        => $this->status,
+            'sort'          => $this->sort,
+        ];
     }
 }

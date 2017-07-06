@@ -7,7 +7,7 @@ use Carbon\Carbon;
 /**
  * 格式化输出的期号字串.
  */
-trait IssueRulesFormattor
+class IssueRulesFormatter
 {
     /**
      * 取代 [Ymd] 字串.
@@ -17,7 +17,7 @@ trait IssueRulesFormattor
      * @param  \Carbon\Carbon $date
      * @return string
      */
-    protected function replaceYMD($format, Carbon $date)
+    public static function replaceYMD($format, Carbon $date)
     {
         return preg_replace_callback('/[ymd]+/i', function ($match) use ($date) {
             return $date->format($match[0]);
@@ -31,7 +31,7 @@ trait IssueRulesFormattor
      * @param  int     $no
      * @return string
      */
-    protected function replaceNo($format, $no)
+    public static function replaceNo($format, $no)
     {
         return preg_replace_callback('/\[n(\d+)\]/', function ($match) use ($no) {
             return str_pad($no, $match[1], '0', STR_PAD_LEFT);

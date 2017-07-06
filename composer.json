@@ -1,5 +1,6 @@
 {
     "name": "randolph/gy-treasure",
+    "version": "0.0.1",
     "require": {
         "php": ">=5.5",
         "guzzlehttp/guzzle": "~6",

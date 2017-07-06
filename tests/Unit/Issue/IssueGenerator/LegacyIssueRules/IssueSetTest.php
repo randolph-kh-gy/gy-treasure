@@ -108,25 +108,46 @@ class IssueSetTest extends TestCase
         $this->assertEquals($expects, $returnArray);
     }
 
+    public function testPrevCycle()
+    {
+        $date        = new IssueDateTime(Carbon::create(2017, 7, 5, 0, 0, 0));
+        $date->getDateTime()->setTime(22, 22, 30);
+
+        $setting     = ['starttime' => '22:10:20', 'endtime' => '22:22:30', 'firstendtime' => '22:12:30', 'cycle' => 300];
+        $issueset    = new IssueSet($setting);
+
+        $returnDate  = $issueset->prevCycle($date);
+        $this->assertEquals(Carbon::create(2017, 7, 5, 22, 17, 30), $returnDate->getDateTime());
+
+        $returnDate  = $issueset->prevCycle($returnDate);
+        $this->assertEquals(Carbon::create(2017, 7, 5, 22, 12, 30), $returnDate->getDateTime());
+
+        $returnDate  = $issueset->prevCycle($returnDate);
+        $this->assertEquals(Carbon::create(2017, 7, 5, 22, 10, 20), $returnDate->getDateTime());
+
+        $returnDate  = $issueset->prevCycle($returnDate);
+        $this->assertNull($returnDate);
+    }
+
     public function testNextCycle()
     {
         $date        = new IssueDateTime(Carbon::create(2017, 7, 5, 0, 0, 0));
         $starttime   = Carbon::create(2017, 7, 5, 22, 10, 20);
 
-        $date->dateTime = $starttime;
+        $date->setDateTime($starttime);
 
         $setting     = ['starttime' => '22:10:20', 'endtime' => '22:22:30', 'firstendtime' => '22:12:30', 'cycle' => 300];
         $issueset    = new IssueSet($setting);
 
         $returnIssueDateTime = $issueset->nextCycle($date);
         $this->assertNotEquals($date, $returnIssueDateTime);
-        $this->assertEquals(Carbon::create(2017, 7, 5, 22, 12, 30), $returnIssueDateTime->dateTime);
+        $this->assertEquals(Carbon::create(2017, 7, 5, 22, 12, 30), $returnIssueDateTime->getDateTime());
 
         $returnIssueDateTime = $issueset->nextCycle($returnIssueDateTime);
-        $this->assertEquals(Carbon::create(2017, 7, 5, 22, 17, 30), $returnIssueDateTime->dateTime);
+        $this->assertEquals(Carbon::create(2017, 7, 5, 22, 17, 30), $returnIssueDateTime->getDateTime());
 
         $returnIssueDateTime = $issueset->nextCycle($returnIssueDateTime);
-        $this->assertEquals(Carbon::create(2017, 7, 5, 22, 22, 30), $returnIssueDateTime->dateTime);
+        $this->assertEquals(Carbon::create(2017, 7, 5, 22, 22, 30), $returnIssueDateTime->getDateTime());
 
         $returnIssueDateTime = $issueset->nextCycle($returnIssueDateTime);
         $this->assertNull($returnIssueDateTime);
@@ -162,7 +183,7 @@ class IssueSetTest extends TestCase
         $issueset = new IssueSet($setting);
 
         $date = new IssueDateTime(Carbon::create(2017, 7, 5, 0, 0, 0));
-        $date->dateTime = Carbon::create(2017, 7, 5, 1, 15, 0);
+        $date->setDateTime(Carbon::create(2017, 7, 5, 1, 15, 0));
 
         $returnArray = $issueset->issueDateTimeInfo($date);
 
@@ -175,5 +196,36 @@ class IssueSetTest extends TestCase
         ];
 
         $this->assertEquals($expects, $returnArray);
+    }
+
+    public function testToArray()
+    {
+        $setting = [
+            'starttime'     => '01:00:00',
+            'endtime'       => '02:00:00',
+            'firstendtime'  => '01:10:00',
+            'cycle'         => 300,
+            'endsale'       => 10,
+            'inputcodetime' => 20,
+            'droptime'      => 30,
+            'status'        => true,
+            'sort'          => 1,
+        ];
+
+        $issueset = new IssueSet($setting);
+
+        $expects = [
+            'starttime'     => [1, 0, 0],
+            'endtime'       => [2, 0, 0],
+            'firstendtime'  => [1, 10, 0],
+            'cycle'         => 300,
+            'endsale'       => 10,
+            'inputcodetime' => 20,
+            'droptime'      => 30,
+            'status'        => true,
+            'sort'          => 1,
+        ];
+
+        $this->assertEquals($expects, $issueset->toArray());
     }
 }
