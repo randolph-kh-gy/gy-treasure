@@ -1,11 +1,11 @@
 {
     "name": "randolph/gy-treasure",
-    "version": "0.0.1",
+    "description": "基础彩种函式库.",
     "require": {
         "php": ">=5.5",
         "guzzlehttp/guzzle": "~6",
         "fzaninotto/faker": "~1.4",
-        "nesbot/carbon": "^1.22"
+        "nesbot/carbon": "~1.20"
     },
     "require-dev": {
         "phpunit/phpunit": "~5.7",
