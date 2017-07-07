@@ -35,9 +35,9 @@ class IssueRules
     {
         if (preg_match('/^(?<format>[^\|]*)(?:\|)(?<y>[01]),(?<m>[01]),(?<d>[01])?.*$/', $issueRule, $match)) {
             $this->format = $match['format'];
-            $this->resetWhen['year']  = (bool) $match['y'];
-            $this->resetWhen['month'] = (bool) $match['m'];
-            $this->resetWhen['day']   = (bool) $match['d'];
+            $this->resetWhen['year']  = (! $match['y']);
+            $this->resetWhen['month'] = (! $match['m']);
+            $this->resetWhen['day']   = (! $match['d']);
         } else {
             throw new LegacyIssueRulesParsingException(
                 'Failed to parse IssueRule string. (issueRule: ' . (string) $issueRule . ')'

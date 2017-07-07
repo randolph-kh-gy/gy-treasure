@@ -149,9 +149,41 @@ class IssueSetHandlerTest extends TestCase
         $this->assertFalse($returnValue);
     }
 
+    public function testSetDay()
+    {
+        $oldIssueDateTime = new IssueDateTime(Carbon::create(2010, 10, 10));
+
+        $handler = new IssueSetHandler(new IssueSetCollection(), $oldIssueDateTime);
+        $handler->setDay(2011, 1, 12);
+
+        $expects = Carbon::create(2011, 1, 12, 0, 0, 0);
+        $this->assertEquals($expects, $handler->getIssueDateTime()->getIssueDate());
+        $this->assertEquals($expects, $handler->getIssueDateTime()->getDateTime());
+    }
+
     public function testNextDay()
     {
-        // 尚未完成测试
-        $this->assertTrue(true);
+        $issueSetGroup = IssueSetCollection::loadRaw([
+            ['starttime' => '11:20:30', 'endtime' => '11:35:30', 'firstendtime' => '11:30:30', 'cycle' => 300],
+            ['starttime' => '12:00:00', 'endtime' => '12:30:30', 'firstendtime' => '12:30:00', 'cycle' => 300],
+        ]);
+        $handler = (new IssueSetHandler($issueSetGroup, new IssueDateTime(
+            Carbon::create(2011, 10, 2, 0, 0, 0)
+        )))->setUpTime();
+
+        $handler->nextDay();
+
+        $issueDate = $handler->getIssueDateTime()->getIssueDate();
+        $dateTime  = $handler->getIssueDateTime()->getDateTime();
+
+        $this->assertEquals(
+            Carbon::create(2011, 10, 3, 0, 0, 0),
+            $issueDate
+        );
+
+        $this->assertEquals(
+            Carbon::create(2011, 10, 3, 11, 20, 30),
+            $dateTime
+        );
     }
 }

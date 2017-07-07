@@ -2,6 +2,7 @@
 
 namespace GyTreasure\Issue\IssueGenerator\LegacyIssueRules;
 
+use Carbon\Carbon;
 use GyTreasure\Issue\IssueGenerator\IssueDateTime;
 
 class IssueSetHandler
@@ -20,6 +21,11 @@ class IssueSetHandler
      */
     protected $issueDateTime;
 
+    /**
+     * IssueSetHandler constructor.
+     * @param  IssueSetCollection  $issueSetGroup
+     * @param  IssueDateTime       $dateTime
+     */
     public function __construct(IssueSetCollection $issueSetGroup, IssueDateTime $dateTime)
     {
         $this->setIssueSetGroup($issueSetGroup);
@@ -36,6 +42,25 @@ class IssueSetHandler
         $active = $this->getIssueSetGroup()->activated();
         ($active) && $active->applyFirstTime($this->getIssueDateTime()->getDateTime());
         return $this;
+    }
+
+    /**
+     * 尚未执行 next.
+     * 当天数改变时重置 next 计算
+     *
+     *
+     */
+    public function isNextRan()
+    {
+        $active = $this->getIssueSetGroup()->activated();
+        if ($active) {
+            $firstTime = $this->getIssueDateTime()->getIssueDate()->copy();
+            $active->applyFirstTime($firstTime);
+
+            return $this->getIssueDateTime()->getDateTime()->eq($firstTime);
+        }
+
+        return false;
     }
 
     /**
@@ -127,6 +152,21 @@ class IssueSetHandler
         } else {
             return $this->nextIssueSet()->nextTime();
         }
+    }
+
+    /**
+     * 移动至指定的日期.
+     *
+     * @param  int  $year
+     * @param  int  $month
+     * @param  int  $day
+     * @return $this
+     */
+    public function setDay($year, $month, $day)
+    {
+        $issueDate = new IssueDateTime(Carbon::create($year, $month, $day, 0, 0, 0));
+        $this->setIssueDateTime($issueDate)->resetActivatedIssueSet();
+        return $this;
     }
 
     /**
