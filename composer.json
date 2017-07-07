@@ -1,5 +1,5 @@
 {
-    "name": "randolph/gy-treasure",
+    "name": "randolph_kh_gy/gy-treasure",
     "description": "基础彩种函式库.",
     "require": {
         "php": ">=5.5",
