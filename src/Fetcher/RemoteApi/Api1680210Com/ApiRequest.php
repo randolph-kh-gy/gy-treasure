@@ -16,7 +16,7 @@ class ApiRequest extends BaseApiRequest
     protected $request;
 
     /**
-     * ApiRequest constructor.
+     * HtmlRequest constructor.
      *
      * @param \GyTreasure\Fetcher\Request $request
      */

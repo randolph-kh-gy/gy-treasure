@@ -1,26 +1,28 @@
 <?php
 
-namespace GyTreasure\Fetcher\RemoteApi\SimpleJson;
+namespace GyTreasure\Fetcher\RemoteApi\BwlcGovCn;
 
-use GyTreasure\Fetcher\Request;
 use GyTreasure\Fetcher\RemoteApi\BaseApiRequest;
 use GyTreasure\Fetcher\RemoteApi\Exceptions\ApiUnreachableException;
-use GyTreasure\Fetcher\RemoteApi\Exceptions\ApiParseException;
+use GyTreasure\Fetcher\Request;
 
-abstract class SimpleJsonApiRequest extends BaseApiRequest
+class HtmlRequest extends BaseApiRequest
 {
-    /**
-     * @var \GyTreasure\Fetcher\Request
-     */
     protected $request;
 
-    /**
-     * Constructor
-     * @param \GyTreasure\Fetcher\Request $request
-     */
     public function __construct(Request $request)
     {
         $this->request = $request;
+    }
+
+    public static function forge()
+    {
+        return new static(Request::forge());
+    }
+
+    public function baseUrl()
+    {
+        return 'http://www.bwlc.gov.cn/';
     }
 
     /**
@@ -31,7 +33,6 @@ abstract class SimpleJsonApiRequest extends BaseApiRequest
      * @return array
      *
      * @throws \GyTreasure\Fetcher\RemoteApi\Exceptions\ApiUnreachableException 無法取得 API
-     * @throws \GyTreasure\Fetcher\RemoteApi\Exceptions\ApiParseException 无法分析 API 回应
      */
     public function call($path, array $query = [])
     {
@@ -43,12 +44,6 @@ abstract class SimpleJsonApiRequest extends BaseApiRequest
             throw new ApiUnreachableException('API is unreachable.');
         }
 
-        $data = json_decode($response, true);
-
-        if (! is_array($data)) {
-            throw new ApiParseException('Failed to parse the api response.');
-        }
-
-        return $data;
+        return $response;
     }
 }
