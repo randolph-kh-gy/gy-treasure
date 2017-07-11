@@ -44,11 +44,12 @@ class PrevtraxTest extends TestCase
 
         $num   = '627923';
         $dates = '2017-07-10';
+        $page  = 1;
 
         $this->htmlRequestMock
             ->shouldReceive('call')
             ->once()
-            ->with('bulletin/prevtrax.html', compact('num', 'dates'))
+            ->with('bulletin/prevtrax.html', compact('num', 'dates', 'page'))
             ->andReturn($this->_html());
 
         $returnArray = $this->prevtrax->call($num, $dates);

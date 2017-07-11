@@ -32,6 +32,9 @@ class DrawNumbers implements ApiCurrentIssue, ApiDrawLatestGroupIssues
         $this->apiBaseCQShiCaiList = $apiBaseCQShiCaiList;
     }
 
+    /**
+     * @return static
+     */
     public static function forge()
     {
         return new static(

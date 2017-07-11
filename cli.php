@@ -24,8 +24,26 @@ $isWin = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
 
 // print_r($data);
 
-$process = GyTreasure\Fetcher\RemoteApi\Cp360Cn\I\Lotapi::forge();
+// $process = GyTreasure\Fetcher\RemoteApi\Cp360Cn\I\Lotapi::forge();
 
-$data = $process->call('qkjcode', '166406', '2017071047');
+// $data = $process->call('qkjcode', '166406', '2017071047');
+
+// print_r($data);
+
+// $process = GyTreasure\ApiFacades\RemoteApi\Cp360Cn\DrawNumbers::forge();
+
+// $data = $process->fromIssue('166406', '2017071047');
+
+// print_r($data);
+
+// $process = GyTreasure\ApiFacades\RemoteApi\BwlcGovCn\DrawNumbers::forge();
+
+// $data = $process->fromIssue('trax', 628150);
+
+// print_r($data);
+
+$process = GyTreasure\Fetcher\RemoteApi\Api1680210Com\ElevenFive\GetElevenFiveList::forge();
+
+$data = $process->call('10008');
 
 print_r($data);

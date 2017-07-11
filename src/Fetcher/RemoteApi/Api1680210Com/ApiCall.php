@@ -20,7 +20,7 @@ abstract class ApiCall
 
     /**
      * @param  string  $path
-     * @param  string  $query
+     * @param  array   $query
      * @return \GyTreasure\Fetcher\RemoteApi\Api1680210Com\ApiBusiness
      *
      * @throws \GyTreasure\Fetcher\RemoteApi\Exceptions\ApiParseException 无法分析 API 回应

@@ -2,7 +2,7 @@
 
 namespace GyTreasure\Fetcher\RemoteApi\BwlcGovCn\Bulletin;
 
-class PrevtraxParser extends HtmlTableParser
+class Prevpk3Parser extends HtmlTableParser
 {
     /**
      * 撷取行.
@@ -13,10 +13,13 @@ class PrevtraxParser extends HtmlTableParser
     protected function extractRows($html)
     {
         $arr = [
-            '\<tr class\="(?:odd)?"\>',
+            '\<tr>',
             '\<td\>(?<issue>.*?)<\/td\>',
-            '\<td\>(?<code>.*?)<\/td\>',
+            '\<td\>(?<first>.*?)<\/td\>',
+            '\<td\>(?<second>.*?)<\/td\>',
+            '\<td\>(?<third>.*?)<\/td\>',
             '\<td\>(?<date>.*?)<\/td\>',
+            '\<td\>.*?<\/td\>',
             '\<\/tr\>',
         ];
         $pattern = '/' . implode('\s*', $arr) . '/is';
@@ -25,7 +28,11 @@ class PrevtraxParser extends HtmlTableParser
 
         return array_map(function ($row) {
             return [
-                'winningNumbers' => explode(',', trim($row['code'])),
+                'winningNumbers' => [
+                    trim($row['first']),
+                    trim($row['second']),
+                    trim($row['third']),
+                ],
                 'issue'          => $row['issue'],
             ];
         }, $matches);
@@ -41,8 +48,11 @@ class PrevtraxParser extends HtmlTableParser
             '<table class="tb" width="100%">',
             '<tr>',
             '<th width="20%">期号</th>',
-            '<th width="50%">开奖号码</th>',
-            '<th width="30%">开奖公告</th>',
+            '<th>百位</th>',
+            '<th>十位</th>',
+            '<th>个位</th>',
+            '<th width="20%">开奖日期</th>',
+            '<th width="20%">开奖公告</th>',
             '</tr>',
         ];
         return $this->patternTags($arr, $delimiter);

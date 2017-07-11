@@ -5,9 +5,9 @@ namespace GyTreasure\Fetcher\RemoteApi\BwlcGovCn\Bulletin;
 use GyTreasure\Fetcher\RemoteApi\BwlcGovCn\HtmlRequest;
 use GyTreasure\Fetcher\RemoteApi\Exceptions\ApiParseException;
 
-class Prevtrax
+class Prevpk3
 {
-    const API_PATH = 'bulletin/prevtrax.html';
+    const API_PATH = 'bulletin/prevpk3.html';
 
     /**
      * @var \GyTreasure\Fetcher\RemoteApi\BwlcGovCn\HtmlRequest
@@ -15,7 +15,7 @@ class Prevtrax
     protected $htmlRequest;
 
     /**
-     * GetAwardNumberInfo constructor.
+     * Prevpk3 constructor.
      * @param \GyTreasure\Fetcher\RemoteApi\BwlcGovCn\HtmlRequest $htmlRequest
      */
     public function __construct(HtmlRequest $htmlRequest)
@@ -33,19 +33,18 @@ class Prevtrax
 
     /**
      * @param  string|null  $num
-     * @param  string|null  $dates
      * @param  int  $page
      * @return array
      *
      * @throws \GyTreasure\Fetcher\RemoteApi\Exceptions\ApiUnreachableException 無法取得 API
      * @throws \GyTreasure\Fetcher\RemoteApi\Exceptions\ApiParseException 无法分析 API 回应
      */
-    public function call($num = null, $dates = null, $page = 1)
+    public function call($num = null, $page = 1)
     {
-        $query  = compact('num', 'dates', 'page');
+        $query  = compact('num', 'page');
         $html   = $this->htmlRequest->call(static::API_PATH, $query);
 
-        $parser = new PrevtraxParser();
+        $parser = new Prevpk3Parser();
         $rows   = $parser->parse($html);
 
         if ($rows === null) {

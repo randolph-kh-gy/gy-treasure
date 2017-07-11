@@ -1,16 +1,16 @@
 <?php
 
-namespace GyTreasure\Fetcher\RemoteApi\Api1680210Com\CQShiCai;
+namespace GyTreasure\Fetcher\RemoteApi\Api1680210Com\ElevenFive;
 
 use GyTreasure\Fetcher\RemoteApi\Api1680210Com\ApiPrototype\GetList;
 
-class GetBaseCQShiCaiList extends GetList
+class GetElevenFiveList extends GetList
 {
     /**
      * @return string
      */
     protected static function apiPath()
     {
-        return 'CQShiCai/getBaseCQShiCaiList.do';
+        return 'ElevenFive/getElevenFiveList.do';
     }
 }
