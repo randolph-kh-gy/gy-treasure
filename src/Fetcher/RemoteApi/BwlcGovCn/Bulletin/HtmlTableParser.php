@@ -30,10 +30,10 @@ abstract class HtmlTableParser
     protected function extractTable($html)
     {
         $pattern = '/'
-            . $this->patternStartTable('/')
-            . '(.*?)'
-            . $this->patternEndTable('/')
-            . '/is';
+                    . $this->patternStartTable('/')
+                    . '(.*?)'
+                    . $this->patternEndTable('/')
+                    . '/is';
 
         return preg_match($pattern, $html, $match) ? $match[1] : null;
     }
