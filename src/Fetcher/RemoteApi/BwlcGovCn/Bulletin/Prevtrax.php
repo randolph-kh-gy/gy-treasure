@@ -5,7 +5,7 @@ namespace GyTreasure\Fetcher\RemoteApi\BwlcGovCn\Bulletin;
 use GyTreasure\Fetcher\RemoteApi\BwlcGovCn\HtmlRequest;
 use GyTreasure\Fetcher\RemoteApi\Exceptions\ApiParseException;
 
-class Prevtrax
+class Prevtrax implements PrevInterface
 {
     const API_PATH = 'bulletin/prevtrax.html';
 

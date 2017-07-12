@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\ApiFacades\RemoteApi\Api1680210Com;
 
+use Carbon\Carbon;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
@@ -14,12 +15,12 @@ use GyTreasure\Fetcher\RemoteApi\Api1680210Com\CQShiCai\GetBaseCQShiCaiList;
 class DrawNumbersTest extends TestCase
 {
     /**
-     * @var \Mockery\MockInterface
+     * @var \Mockery\MockInterface|\GyTreasure\Fetcher\RemoteApi\Api1680210Com\CQShiCai\GetBaseCQShiCai
      */
     protected $apiBaseCQShiCaiMock;
 
     /**
-     * @var \Mockery\MockInterface
+     * @var \Mockery\MockInterface|\GyTreasure\Fetcher\RemoteApi\Api1680210Com\CQShiCai\GetBaseCQShiCaiList
      */
     protected $apiBaseCQShiCaiListMock;
 
@@ -80,6 +81,29 @@ class DrawNumbersTest extends TestCase
             ->andReturn($this->apiBusiness($data));
 
         $returnArray = $this->drawNumbers->drawLatestGroupIssues($id);
+
+        $this->assertEquals($expects, $returnArray);
+    }
+
+    public function testDrawDateGroupIssues()
+    {
+        $id      = rand(1000, 100000);
+        $data    = [];
+        $expects = [];
+        $date    = '2017-07-11';
+        for ($i = 0; $i < 15; $i++) {
+            $row       = $this->_generate();
+            $expects[] = $this->_expects($row);
+            $data[]    = $row;
+        }
+
+        $this->apiBaseCQShiCaiListMock
+            ->shouldReceive('call')
+            ->once()
+            ->with($id, $date)
+            ->andReturn($this->apiBusiness($data));
+
+        $returnArray = $this->drawNumbers->drawDateGroupIssues($id, new Carbon($date));
 
         $this->assertEquals($expects, $returnArray);
     }

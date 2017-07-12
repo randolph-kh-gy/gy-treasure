@@ -2,12 +2,14 @@
 
 namespace GyTreasure\ApiFacades\RemoteApi\Api1680210Com;
 
+use Carbon\Carbon;
 use GyTreasure\ApiFacades\Interfaces\ApiCurrentIssue;
+use GyTreasure\ApiFacades\Interfaces\ApiDrawDateGroupIssues;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssues;
 use GyTreasure\Fetcher\RemoteApi\Api1680210Com\CQShiCai\GetBaseCQShiCai;
 use GyTreasure\Fetcher\RemoteApi\Api1680210Com\CQShiCai\GetBaseCQShiCaiList;
 
-class DrawNumbers implements ApiCurrentIssue, ApiDrawLatestGroupIssues
+class DrawNumbers implements ApiCurrentIssue, ApiDrawLatestGroupIssues, ApiDrawDateGroupIssues
 {
     /**
      * @var \GyTreasure\Fetcher\RemoteApi\Api1680210Com\CQShiCai\GetBaseCQShiCai
@@ -44,7 +46,7 @@ class DrawNumbers implements ApiCurrentIssue, ApiDrawLatestGroupIssues
     }
 
     /**
-     * 取得目前的开奖号
+     * 取得目前的开奖号.
      *
      * @param  string  $id
      * @return string|null
@@ -56,7 +58,7 @@ class DrawNumbers implements ApiCurrentIssue, ApiDrawLatestGroupIssues
     }
 
     /**
-     * 取得最近的开号
+     * 取得最近的开号.
      *
      * @param  string  $id
      * @return array
@@ -64,6 +66,20 @@ class DrawNumbers implements ApiCurrentIssue, ApiDrawLatestGroupIssues
     public function drawLatestGroupIssues($id)
     {
         $response = $this->apiBaseCQShiCaiList->call($id);
+        return array_map([$this, '_fetchWinningNumbers'], $response->getData());
+    }
+
+    /**
+     * 取得指定日期的开号.
+     *
+     * @param  string  $id
+     * @param  Carbon  $date
+     * @return array
+     */
+    public function drawDateGroupIssues($id, Carbon $date)
+    {
+        $dateString = $date->toDateString();
+        $response   = $this->apiBaseCQShiCaiList->call($id, $dateString);
         return array_map([$this, '_fetchWinningNumbers'], $response->getData());
     }
 

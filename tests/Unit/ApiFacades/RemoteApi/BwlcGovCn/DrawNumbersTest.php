@@ -2,13 +2,20 @@
 
 namespace Tests\Unit\ApiFacades\RemoteApi\BwlcGovCn;
 
+use Carbon\Carbon;
 use GyTreasure\ApiFacades\RemoteApi\BwlcGovCn\DrawNumbers;
+use GyTreasure\Fetcher\RemoteApi\BwlcGovCn\Bulletin\Factory;
 use GyTreasure\Fetcher\RemoteApi\BwlcGovCn\Bulletin\Prevtrax;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
 class DrawNumbersTest extends TestCase
 {
+    /**
+     * @var \Mockery\MockInterface|\GyTreasure\Fetcher\RemoteApi\BwlcGovCn\Bulletin\Factory
+     */
+    protected $factoryMock;
+
     /**
      * @var \Mockery\MockInterface|\GyTreasure\Fetcher\RemoteApi\BwlcGovCn\Bulletin\Prevtrax
      */
@@ -23,9 +30,11 @@ class DrawNumbersTest extends TestCase
     {
         parent::setUp();
 
+        $this->factoryMock  = Mockery::mock(Factory::class);
+
         $this->prevtraxMock = Mockery::mock(Prevtrax::class);
 
-        $this->api = new DrawNumbers($this->prevtraxMock);
+        $this->api = new DrawNumbers($this->factoryMock);
     }
 
     public function tearDown()
@@ -40,6 +49,12 @@ class DrawNumbersTest extends TestCase
         $id     = 'trax';
         $data   = $this->data();
 
+        $this->factoryMock
+            ->shouldReceive('make')
+            ->once()
+            ->with($id)
+            ->andReturn($this->prevtraxMock);
+
         $this->prevtraxMock
             ->shouldReceive('call')
             ->once()
@@ -47,6 +62,29 @@ class DrawNumbersTest extends TestCase
             ->andReturn($data);
 
         $returnArray = $this->api->drawLatestGroupIssues($id);
+
+        $this->assertEquals($data, $returnArray);
+    }
+
+    public function testDrawDateGroupIssues()
+    {
+        $id     = 'trax';
+        $data   = $this->data();
+        $date   = '2017-07-11';
+
+        $this->factoryMock
+            ->shouldReceive('make')
+            ->once()
+            ->with($id)
+            ->andReturn($this->prevtraxMock);
+
+        $this->prevtraxMock
+            ->shouldReceive('call')
+            ->once()
+            ->with(null, $date)
+            ->andReturn($data);
+
+        $returnArray = $this->api->drawDateGroupIssues($id, new Carbon($date));
 
         $this->assertEquals($data, $returnArray);
     }
@@ -62,6 +100,12 @@ class DrawNumbersTest extends TestCase
             'issue' => '628142',
         ];
 
+        $this->factoryMock
+            ->shouldReceive('make')
+            ->once()
+            ->with($id)
+            ->andReturn($this->prevtraxMock);
+
         $this->prevtraxMock
             ->shouldReceive('call')
             ->once()
@@ -74,6 +118,12 @@ class DrawNumbersTest extends TestCase
 
         // 若沒有資料
         $issue = 'invalid';
+
+        $this->factoryMock
+            ->shouldReceive('make')
+            ->once()
+            ->with($id)
+            ->andReturn($this->prevtraxMock);
 
         $this->prevtraxMock
             ->shouldReceive('call')

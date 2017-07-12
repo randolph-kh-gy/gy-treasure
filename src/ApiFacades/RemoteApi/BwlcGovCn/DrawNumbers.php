@@ -2,20 +2,22 @@
 
 namespace GyTreasure\ApiFacades\RemoteApi\BwlcGovCn;
 
+use Carbon\Carbon;
+use GyTreasure\ApiFacades\Interfaces\ApiDrawDateGroupIssues;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssues;
 use GyTreasure\ApiFacades\Interfaces\ApiFromIssue;
-use GyTreasure\Fetcher\RemoteApi\BwlcGovCn\Bulletin\Prevtrax;
+use GyTreasure\Fetcher\RemoteApi\BwlcGovCn\Bulletin\Factory;
 
-class DrawNumbers implements ApiDrawLatestGroupIssues, ApiFromIssue
+class DrawNumbers implements ApiDrawLatestGroupIssues, ApiFromIssue, ApiDrawDateGroupIssues
 {
     /**
      * @var \GyTreasure\Fetcher\RemoteApi\BwlcGovCn\Bulletin\Prevtrax
      */
-    protected $prevtrax;
+    protected $factory;
 
-    public function __construct(Prevtrax $prevtrax)
+    public function __construct(Factory $factory)
     {
-        $this->prevtrax = $prevtrax;
+        $this->factory = $factory;
     }
 
     /**
@@ -34,7 +36,20 @@ class DrawNumbers implements ApiDrawLatestGroupIssues, ApiFromIssue
      */
     public function drawLatestGroupIssues($id)
     {
-        return $this->prevtrax->call();
+        return $this->factory->make($id)->call();
+    }
+
+    /**
+     * 取得指定日期的开号.
+     *
+     * @param  string  $id
+     * @param  Carbon  $date
+     * @return array
+     */
+    public function drawDateGroupIssues($id, Carbon $date)
+    {
+        $dateString = $date->toDateString();
+        return $this->factory->make($id)->call(null, $dateString);
     }
 
     /**
@@ -46,7 +61,7 @@ class DrawNumbers implements ApiDrawLatestGroupIssues, ApiFromIssue
      */
     public function fromIssue($id, $issue)
     {
-        $array = $this->prevtrax->call($issue);
+        $array = $this->factory->make($id)->call($issue);
 
         return isset($array[0]['winningNumbers']) ? $array[0]['winningNumbers'] : null;
     }

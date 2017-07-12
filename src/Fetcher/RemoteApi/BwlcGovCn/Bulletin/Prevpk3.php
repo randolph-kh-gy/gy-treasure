@@ -5,7 +5,7 @@ namespace GyTreasure\Fetcher\RemoteApi\BwlcGovCn\Bulletin;
 use GyTreasure\Fetcher\RemoteApi\BwlcGovCn\HtmlRequest;
 use GyTreasure\Fetcher\RemoteApi\Exceptions\ApiParseException;
 
-class Prevpk3
+class Prevpk3 implements PrevInterface
 {
     const API_PATH = 'bulletin/prevpk3.html';
 
@@ -33,13 +33,14 @@ class Prevpk3
 
     /**
      * @param  string|null  $num
+     * @param  string|null  $dates
      * @param  int  $page
      * @return array
      *
      * @throws \GyTreasure\Fetcher\RemoteApi\Exceptions\ApiUnreachableException 無法取得 API
      * @throws \GyTreasure\Fetcher\RemoteApi\Exceptions\ApiParseException 无法分析 API 回应
      */
-    public function call($num = null, $page = 1)
+    public function call($num = null, $dates = null, $page = 1)
     {
         $query  = compact('num', 'page');
         $html   = $this->htmlRequest->call(static::API_PATH, $query);

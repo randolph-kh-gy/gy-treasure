@@ -49,7 +49,7 @@ class Prevpk3Test extends TestCase
             ])
             ->andReturn($this->_html());
 
-        $returnArray = $this->prevpk3->call($issue, $page);
+        $returnArray = $this->prevpk3->call($issue, null, $page);
 
         $expects = [
             [
