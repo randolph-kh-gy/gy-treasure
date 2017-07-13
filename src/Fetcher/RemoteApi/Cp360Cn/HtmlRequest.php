@@ -1,12 +1,12 @@
 <?php
 
-namespace GyTreasure\Fetcher\RemoteApi\TrendCaipiao163Com;
+namespace GyTreasure\Fetcher\RemoteApi\Cp360Cn;
 
 use GyTreasure\Fetcher\RemoteApi\BaseApiRequest;
 use GyTreasure\Fetcher\RemoteApi\Exceptions\ApiUnreachableException;
 use GyTreasure\Fetcher\Request;
 
-class FileRequest extends BaseApiRequest
+class HtmlRequest extends BaseApiRequest
 {
     /**
      * @var \GyTreasure\Fetcher\Request
@@ -14,7 +14,7 @@ class FileRequest extends BaseApiRequest
     protected $request;
 
     /**
-     * FileRequest constructor.
+     * HtmlRequest constructor.
      * @param \GyTreasure\Fetcher\Request $request
      */
     public function __construct(Request $request)
@@ -35,7 +35,7 @@ class FileRequest extends BaseApiRequest
      */
     public function baseUrl()
     {
-        return 'http://trend.caipiao.163.com/';
+        return 'http://cp.360.cn/';
     }
 
     /**
@@ -57,6 +57,23 @@ class FileRequest extends BaseApiRequest
             throw new ApiUnreachableException('API is unreachable.');
         }
 
-        return $response;
+        return $this->convertGBK($response);
+    }
+
+    /**
+     * 转换 GBK 编码.
+     *
+     * @param  string  $html
+     * @return string
+     */
+    public function convertGBK($html)
+    {
+        $encoding = mb_detect_encoding($html, ['UTF-8', 'GBK']);
+
+        if ($encoding == 'UTF-8') {
+            return $html;
+        } else {
+            return mb_convert_encoding($html, 'UTF-8', 'GBK');
+        }
     }
 }

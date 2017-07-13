@@ -17,6 +17,9 @@ class Request
         $this->client = $client;
     }
 
+    /**
+     * @return static
+     */
     public static function forge()
     {
         $client = new Client();
@@ -25,7 +28,7 @@ class Request
 
     /**
      * @param  string $url
-     * @return \Psr\Http\Message\StreamInterface|null
+     * @return string|null
      */
     public function get($url)
     {
@@ -35,7 +38,7 @@ class Request
     /**
      * @param  string $method
      * @param  string $url
-     * @return \Psr\Http\Message\StreamInterface|null
+     * @return string|null
      */
     protected function _request($method, $url)
     {

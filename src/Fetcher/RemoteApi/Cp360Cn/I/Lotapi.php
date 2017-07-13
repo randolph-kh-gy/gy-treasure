@@ -26,6 +26,12 @@ class Lotapi
         return new static(ApiRequest::forge());
     }
 
+    /**
+     * @param  string  $do
+     * @param  string  $lotID
+     * @param  string  $issue
+     * @return array
+     */
     public function call($do, $lotID, $issue)
     {
         $query = ['datatype' => 'json'] + compact('do', 'lotID', 'issue');

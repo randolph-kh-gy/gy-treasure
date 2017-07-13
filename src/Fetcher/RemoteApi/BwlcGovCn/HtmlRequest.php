@@ -8,18 +8,31 @@ use GyTreasure\Fetcher\Request;
 
 class HtmlRequest extends BaseApiRequest
 {
+    /**
+     * @var \GyTreasure\Fetcher\Request
+     */
     protected $request;
 
+    /**
+     * HtmlRequest constructor.
+     * @param \GyTreasure\Fetcher\Request $request
+     */
     public function __construct(Request $request)
     {
         $this->request = $request;
     }
 
+    /**
+     * @return static
+     */
     public static function forge()
     {
         return new static(Request::forge());
     }
 
+    /**
+     * @return string
+     */
     public function baseUrl()
     {
         return 'http://www.bwlc.gov.cn/';
@@ -30,7 +43,7 @@ class HtmlRequest extends BaseApiRequest
      *
      * @param  string  $path
      * @param  array   $query
-     * @return array
+     * @return string
      *
      * @throws \GyTreasure\Fetcher\RemoteApi\Exceptions\ApiUnreachableException 無法取得 API
      */

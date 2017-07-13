@@ -30,7 +30,7 @@ class HtmlRequest extends BaseApiRequest
      *
      * @param  string  $path
      * @param  array   $query
-     * @return array
+     * @return string
      *
      * @throws \GyTreasure\Fetcher\RemoteApi\Exceptions\ApiUnreachableException 無法取得 API
      */

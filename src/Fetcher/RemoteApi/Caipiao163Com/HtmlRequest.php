@@ -1,12 +1,12 @@
 <?php
 
-namespace GyTreasure\Fetcher\RemoteApi\TrendCaipiao163Com;
+namespace GyTreasure\Fetcher\RemoteApi\Caipiao163Com;
 
 use GyTreasure\Fetcher\RemoteApi\BaseApiRequest;
 use GyTreasure\Fetcher\RemoteApi\Exceptions\ApiUnreachableException;
 use GyTreasure\Fetcher\Request;
 
-class FileRequest extends BaseApiRequest
+class HtmlRequest extends BaseApiRequest
 {
     /**
      * @var \GyTreasure\Fetcher\Request
@@ -14,7 +14,7 @@ class FileRequest extends BaseApiRequest
     protected $request;
 
     /**
-     * FileRequest constructor.
+     * HtmlRequest constructor.
      * @param \GyTreasure\Fetcher\Request $request
      */
     public function __construct(Request $request)
@@ -35,7 +35,7 @@ class FileRequest extends BaseApiRequest
      */
     public function baseUrl()
     {
-        return 'http://trend.caipiao.163.com/';
+        return 'http://caipiao.163.com/';
     }
 
     /**
