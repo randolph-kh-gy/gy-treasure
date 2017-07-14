@@ -64,8 +64,6 @@ class IssueGenerator
         $issueDate               = $this->issueSetHandler->getIssueDateTime()->getIssueDate();
         $this->startDate         = $issueDate->copy()->startOfDay();
         $this->endDate           = $issueDate->copy()->endOfDay();
-
-//        $this->resetNumberIfNeeded();
     }
 
     /**

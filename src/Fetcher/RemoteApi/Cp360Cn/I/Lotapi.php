@@ -13,6 +13,10 @@ class Lotapi
      */
     protected $apiRequest;
 
+    /**
+     * Lotapi constructor.
+     * @param \GyTreasure\Fetcher\RemoteApi\Cp360Cn\ApiRequest $apiRequest
+     */
     public function __construct(ApiRequest $apiRequest)
     {
         $this->apiRequest = $apiRequest;

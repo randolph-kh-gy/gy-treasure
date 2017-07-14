@@ -2,9 +2,9 @@
 
 namespace GyTreasure\Fetcher\RemoteApi\Api1680210Com\CQShiCai;
 
-use GyTreasure\Fetcher\RemoteApi\Api1680210Com\ApiPrototype\GetList;
+use GyTreasure\Fetcher\RemoteApi\Api1680210Com\ApiPrototype\ApiGetList;
 
-class GetBaseCQShiCaiList extends GetList
+class GetBaseCQShiCaiList extends ApiGetList
 {
     /**
      * @return string

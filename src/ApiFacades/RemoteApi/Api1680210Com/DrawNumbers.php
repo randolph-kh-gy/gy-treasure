@@ -6,32 +6,21 @@ use Carbon\Carbon;
 use GyTreasure\ApiFacades\Interfaces\ApiCurrentIssue;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawDateGroupIssues;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssues;
-use GyTreasure\Fetcher\RemoteApi\Api1680210Com\CQShiCai\GetBaseCQShiCai;
-use GyTreasure\Fetcher\RemoteApi\Api1680210Com\CQShiCai\GetBaseCQShiCaiList;
+use GyTreasure\Fetcher\RemoteApi\Api1680210Com\Factory;
 
 class DrawNumbers implements ApiCurrentIssue, ApiDrawLatestGroupIssues, ApiDrawDateGroupIssues
 {
     /**
-     * @var \GyTreasure\Fetcher\RemoteApi\Api1680210Com\CQShiCai\GetBaseCQShiCai
+     * @var \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Factory
      */
-    protected $apiBaseCQShiCai;
-
-    /**
-     * @var \GyTreasure\Fetcher\RemoteApi\Api1680210Com\CQShiCai\GetBaseCQShiCaiList
-     */
-    protected $apiBaseCQShiCaiList;
+    protected $factory;
 
     /**
      * DrawNumbers constructor.
-     * @param GetBaseCQShiCai $apiBaseCQShiCai
-     * @param GetBaseCQShiCaiList $apiBaseCQShiCaiList
+     * @param \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Factory $factory
      */
-    public function __construct(
-        GetBaseCQShiCai $apiBaseCQShiCai,
-        GetBaseCQShiCaiList $apiBaseCQShiCaiList
-    ) {
-        $this->apiBaseCQShiCai     = $apiBaseCQShiCai;
-        $this->apiBaseCQShiCaiList = $apiBaseCQShiCaiList;
+    public function __construct(Factory $factory) {
+        $this->factory = $factory;
     }
 
     /**
@@ -39,10 +28,7 @@ class DrawNumbers implements ApiCurrentIssue, ApiDrawLatestGroupIssues, ApiDrawD
      */
     public static function forge()
     {
-        return new static(
-            GetBaseCQShiCai::forge(),
-            GetBaseCQShiCaiList::forge()
-        );
+        return new static(new Factory());
     }
 
     /**
@@ -53,7 +39,8 @@ class DrawNumbers implements ApiCurrentIssue, ApiDrawLatestGroupIssues, ApiDrawD
      */
     public function currentIssue($id)
     {
-        $response = $this->apiBaseCQShiCai->call('', $id);
+        $api        = $this->factory->apiInfo($id);
+        $response   = $api->call('', $id);
         return isset($response['preDrawIssue']) ? $response['preDrawIssue'] : null;
     }
 
@@ -65,7 +52,8 @@ class DrawNumbers implements ApiCurrentIssue, ApiDrawLatestGroupIssues, ApiDrawD
      */
     public function drawLatestGroupIssues($id)
     {
-        $response = $this->apiBaseCQShiCaiList->call($id);
+        $api        = $this->factory->apiList($id);
+        $response   = $api->call($id);
         return array_map([$this, '_fetchWinningNumbers'], $response->getData());
     }
 
@@ -78,15 +66,16 @@ class DrawNumbers implements ApiCurrentIssue, ApiDrawLatestGroupIssues, ApiDrawD
      */
     public function drawDateGroupIssues($id, Carbon $date)
     {
+        $api        = $this->factory->apiList($id);
         $dateString = $date->toDateString();
-        $response   = $this->apiBaseCQShiCaiList->call($id, $dateString);
+        $response   = $api->call($id, $dateString);
         return array_map([$this, '_fetchWinningNumbers'], $response->getData());
     }
 
     protected function _fetchWinningNumbers(array $data)
     {
         $winningNumbers = explode(',', $data['preDrawCode']);
-        $issue = $data['preDrawIssue'];
+        $issue          = $data['preDrawIssue'];
         return compact('winningNumbers', 'issue');
     }
 }

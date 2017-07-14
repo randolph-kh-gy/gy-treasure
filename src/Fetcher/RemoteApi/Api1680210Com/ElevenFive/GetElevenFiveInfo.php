@@ -2,15 +2,15 @@
 
 namespace GyTreasure\Fetcher\RemoteApi\Api1680210Com\ElevenFive;
 
-use GyTreasure\Fetcher\RemoteApi\Api1680210Com\ApiPrototype\ApiGetList;
+use GyTreasure\Fetcher\RemoteApi\Api1680210Com\ApiPrototype\ApiGetInfo;
 
-class GetElevenFiveList extends ApiGetList
+class GetElevenFiveInfo extends ApiGetInfo
 {
     /**
      * @return string
      */
     protected static function apiPath()
     {
-        return 'ElevenFive/getElevenFiveList.do';
+        return 'ElevenFive/getElevenFiveInfo.do';
     }
 }

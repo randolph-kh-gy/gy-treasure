@@ -1,16 +1,16 @@
 <?php
 
-namespace GyTreasure\Fetcher\RemoteApi\Api1680210Com\ElevenFive;
+namespace GyTreasure\Fetcher\RemoteApi\Api1680210Com\Pks;
 
 use GyTreasure\Fetcher\RemoteApi\Api1680210Com\ApiPrototype\ApiGetList;
 
-class GetElevenFiveList extends ApiGetList
+class GetPksHistoryList extends ApiGetList
 {
     /**
      * @return string
      */
     protected static function apiPath()
     {
-        return 'ElevenFive/getElevenFiveList.do';
+        return 'pks/getPksHistoryList.do';
     }
 }

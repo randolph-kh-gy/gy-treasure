@@ -3,6 +3,7 @@
 namespace Tests\Unit\ApiFacades\RemoteApi\Api1680210Com;
 
 use Carbon\Carbon;
+use GyTreasure\Fetcher\RemoteApi\Api1680210Com\Factory;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
@@ -25,6 +26,11 @@ class DrawNumbersTest extends TestCase
     protected $apiBaseCQShiCaiListMock;
 
     /**
+     * @var \Mockery\MockInterface|\GyTreasure\Fetcher\RemoteApi\Api1680210Com\Factory
+     */
+    protected $factoryMock;
+
+    /**
      * @var \GyTreasure\ApiFacades\RemoteApi\Api1680210Com\DrawNumbers
      */
     protected $drawNumbers;
@@ -37,7 +43,9 @@ class DrawNumbersTest extends TestCase
 
         $this->apiBaseCQShiCaiListMock  = Mockery::mock(GetBaseCQShiCaiList::class);
 
-        $this->drawNumbers              = new DrawNumbers($this->apiBaseCQShiCaiMock, $this->apiBaseCQShiCaiListMock);
+        $this->factoryMock              = Mockery::mock(Factory::class);
+
+        $this->drawNumbers              = new DrawNumbers($this->factoryMock);
     }
 
     public function tearDown()
@@ -51,6 +59,12 @@ class DrawNumbersTest extends TestCase
     {
         $id = rand(1000, 100000);
         $issue = date('Ymd') . sprintf('%03d', rand(1, 999));
+
+        $this->factoryMock
+            ->shouldReceive('apiInfo')
+            ->once()
+            ->with($id)
+            ->andReturn($this->apiBaseCQShiCaiMock);
 
         $this->apiBaseCQShiCaiMock
             ->shouldReceive('call')
@@ -74,6 +88,12 @@ class DrawNumbersTest extends TestCase
             $data[]    = $row;
         }
 
+        $this->factoryMock
+            ->shouldReceive('apiList')
+            ->once()
+            ->with($id)
+            ->andReturn($this->apiBaseCQShiCaiListMock);
+
         $this->apiBaseCQShiCaiListMock
             ->shouldReceive('call')
             ->once()
@@ -96,6 +116,12 @@ class DrawNumbersTest extends TestCase
             $expects[] = $this->_expects($row);
             $data[]    = $row;
         }
+
+        $this->factoryMock
+            ->shouldReceive('apiList')
+            ->once()
+            ->with($id)
+            ->andReturn($this->apiBaseCQShiCaiListMock);
 
         $this->apiBaseCQShiCaiListMock
             ->shouldReceive('call')

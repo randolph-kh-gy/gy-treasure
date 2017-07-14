@@ -32,7 +32,6 @@ class ApiBusiness implements ArrayAccess, IteratorAggregate
         $this->apiResponse = $apiResponse;
 
         if (! $this->_isParseable($this->apiResponse->getData())) {
-            print_r($this->apiResponse->getData());exit;
             throw new ApiBusinessParseException("Failed to parse the api response.");
         }
 

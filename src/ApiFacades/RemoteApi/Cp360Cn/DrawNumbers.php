@@ -36,7 +36,7 @@ class DrawNumbers implements ApiFromIssue
     {
         $data = $this->lotapi->call('qkjcode', $id, $issue);
         if (is_array($data) && isset($data[0]['code']) && $data[0]['code']) {
-            return explode(' ', $data[0]['code']);
+            return IssueNumberFormatter::format($data[0]['code']);
         }
         return null;
     }

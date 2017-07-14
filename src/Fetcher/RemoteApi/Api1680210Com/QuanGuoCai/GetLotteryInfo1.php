@@ -1,16 +1,16 @@
 <?php
 
-namespace GyTreasure\Fetcher\RemoteApi\Api1680210Com\CQShiCai;
+namespace GyTreasure\Fetcher\RemoteApi\Api1680210Com\QuanGuoCai;
 
 use GyTreasure\Fetcher\RemoteApi\Api1680210Com\ApiPrototype\ApiGetInfo;
 
-class GetBaseCQShiCai extends ApiGetInfo
+class GetLotteryInfo1 extends ApiGetInfo
 {
     /**
      * @return string
      */
     protected static function apiPath()
     {
-        return 'CQShiCai/getBaseCQShiCai.do';
+        return 'QuanGuoCai/getLotteryInfo1.do';
     }
 }
