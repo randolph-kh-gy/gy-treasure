@@ -10,16 +10,31 @@ class Xml
 
     protected $xmlRequest;
 
+    /**
+     * Xml constructor.
+     * @param \GyTreasure\Fetcher\RemoteApi\Kaijiang500Com\XmlRequest $xmlRequest
+     */
     public function __construct(XmlRequest $xmlRequest)
     {
         $this->xmlRequest = $xmlRequest;
     }
 
+    /**
+     * @return static
+     */
     public static function forge()
     {
         return new static(XmlRequest::forge());
     }
 
+    /**
+     * @param  string  $id
+     * @param  string  $date
+     * @return array
+     *
+     * @throws \GyTreasure\Fetcher\RemoteApi\Exceptions\ApiUnreachableException 無法取得 API
+     * @throws \GyTreasure\Fetcher\RemoteApi\Exceptions\ApiParseException 无法分析 API 回应
+     */
     public function call($id, $date)
     {
         $date = date('Ymd', strtotime($date));
@@ -35,10 +50,6 @@ class Xml
             $returnArray[] = compact('expect', 'opencode');
         }
 
-        print_r($returnArray);
-
-        // $rows = iterator_to_array($xml->row, 0);
-
-        // print_r($rows);
+        return $returnArray;
     }
 }

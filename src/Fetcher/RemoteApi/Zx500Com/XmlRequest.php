@@ -1,6 +1,6 @@
 <?php
 
-namespace GyTreasure\Fetcher\RemoteApi\Kaijiang500Com;
+namespace GyTreasure\Fetcher\RemoteApi\Zx500Com;
 
 use GyTreasure\Fetcher\RemoteApi\SimpleXml\SimpleXmlApiRequest;
 use GyTreasure\Fetcher\Request;
@@ -22,6 +22,6 @@ class XmlRequest extends SimpleXmlApiRequest
      */
     public function baseUrl()
     {
-        return 'http://kaijiang.500.com/';
+        return 'http://zx.500.com/';
     }
 }
