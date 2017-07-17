@@ -6,8 +6,6 @@ use GyTreasure\Support\Arr;
 
 class Config
 {
-    const CONFIG_DIR = __DIR__ . '/../config';
-
     /**
      * @var array
      */
@@ -84,7 +82,7 @@ class Config
      */
     public function load($filename)
     {
-        $file = static::CONFIG_DIR . '/' . $filename . '.php';
+        $file = CONFIG_PATH . '/' . $filename . '.php';
         if (! file_exists($file)) {
             return $this;
         }

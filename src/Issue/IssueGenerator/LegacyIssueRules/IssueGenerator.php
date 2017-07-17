@@ -3,11 +3,12 @@
 namespace GyTreasure\Issue\IssueGenerator\LegacyIssueRules;
 
 use Carbon\Carbon;
+use GyTreasure\Issue\IssueGenerator\IssueGeneratorInterface;
 use GyTreasure\Support\Arr;
 use GyTreasure\Support\TimeRange;
 use GyTreasure\Issue\IssueGenerator\IssueDateTime;
 
-class IssueGenerator
+class IssueGenerator implements IssueGeneratorInterface
 {
     /**
      * @var \GyTreasure\Issue\IssueGenerator\LegacyIssueRules\IssueRules
@@ -67,6 +68,22 @@ class IssueGenerator
     }
 
     /**
+     * @param  \GyTreasure\Issue\IssueGenerator\LegacyIssueRules\IssueStructure  $structure
+     * @return static
+     */
+    public static function make($structure)
+    {
+        $rules           = new IssueRules($structure->issueRule);
+
+        $dateTime        = IssueDateTime::today();
+        $collection      = IssueSetCollection::loadRaw($structure->issueSet)->available()->sortMe();
+        $issueSetHandler = new IssueSetHandler($collection, $dateTime);
+        $issueSetHandler->setUpTime();
+
+        return new static($rules, $issueSetHandler, $structure->startNumber);
+    }
+
+    /**
      * @param  string  $issueRule
      * @param  array   $issueSet
      * @param  int     $startNumber
@@ -74,14 +91,7 @@ class IssueGenerator
      */
     public static function forge($issueRule, array $issueSet, $startNumber = 1)
     {
-        $rules           = new IssueRules($issueRule);
-
-        $dateTime        = IssueDateTime::today();
-        $collection      = IssueSetCollection::loadRaw($issueSet)->available()->sortMe();
-        $issueSetHandler = new IssueSetHandler($collection, $dateTime);
-        $issueSetHandler->setUpTime();
-
-        return new static($rules, $issueSetHandler, $startNumber);
+        return static::make(IssueStructure::make($issueRule, $issueSet, $startNumber));
     }
 
     /**

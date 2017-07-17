@@ -31,6 +31,12 @@ class ApiLoader
         $this->api      = $config;
     }
 
+    /**
+     * 取得实体.
+     *
+     * @param  string  $identity
+     * @return static
+     */
     public static function forge($identity)
     {
         $config = Config::get("api.$identity", []);

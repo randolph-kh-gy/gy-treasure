@@ -41,7 +41,7 @@ class DrawNumbers implements ApiCurrentIssue, ApiDrawLatestGroupIssues, ApiDrawD
     {
         $api        = $this->factory->apiInfo($id);
         $response   = $api->call('', $id);
-        return isset($response['preDrawIssue']) ? $response['preDrawIssue'] : null;
+        return isset($response['preDrawIssue']) ? ApiNormalizer::formatIssue($id, $response['preDrawIssue']) : null;
     }
 
     /**
@@ -54,7 +54,14 @@ class DrawNumbers implements ApiCurrentIssue, ApiDrawLatestGroupIssues, ApiDrawD
     {
         $api        = $this->factory->apiList($id);
         $response   = $api->call($id);
-        return array_map([$this, '_fetchWinningNumbers'], $response->getData());
+        $data       = array_map([$this, '_fetchWinningNumbers'], $response->getData());
+
+        // 改变期号格式
+        array_walk($data, function (&$row) use ($id) {
+            $row['issue'] = ApiNormalizer::formatIssue($id, $row['issue']);
+        });
+
+        return $data;
     }
 
     /**
@@ -69,7 +76,14 @@ class DrawNumbers implements ApiCurrentIssue, ApiDrawLatestGroupIssues, ApiDrawD
         $api        = $this->factory->apiList($id);
         $dateString = $date->toDateString();
         $response   = $api->call($id, $dateString);
-        return array_map([$this, '_fetchWinningNumbers'], $response->getData());
+        $data       = array_map([$this, '_fetchWinningNumbers'], $response->getData());
+
+        // 改变期号格式
+        array_walk($data, function (&$row) use ($id) {
+            $row['issue'] = ApiNormalizer::formatIssue($id, $row['issue']);
+        });
+
+        return $data;
     }
 
     protected function _fetchWinningNumbers(array $data)

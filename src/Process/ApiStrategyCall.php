@@ -2,6 +2,7 @@
 
 namespace GyTreasure\Process;
 
+use GyTreasure\Fetcher\RemoteApi\Exceptions\ApiException;
 use GyTreasure\Support\Arr;
 
 trait ApiStrategyCall
