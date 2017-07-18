@@ -4,12 +4,18 @@ namespace Tests\Unit\ApiFacades\RemoteApi\Kaijiang500Com;
 
 use Carbon\Carbon;
 use GyTreasure\ApiFacades\RemoteApi\Kaijiang500Com\DrawNumbers;
+use GyTreasure\Fetcher\RemoteApi\Kaijiang500Com\Factory;
 use GyTreasure\Fetcher\RemoteApi\Kaijiang500Com\Info\Kaijiang\Xml;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
 class DrawNumbersTest extends TestCase
 {
+    /**
+     * @var \Mockery\MockInterface|\GyTreasure\Fetcher\RemoteApi\Kaijiang500Com\Factory
+     */
+    protected $factoryMock;
+
     /**
      * @var \Mockery\MockInterface|\GyTreasure\Fetcher\RemoteApi\Kaijiang500Com\Info\Kaijiang\Xml
      */
@@ -24,8 +30,9 @@ class DrawNumbersTest extends TestCase
     {
         parent::setUp();
 
-        $this->xmlMock  = Mockery::mock(Xml::class);
-        $this->api      = new DrawNumbers($this->xmlMock);
+        $this->factoryMock  = Mockery::mock(Factory::class);
+        $this->xmlMock      = Mockery::mock(Xml::class);
+        $this->api          = new DrawNumbers($this->factoryMock);
     }
 
     protected function tearDown()
@@ -39,6 +46,12 @@ class DrawNumbersTest extends TestCase
     {
         $id     = 'xjssc';
         $date   = '2017-07-14';
+
+        $this->factoryMock
+            ->shouldReceive('make')
+            ->once()
+            ->with($id)
+            ->andReturn($this->xmlMock);
 
         $this->xmlMock
             ->shouldReceive('call')

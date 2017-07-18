@@ -5,7 +5,7 @@ namespace Tests\Unit\ApiFacades\RemoteApi\ChartCp360Cn;
 
 use Carbon\Carbon;
 use GyTreasure\ApiFacades\RemoteApi\ChartCp360Cn\DrawNumbers;
-use GyTreasure\Fetcher\RemoteApi\ChartCp360Cn\Kaijiang\Factory;
+use GyTreasure\Fetcher\RemoteApi\ChartCp360Cn\Factory;
 use GyTreasure\Fetcher\RemoteApi\ChartCp360Cn\Kaijiang\Sd;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -18,7 +18,7 @@ class DrawNumbersTest extends TestCase
     protected $lotapiMock;
 
     /**
-     * @var \Mockery\MockInterface|\GyTreasure\Fetcher\RemoteApi\ChartCp360Cn\Kaijiang\Factory
+     * @var \Mockery\MockInterface|\GyTreasure\Fetcher\RemoteApi\ChartCp360Cn\Factory
      */
     protected $factoryMock;
 
@@ -132,18 +132,19 @@ class DrawNumbersTest extends TestCase
         $this->assertEquals($data, $returnArray);
     }
 
-    public function drawRangeIssues()
+    public function testDrawRangeIssues()
     {
         $id     = '210053';
-        $from   = '2017158';
-        $to     = '2017159';
+        $from   = '20170718-37';
+        $to     = '20170718-38';
+        $span   = '2017071837_2017071838';
 
         $data = [[
             'winningNumbers' => ['8', '7', '2'],
-            'issue' => '2017159',
+            'issue' => '20170718-37',
         ], [
             'winningNumbers' => [2, 8, 5],
-            'issue' => '2017158',
+            'issue' => '20170718-38',
         ]];
 
         $this->factoryMock
@@ -155,10 +156,10 @@ class DrawNumbersTest extends TestCase
         $this->sdMock
             ->shouldReceive('call')
             ->once()
-            ->with($id, 3, $from . '_' . $to)
+            ->with($id, 3, $span)
             ->andReturn($data);
 
-        $returnArray = $this->api->drawLatestGroupIssuesNum($id, $from, $to);
+        $returnArray = $this->api->drawRangeIssues($id, $from, $to);
         $this->assertEquals($data, $returnArray);
     }
 }

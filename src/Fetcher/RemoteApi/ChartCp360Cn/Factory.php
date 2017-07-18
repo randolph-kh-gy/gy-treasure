@@ -1,14 +1,17 @@
 <?php
 
-namespace GyTreasure\Fetcher\RemoteApi\ChartCp360Cn\Kaijiang;
+namespace GyTreasure\Fetcher\RemoteApi\ChartCp360Cn;
 
 use GyTreasure\Fetcher\RemoteApi\ChartCp360Cn\Exceptions\ApiWrongIdException;
+use GyTreasure\Fetcher\RemoteApi\ChartCp360Cn\Kaijiang\P3;
+use GyTreasure\Fetcher\RemoteApi\ChartCp360Cn\Kaijiang\Sd;
+use GyTreasure\Fetcher\RemoteApi\ChartCp360Cn\Zst\Syy;
 
 class Factory
 {
     /**
      * @param  string  $id
-     * @return \GyTreasure\Fetcher\RemoteApi\ChartCp360Cn\Kaijiang\HistoryListInterface
+     * @return \GyTreasure\Fetcher\RemoteApi\ChartCp360Cn\HistoryListInterface
      * @throws ApiWrongIdException
      */
     public function make($id)
@@ -18,6 +21,8 @@ class Factory
                 return Sd::forge();
             case '110033':
                 return P3::forge();
+            case '166406':
+                return Syy::forge();
             default:
                 throw new ApiWrongIdException('Wrong id: ' . $id);
         }

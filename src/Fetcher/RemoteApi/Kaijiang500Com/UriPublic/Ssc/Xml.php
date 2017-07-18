@@ -1,6 +1,6 @@
 <?php
 
-namespace GyTreasure\Fetcher\RemoteApi\Kaijiang500Com\Info\Kaijiang;
+namespace GyTreasure\Fetcher\RemoteApi\Kaijiang500Com\UriPublic\Ssc;
 
 use GyTreasure\Fetcher\RemoteApi\Kaijiang500Com\Xml as BaseXml;
 
@@ -11,6 +11,6 @@ class Xml extends BaseXml
      */
     protected function apiPath()
     {
-        return 'static/info/kaijiang/xml';
+        return 'static/public/ssc/xml';
     }
 }

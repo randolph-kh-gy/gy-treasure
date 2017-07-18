@@ -8,7 +8,7 @@ use GyTreasure\ApiFacades\Interfaces\ApiFromIssue;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssuesNum;
 use GyTreasure\ApiFacades\Interfaces\ApiCurrentIssue;
 
-class DrawNumbers implements ApiFromIssue, ApiDrawLatestGroupIssuesNum, ApiCurrentIssue
+class DrawNumbers implements ApiDrawLatestGroupIssuesNum, ApiCurrentIssue
 {
     /**
      * @var \GyTreasure\Fetcher\RemoteApi\Caipiao163Com\Award\GetAwardNumberInfo
@@ -57,30 +57,7 @@ class DrawNumbers implements ApiFromIssue, ApiDrawLatestGroupIssuesNum, ApiCurre
         ];
 
         $response = $this->apiPre->call($data);
-        return isset($response['currentPeriod']) ? $response['currentPeriod'] : null;
-    }
-
-    /**
-     * 撷取指定号码
-     *
-     * @param  string  $id
-     * @param  string  $issue
-     * @return array|null
-     */
-    public function fromIssue($id, $issue)
-    {
-        $data = [
-            'gameEn' => $id,
-            'period' => $issue
-        ];
-        $response = $this->apiNumInfo->call($data);
-
-        if (isset($response['awardNumberInfoList'][0])) {
-            $result = $this->_fetchWinningNumbers($response['awardNumberInfoList'][0]);
-            return ($result) ? $result['winningNumbers'] : null;
-        }
-
-        return null;
+        return isset($response['currentPeriod']) ? ApiNormalizer::formatIssue($id, $response['currentPeriod']) : null;
     }
 
     /**
@@ -99,7 +76,14 @@ class DrawNumbers implements ApiFromIssue, ApiDrawLatestGroupIssuesNum, ApiCurre
         $response = $this->apiNumInfo->call($data);
 
         if (isset($response['awardNumberInfoList']) && is_array($response['awardNumberInfoList'])) {
-            return array_values(array_filter(array_map([$this, '_fetchWinningNumbers'], $response['awardNumberInfoList'])));
+            $data = array_values(array_filter(array_map([$this, '_fetchWinningNumbers'], $response['awardNumberInfoList'])));
+
+            // 格式化期号格式
+            array_walk($data, function (&$row) use ($id) {
+                $row['issue'] = ApiNormalizer::formatIssue($id, $row['issue']);
+            });
+
+            return $data;
         }
 
         return [];

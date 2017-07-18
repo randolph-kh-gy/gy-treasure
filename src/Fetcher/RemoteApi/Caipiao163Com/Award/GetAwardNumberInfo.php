@@ -3,6 +3,7 @@
 namespace GyTreasure\Fetcher\RemoteApi\Caipiao163Com\Award;
 
 use GyTreasure\Fetcher\RemoteApi\Caipiao163Com\ApiRequest;
+use GyTreasure\Fetcher\RemoteApi\Exceptions\ApiException;
 
 class GetAwardNumberInfo
 {
@@ -36,9 +37,18 @@ class GetAwardNumberInfo
      *
      * @throws \GyTreasure\Fetcher\RemoteApi\Exceptions\ApiUnreachableException 無法取得 API
      * @throws \GyTreasure\Fetcher\RemoteApi\Exceptions\ApiParseException 无法分析 API 回应
+     * @throws \GyTreasure\Fetcher\RemoteApi\Exceptions\ApiException
      */
     public function call(array $data = [])
     {
-        return $this->apiRequest->call(static::API_PATH, $data);
+        $data = $this->apiRequest->call(static::API_PATH, $data);
+
+        // 若无效资料 null
+        $invalidData = in_array(null, $data['awardNumberInfoList']);
+        if ($invalidData) {
+            throw new ApiException("The data contains invalid NULL.");
+        }
+
+        return $data;
     }
 }

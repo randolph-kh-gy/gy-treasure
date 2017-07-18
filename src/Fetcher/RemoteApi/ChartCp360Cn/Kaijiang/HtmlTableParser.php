@@ -107,7 +107,7 @@ abstract class HtmlTableParser
 
     /**
      * @param  array  $array
-     * @param  string|null $delimiter
+     * @param  string|null  $delimiter
      * @return string
      */
     protected function patternTags($array, $delimiter = null)

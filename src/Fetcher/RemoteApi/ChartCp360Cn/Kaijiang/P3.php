@@ -2,17 +2,21 @@
 
 namespace GyTreasure\Fetcher\RemoteApi\ChartCp360Cn\Kaijiang;
 
+use GyTreasure\Fetcher\RemoteApi\ChartCp360Cn\HistoryListInterface;
 use GyTreasure\Fetcher\RemoteApi\ChartCp360Cn\HtmlRequest;
 
 class P3 implements HistoryListInterface
 {
     const API_PATH = 'kaijiang/p3';
 
+    /**
+     * @var \GyTreasure\Fetcher\RemoteApi\ChartCp360Cn\HtmlRequest
+     */
     protected $htmlRequest;
 
     /**
      * Sd constructor.
-     * @param HtmlRequest $htmlRequest
+     * @param \GyTreasure\Fetcher\RemoteApi\ChartCp360Cn\HtmlRequest $htmlRequest
      */
     public function __construct(HtmlRequest $htmlRequest)
     {

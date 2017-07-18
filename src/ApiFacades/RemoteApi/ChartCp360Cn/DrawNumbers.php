@@ -7,15 +7,19 @@ use GyTreasure\ApiFacades\Interfaces\ApiDrawDateGroupIssues;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssues;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssuesNum;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawRangeIssues;
-use GyTreasure\Fetcher\RemoteApi\ChartCp360Cn\Kaijiang\Factory;
+use GyTreasure\Fetcher\RemoteApi\ChartCp360Cn\Factory;
 
 class DrawNumbers implements ApiDrawDateGroupIssues, ApiDrawLatestGroupIssues, ApiDrawLatestGroupIssuesNum, ApiDrawRangeIssues
 {
     /**
-     * @var \GyTreasure\Fetcher\RemoteApi\ChartCp360Cn\Kaijiang\Factory
+     * @var \GyTreasure\Fetcher\RemoteApi\ChartCp360Cn\Factory
      */
     protected $factory;
 
+    /**
+     * DrawNumbers constructor.
+     * @param \GyTreasure\Fetcher\RemoteApi\ChartCp360Cn\Factory $factory
+     */
     public function __construct(Factory $factory)
     {
         $this->factory  = $factory;
@@ -84,7 +88,8 @@ class DrawNumbers implements ApiDrawDateGroupIssues, ApiDrawLatestGroupIssues, A
     public function drawRangeIssues($id, $from, $to)
     {
         $spanType = 3;
-        $span     = $from . '_' . $to;
+        // 去除期号中的 - 字样
+        $span     = str_replace('-', '', $from) . '_' . str_replace('-', '', $to);
 
         $api      = $this->factory->make($id);
         return $api->call($id, $spanType, $span);

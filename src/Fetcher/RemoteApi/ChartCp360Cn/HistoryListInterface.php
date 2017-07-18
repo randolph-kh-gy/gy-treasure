@@ -1,6 +1,6 @@
 <?php
 
-namespace GyTreasure\Fetcher\RemoteApi\ChartCp360Cn\Kaijiang;
+namespace GyTreasure\Fetcher\RemoteApi\ChartCp360Cn;
 
 interface HistoryListInterface
 {

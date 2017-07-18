@@ -22,11 +22,12 @@ return [
     'shiyix5'            => [
         'Api1680210Com'  => ['id' => '10008'],
         'Caipiao163Com'  => ['id' => 'd11'],
+        'ChartCp360Cn'   => ['id' => '166406'],
+        'Cp360Cn'        => ['id' => '166406'],
         'Kaijiang500Com' => ['id' => 'shdsyxw'],
     ],
     'pailie3'            => [
         'Api1680210Com'  => ['id' => '10043'],
-        'Caipiao163Com'  => ['id' => 'pl3'],
         'ChartCp360Cn'   => ['id' => '110033'],
         'Cp360Cn'        => ['id' => '110033'],
         'Zx500Com'       => ['id' => 'pls'],

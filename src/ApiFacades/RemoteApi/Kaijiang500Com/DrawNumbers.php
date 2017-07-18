@@ -4,22 +4,22 @@ namespace GyTreasure\ApiFacades\RemoteApi\Kaijiang500Com;
 
 use Carbon\Carbon;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawDateGroupIssues;
-use GyTreasure\Fetcher\RemoteApi\Kaijiang500Com\Info\Kaijiang\Xml;
+use GyTreasure\Fetcher\RemoteApi\Kaijiang500Com\Factory;
 
 class DrawNumbers implements ApiDrawDateGroupIssues
 {
     /**
-     * @var \GyTreasure\Fetcher\RemoteApi\Kaijiang500Com\Info\Kaijiang\Xml
+     * @var \GyTreasure\Fetcher\RemoteApi\Kaijiang500Com\Factory
      */
-    protected $api;
+    protected $factory;
 
     /**
      * DrawNumbers constructor.
-     * @param \GyTreasure\Fetcher\RemoteApi\Kaijiang500Com\Info\Kaijiang\Xml $xml
+     * @param \GyTreasure\Fetcher\RemoteApi\Kaijiang500Com\Factory $factory
      */
-    public function __construct(Xml $xml)
+    public function __construct(Factory $factory)
     {
-        $this->api = $xml;
+        $this->factory = $factory;
     }
 
     /**
@@ -27,7 +27,7 @@ class DrawNumbers implements ApiDrawDateGroupIssues
      */
     public static function forge()
     {
-        return new static(Xml::forge());
+        return new static(new Factory());
     }
 
     /**
@@ -42,19 +42,25 @@ class DrawNumbers implements ApiDrawDateGroupIssues
      */
     public function drawDateGroupIssues($id, Carbon $date)
     {
-        $data = $this->api->call($id, $date->toDateString());
-        return array_map([$this, 'format'], $data);
+        $api  = $this->factory->make($id);
+        $data = $api->call($id, $date->toDateString());
+        return $this->formatRows($id, $data);
     }
 
     /**
-     * @param  array  $row
+     * @param  string  $id
+     * @param  array   $rows
      * @return array
      */
-    protected function format(array $row)
+    protected function formatRows($id, array $rows)
     {
-        return [
-            'winningNumbers' => $row['opencode'],
-            'issue'          => $row['expect'],
-        ];
+        $returnArray = [];
+        foreach ($rows as $row) {
+            $returnArray[] = [
+                'winningNumbers' => $row['opencode'],
+                'issue'          => ApiNormalizer::formatIssue($id, $row['expect']),
+            ];
+        }
+        return $returnArray;
     }
 }

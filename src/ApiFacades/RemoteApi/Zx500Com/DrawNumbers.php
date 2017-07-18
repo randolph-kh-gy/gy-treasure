@@ -38,6 +38,6 @@ class DrawNumbers implements ApiFromIssue
      */
     public function fromIssue($id, $issue)
     {
-        return $this->api->call($id, $issue);
+        return $this->api->call($id, ApiNormalizer::convertIssue($id, $issue));
     }
 }

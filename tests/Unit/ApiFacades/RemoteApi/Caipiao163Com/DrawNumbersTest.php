@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\ApiFacades\RemoteApi\Caipiao163Com;
 
+use GyTreasure\ApiFacades\IssueConverter\SixThreeConverter;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
@@ -46,8 +47,7 @@ class DrawNumbersTest extends TestCase
 
     public function testCurrentIssue()
     {
-        $faker  = Faker\Factory::create();
-        $id     = $faker->word;
+        $id     = 'ssc';
         $issue  = date('ymd') . sprintf('%03d', rand(0, 999));
 
         $this->apiPreMock
@@ -58,30 +58,7 @@ class DrawNumbersTest extends TestCase
 
         $returnValue = $this->drawNumbers->currentIssue($id);
 
-        $this->assertEquals($issue, $returnValue);
-    }
-
-    public function testFromIssue()
-    {
-        $issue      = 'ssc';
-        $row        = $this->_generateRows();
-        $expects    = $this->_toExpects($row);
-        $expects    = $expects['winningNumbers'];
-
-        $data       = [
-            'awardNumberInfoList' => [$row],
-            'status' => '0',
-        ];
-
-        $this->apiNumInfoMock
-            ->shouldReceive('call')
-            ->once()
-            ->with(['gameEn' => $issue, 'period' => $row['period']])
-            ->andReturn($data);
-
-        $returnArray = $this->drawNumbers->fromIssue($issue, $row['period']);
-
-        $this->assertEquals($expects, $returnArray);
+        $this->assertEquals(SixThreeConverter::format($issue), $returnValue);
     }
 
     public function testDrawLatestGroupIssues()
@@ -93,7 +70,11 @@ class DrawNumbersTest extends TestCase
         $expects    = [];
         for ($i = 0; $i < $num; $i++) {
             $row        = $this->_generateRows();
-            $expects[]  = $this->_toExpects($row);
+            $expect     = $this->_toExpects($row);
+
+            $expect['issue'] = SixThreeConverter::format($expect['issue']);
+
+            $expects[]  = $expect;
             $rows[]     = $row;
         }
 
