@@ -223,16 +223,24 @@ class IssueGenerator implements IssueGeneratorInterface
     /**
      * 产生新期号.
      *
-     * @return array|null
+     * @param  bool  $numbersOnly
+     * @return array|int|null
      */
-    public function newNumber()
+    public function newNumber($numbersOnly = false)
     {
         if ($this->next()) {
-            $number            = $this->rules->format($this->issueSetHandler->getIssueDateTime()->getIssueDate(), $this->number);
-            $issueSet          = $this->issueSetHandler->getIssueSetGroup()->activated();
-            $issueDateTimeInfo = $issueSet->issueDateTimeInfo($this->issueSetHandler->getIssueDateTime());
+            $number = $this->rules->format($this->issueSetHandler->getIssueDateTime()->getIssueDate(), $this->number);
 
-            return ['issue' => $number] + $issueDateTimeInfo;
+            if ($numbersOnly) {
+
+                return $number;
+
+            } else {
+                $issueSet = $this->issueSetHandler->getIssueSetGroup()->activated();
+                $issueDateTimeInfo = $issueSet->issueDateTimeInfo($this->issueSetHandler->getIssueDateTime());
+
+                return ['issue' => $number] + $issueDateTimeInfo;
+            }
         } elseif ($this->nextDay()) {
             return $this->newNumber();
         }
@@ -244,11 +252,12 @@ class IssueGenerator implements IssueGeneratorInterface
      * 执行产生号码.
      *
      * @param  callable  $callback
+     * @param  bool      $numbersOnly
      * @return $this
      */
-    public function run($callback)
+    public function run($callback, $numbersOnly = false)
     {
-        while ($newNumber = $this->newNumber()) {
+        while ($newNumber = $this->newNumber($numbersOnly)) {
             call_user_func_array($callback, [$newNumber]);
         }
         return $this;
@@ -257,12 +266,13 @@ class IssueGenerator implements IssueGeneratorInterface
     /**
      * 产生号码, 把所有结果以阵列回传.
      *
+     * @param  bool  $numbersOnly
      * @return array
      */
-    public function getArray()
+    public function getArray($numbersOnly = false)
     {
         $returnArray = [];
-        while ($newNumber = $this->newNumber()) {
+        while ($newNumber = $this->newNumber($numbersOnly)) {
             $returnArray[] = $newNumber;
         }
         return $returnArray;

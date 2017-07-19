@@ -40,14 +40,16 @@ interface IssueGeneratorInterface
      * 执行产生号码.
      *
      * @param  callable  $callback
+     * @param  bool      $numbersOnly
      * @return $this
      */
-    public function run($callback);
+    public function run($callback, $numbersOnly = false);
 
     /**
      * 产生号码, 把所有结果以阵列回传.
      *
+     * @param  bool  $numbersOnly
      * @return array
      */
-    public function getArray();
+    public function getArray($numbersOnly = false);
 }

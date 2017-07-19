@@ -39,6 +39,15 @@ class DrawNumbers implements ApiDrawRangeIssues
      */
     public function drawRangeIssues($id, $from, $to)
     {
-        return $this->api->call($id, $from, $to);
+        $from = ApiNormalizer::convertIssue($id, $from);
+        $to   = ApiNormalizer::convertIssue($id, $to);
+        $data = $this->api->call($id, $from, $to);
+
+        // 格式化期号格式
+        array_walk($data, function (&$row) use ($id) {
+            $row['issue'] = ApiNormalizer::formatIssue($id, $row['issue']);
+        });
+
+        return $data;
     }
 }

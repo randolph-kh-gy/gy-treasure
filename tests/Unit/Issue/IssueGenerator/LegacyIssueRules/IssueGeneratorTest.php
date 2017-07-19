@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class IssueGeneratorTest extends TestCase
 {
-
     public function testGetAndSetDateRange()
     {
         $start = Carbon::create(2011, 3, 20, 20, 20, 10);

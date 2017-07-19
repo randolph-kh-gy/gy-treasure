@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Process;
+namespace Tests\Unit\Issue;
 
 use GyTreasure\Issue\IssueInfoConfig;
 use PHPUnit\Framework\TestCase;
