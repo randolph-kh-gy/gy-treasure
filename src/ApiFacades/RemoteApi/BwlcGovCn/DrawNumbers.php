@@ -3,18 +3,22 @@
 namespace GyTreasure\ApiFacades\RemoteApi\BwlcGovCn;
 
 use Carbon\Carbon;
-use GyTreasure\ApiFacades\Interfaces\ApiDrawDateGroupIssues;
+use GyTreasure\ApiFacades\Interfaces\ApiDrawDateGroupIssuesLess;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssues;
 use GyTreasure\ApiFacades\Interfaces\ApiFromIssue;
 use GyTreasure\Fetcher\RemoteApi\BwlcGovCn\Bulletin\Factory;
 
-class DrawNumbers implements ApiDrawLatestGroupIssues, ApiFromIssue, ApiDrawDateGroupIssues
+class DrawNumbers implements ApiDrawLatestGroupIssues, ApiFromIssue, ApiDrawDateGroupIssuesLess
 {
     /**
      * @var \GyTreasure\Fetcher\RemoteApi\BwlcGovCn\Bulletin\Prevtrax
      */
     protected $factory;
 
+    /**
+     * DrawNumbers constructor.
+     * @param \GyTreasure\Fetcher\RemoteApi\BwlcGovCn\Bulletin\Factory $factory
+     */
     public function __construct(Factory $factory)
     {
         $this->factory = $factory;
@@ -23,9 +27,9 @@ class DrawNumbers implements ApiDrawLatestGroupIssues, ApiFromIssue, ApiDrawDate
     /**
      * @return static
      */
-    public function forge()
+    public static function forge()
     {
-        return new static(Prevtrax::forge());
+        return new static(new Factory());
     }
 
     /**
@@ -41,6 +45,7 @@ class DrawNumbers implements ApiDrawLatestGroupIssues, ApiFromIssue, ApiDrawDate
 
     /**
      * 取得指定日期的开号.
+     * 由于 API 含有分页, 资料可能会抓取不完全.
      *
      * @param  string  $id
      * @param  \Carbon\Carbon  $date

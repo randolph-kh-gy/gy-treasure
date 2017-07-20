@@ -2,13 +2,12 @@
 
 namespace GyTreasure\ApiFacades\RemoteApi\Caipiao163Com;
 
+use GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssuesNumLess;
 use GyTreasure\Fetcher\RemoteApi\Caipiao163Com\Award\GetAwardNumberInfo;
 use GyTreasure\Fetcher\RemoteApi\Caipiao163Com\Order\PreBetPeriodInfoTime;
-use GyTreasure\ApiFacades\Interfaces\ApiFromIssue;
-use GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssuesNum;
 use GyTreasure\ApiFacades\Interfaces\ApiCurrentIssue;
 
-class DrawNumbers implements ApiDrawLatestGroupIssuesNum, ApiCurrentIssue
+class DrawNumbers implements ApiDrawLatestGroupIssuesNumLess, ApiCurrentIssue
 {
     /**
      * @var \GyTreasure\Fetcher\RemoteApi\Caipiao163Com\Award\GetAwardNumberInfo
@@ -61,7 +60,8 @@ class DrawNumbers implements ApiDrawLatestGroupIssuesNum, ApiCurrentIssue
     }
 
     /**
-     * 取得最近的开号
+     * 取得最近的开号.
+     * API 含有最多 20 笔限制，可能会造成资料抓取不完全.
      *
      * @param  string  $id
      * @param  int     $num
@@ -95,10 +95,7 @@ class DrawNumbers implements ApiDrawLatestGroupIssuesNum, ApiCurrentIssue
      */
     protected function _fetchWinningNumbers(array $data)
     {
-        if (
-               ! isset($data['winningNumber'])
-            || ! isset($data['period'])
-        ) {
+        if (! isset($data['winningNumber']) || ! isset($data['period'])) {
             return null;
         }
 

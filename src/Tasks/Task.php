@@ -78,7 +78,10 @@ class Task
         foreach ($instances as $instance) {
             try {
                 $info = $this->info($instance);
-                return call_user_func_array($callback, [$instance, $info]);
+                $data = call_user_func_array($callback, [$instance, $info]);
+                if ($data !== null) {
+                    return $data;
+                }
             } catch (ApiException $e) {
                 // Do nothing
             }
