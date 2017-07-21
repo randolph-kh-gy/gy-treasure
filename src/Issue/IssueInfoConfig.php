@@ -68,7 +68,7 @@ class IssueInfoConfig
     protected static function loadFromFile($key)
     {
         // 检查档案是否存在
-        $file = ISSUEINFO_PATH . '/' . $key . '.php';
+        $file = GYTREASURE_ISSUEINFO_PATH . '/' . $key . '.php';
         if (! file_exists($file)) {
             return null;
         }

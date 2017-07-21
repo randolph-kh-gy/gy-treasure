@@ -82,7 +82,7 @@ class Config
      */
     public function load($filename)
     {
-        $file = CONFIG_PATH . '/' . $filename . '.php';
+        $file = GYTREASURE_CONFIG_PATH . '/' . $filename . '.php';
         if (! file_exists($file)) {
             return $this;
         }

@@ -1,4 +1,4 @@
 <?php
 
-define('CONFIG_PATH', realpath(__DIR__ . '/config'));
-define('ISSUEINFO_PATH', realpath(__DIR__ . '/issueinfo'));
+define('GYTREASURE_CONFIG_PATH', realpath(__DIR__ . '/config'));
+define('GYTREASURE_ISSUEINFO_PATH', realpath(__DIR__ . '/issueinfo'));
