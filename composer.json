@@ -13,14 +13,14 @@
         "mockery/mockery": "0.9.*"
     },
     "autoload": {
+        "files": [
+            "index.php"
+        ],
         "psr-4": {
             "GyTreasure\\": "src/"
         }
     },
     "autoload-dev": {
-        "files": [
-            "index.php"
-        ],
         "psr-4": {
             "Tests\\": "tests/"
         }
