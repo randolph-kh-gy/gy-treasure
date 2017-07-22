@@ -4,11 +4,11 @@ namespace GyTreasure\ApiFacades\RemoteApi\Api1680210Com;
 
 use Carbon\Carbon;
 use GyTreasure\ApiFacades\Interfaces\ApiCurrentIssue;
-use GyTreasure\ApiFacades\Interfaces\ApiDrawDateGroupIssues;
+use GyTreasure\ApiFacades\Interfaces\ApiDrawDateGroupIssuesWeakPerformance;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssues;
 use GyTreasure\Fetcher\RemoteApi\Api1680210Com\Factory;
 
-class DrawNumbers implements ApiCurrentIssue, ApiDrawLatestGroupIssues, ApiDrawDateGroupIssues
+class DrawNumbers implements ApiCurrentIssue, ApiDrawLatestGroupIssues, ApiDrawDateGroupIssuesWeakPerformance
 {
     /**
      * @var \GyTreasure\Fetcher\RemoteApi\Api1680210Com\Factory

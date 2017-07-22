@@ -5,6 +5,7 @@ namespace GyTreasure\Tasks;
 use Carbon\Carbon;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawDateGroupIssues;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawDateGroupIssuesLess;
+use GyTreasure\ApiFacades\Interfaces\ApiDrawDateGroupIssuesWeakPerformance;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssues;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawRangeIssues;
 use GyTreasure\ApiFacades\Interfaces\ApiFromIssue;
@@ -47,6 +48,8 @@ class DrawIssueTask
         } elseif (! is_null($result = $this->apiDrawRangeIssuesStrategy($issue))) {
             return $result;
         } elseif (! is_null($result = $this->apiDrawDateGroupIssuesStrategy($issue, $date))) {
+            return $result;
+        } elseif (! is_null($result = $this->apiDrawDateGroupIssuesWeakPerformanceStrategy($issue, $date))) {
             return $result;
         } elseif (! is_null($result = $this->apiDrawDateGroupIssuesLessStrategy($issue, $date))) {
             return $result;
@@ -96,6 +99,22 @@ class DrawIssueTask
         $api  = ['apiName' => 'DrawNumbers', 'forge' => 'forge', 'instanceof' => ApiDrawDateGroupIssues::class];
 
         return $this->task->call($api, function (ApiDrawDateGroupIssues $instance, $info) use ($issue, $date) {
+
+            $data = $instance->drawDateGroupIssues($info['id'], $date);
+            return $this->getWinningNumbers($data, $issue);
+        });
+    }
+
+    /**
+     * @param  string  $issue
+     * @param  \Carbon\Carbon  $date
+     * @return array|null
+     */
+    public function apiDrawDateGroupIssuesWeakPerformanceStrategy($issue, Carbon $date)
+    {
+        $api  = ['apiName' => 'DrawNumbers', 'forge' => 'forge', 'instanceof' => ApiDrawDateGroupIssuesWeakPerformance::class];
+
+        return $this->task->call($api, function (ApiDrawDateGroupIssuesWeakPerformance $instance, $info) use ($issue, $date) {
 
             $data = $instance->drawDateGroupIssues($info['id'], $date);
             return $this->getWinningNumbers($data, $issue);

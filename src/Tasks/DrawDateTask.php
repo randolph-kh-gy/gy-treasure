@@ -4,6 +4,7 @@ namespace GyTreasure\Tasks;
 
 use Carbon\Carbon;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawDateGroupIssues;
+use GyTreasure\ApiFacades\Interfaces\ApiDrawDateGroupIssuesWeakPerformance;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssues;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssuesNum;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssuesNumLess;
@@ -71,6 +72,8 @@ class DrawDateTask
             return $result;
         } elseif (! is_null($result = $this->apiDrawRangeIssuesStrategy($expects))) {
             return $result;
+        } elseif (! is_null($result = $this->apiDrawDateGroupIssuesWeakPerformanceStrategy($date))){
+            return $result;
         } elseif (! is_null($result = $this->apiDrawLatestGroupIssuesNumStrategy($expects))) {
             return $result;
         } elseif (! is_null($result = $this->apiDrawLatestGroupIssuesStrategy())) {
@@ -114,6 +117,20 @@ class DrawDateTask
             $to   = max($expects);
 
             return $instance->drawRangeIssues($info['id'], $from, $to);
+        });
+    }
+
+    /**
+     * @param  \Carbon\Carbon  $date
+     * @return array|null
+     */
+    public function apiDrawDateGroupIssuesWeakPerformanceStrategy(Carbon $date)
+    {
+        $api  = ['apiName' => 'DrawNumbers', 'forge' => 'forge', 'instanceof' => ApiDrawDateGroupIssuesWeakPerformance::class];
+
+        return $this->task->call($api, function (ApiDrawDateGroupIssuesWeakPerformance $instance, $info) use ($date) {
+
+            return $instance->drawDateGroupIssues($info['id'], $date);
         });
     }
 

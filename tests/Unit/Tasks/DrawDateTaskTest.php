@@ -4,6 +4,7 @@ namespace Tests\Unit\Tasks;
 
 use Carbon\Carbon;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawDateGroupIssues;
+use GyTreasure\ApiFacades\Interfaces\ApiDrawDateGroupIssuesWeakPerformance;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssues;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssuesNum;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssuesNumLess;
@@ -102,6 +103,35 @@ class DrawDateTaskTest extends TestCase
             ->andReturn($data);
 
         $returnArray = $this->task->apiDrawRangeIssuesStrategy($expects);
+        $this->assertEquals($data, $returnArray);
+    }
+
+    public function testApiDrawDateGroupIssuesWeakPerformanceStrategy()
+    {
+        $apiMock    = Mockery::mock(ApiDrawDateGroupIssuesWeakPerformance::class);
+
+        $id         = '10002';
+        $data       = [[
+            'winningNumbers' => ['8', '8', '8', '5', '9'],
+            'issue' => '20170719-001',
+        ]];
+        $date       = new Carbon('2017-07-19');
+
+        $this->taskHandlerMock
+            ->shouldReceive('call')
+            ->once()
+            ->andReturnUsing(function ($api, $callback) use ($apiMock, $id) {
+                $info = compact('id');
+                return call_user_func_array($callback, [$apiMock, $info]);
+            });
+
+        $apiMock
+            ->shouldReceive('drawDateGroupIssues')
+            ->once()
+            ->with($id, $date)
+            ->andReturn($data);
+
+        $returnArray = $this->task->apiDrawDateGroupIssuesWeakPerformanceStrategy($date);
         $this->assertEquals($data, $returnArray);
     }
 
