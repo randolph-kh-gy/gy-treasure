@@ -20,7 +20,7 @@ class DrawNumbers implements ApiFromIssue
     /**
      * @return static
      */
-    public function forge()
+    public static function forge()
     {
         return new static(Lotapi::forge());
     }

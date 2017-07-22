@@ -28,7 +28,7 @@ class DrawNumbers implements ApiDrawDateGroupIssues, ApiDrawLatestGroupIssues, A
     /**
      * @return static
      */
-    public function forge()
+    public static function forge()
     {
         return new static(new Factory());
     }
