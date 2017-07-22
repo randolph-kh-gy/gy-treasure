@@ -28,7 +28,10 @@ class TrendXlsReader
     {
         try {
 
-            $this->loadSheet($file);
+            $read = $this->loadSheet($file);
+            if (! $read) {
+                return null;
+            }
 
             $array = array_map([$this, 'getRowData'], iterator_to_array($this->sheet->getRowIterator()));
             $array = array_values(array_filter($array));
@@ -44,14 +47,25 @@ class TrendXlsReader
      * 载入 Excel 文件.
      *
      * @param  string  $file
-     * @return $this
+     * @return bool
      */
     protected function loadSheet($file)
     {
-        $this->excel    = PHPExcel_IOFactory::load($file);
-        $this->sheet    = $this->excel->getActiveSheet();
+        // 原 API 无效值时会产生空白档案
+        // PHPExcel 会把该档案当做 CSV 格式处理
+        // 为了避免此种状况发生直接指定可能性的格式.
+        $types = array('Excel2007', 'Excel5');
 
-        return $this;
+        foreach ($types as $type) {
+            $reader = PHPExcel_IOFactory::createReader($type);
+            if ($reader->canRead($file)) {
+                $this->excel    = $reader->load($file);
+                $this->sheet    = $this->excel->getActiveSheet();
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
