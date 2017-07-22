@@ -3,10 +3,10 @@
 namespace GyTreasure\ApiFacades\RemoteApi\Kaijiang500Com;
 
 use Carbon\Carbon;
-use GyTreasure\ApiFacades\Interfaces\ApiDrawDateGroupIssues;
+use GyTreasure\ApiFacades\Interfaces\ApiDrawDateGroupIssuesLess;
 use GyTreasure\Fetcher\RemoteApi\Kaijiang500Com\Factory;
 
-class DrawNumbers implements ApiDrawDateGroupIssues
+class DrawNumbers implements ApiDrawDateGroupIssuesLess
 {
     /**
      * @var \GyTreasure\Fetcher\RemoteApi\Kaijiang500Com\Factory
@@ -32,6 +32,7 @@ class DrawNumbers implements ApiDrawDateGroupIssues
 
     /**
      * 取得指定日期的开号.
+     * 此 API 可能抓不到部份期号.
      *
      * @param  string  $id
      * @param  \Carbon\Carbon  $date
