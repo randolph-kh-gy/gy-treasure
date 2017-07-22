@@ -14,8 +14,7 @@ class ApiNormalizer
      */
     public static function formatIssue($id, $issue)
     {
-        switch ($id)
-        {
+        switch ($id) {
             case 'qihaoxml':    // 重庆时时彩
                 return EightThreeConverter::format($issue);
             case 'shdsyxw':     // 十一运夺金, 山东11选5

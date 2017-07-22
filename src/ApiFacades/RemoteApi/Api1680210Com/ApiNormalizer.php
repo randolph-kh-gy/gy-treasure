@@ -15,8 +15,7 @@ class ApiNormalizer
      */
     public static function convertIssue($id, $issue)
     {
-        switch ($id)
-        {
+        switch ($id) {
             case '10002':   // 重庆时时彩
                 return EightThreeConverter::convert($issue);
             case '10008':   // 十一运夺金, 山东11选5
@@ -35,8 +34,7 @@ class ApiNormalizer
      */
     public static function formatIssue($id, $issue)
     {
-        switch ($id)
-        {
+        switch ($id) {
             case '10002':   // 重庆时时彩
                 return EightThreeConverter::format($issue);
             case '10008':   // 十一运夺金, 山东11选5

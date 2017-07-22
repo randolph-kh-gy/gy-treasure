@@ -13,8 +13,7 @@ class ApiNormalizer
      */
     public static function convertIssue($id, $issue)
     {
-        switch ($id)
-        {
+        switch ($id) {
             case 'pls':   // 排列3, 体彩P3
                 return TwoThreeConverter::convert($issue);
             default:

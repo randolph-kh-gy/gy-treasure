@@ -15,8 +15,7 @@ class ApiNormalizer
      */
     public static function convertIssue($id, $issue)
     {
-        switch ($id)
-        {
+        switch ($id) {
             case 'ssc':   // 重庆时时彩
                 return SixThreeConverter::convert($issue);
             case 'd11':   // 山东11选5
@@ -35,8 +34,7 @@ class ApiNormalizer
      */
     public static function formatIssue($id, $issue)
     {
-        switch ($id)
-        {
+        switch ($id) {
             case 'ssc':   // 重庆时时彩
                 return SixThreeConverter::format($issue);
             case 'd11':   // 山东11选5
