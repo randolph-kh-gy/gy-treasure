@@ -82,4 +82,84 @@ class IssueRules
         $returnValue = IssueRulesFormatter::replaceNo($returnValue, $number);
         return $returnValue;
     }
+
+    /**
+     * @return bool
+     */
+    public function isStartNumberNeeded()
+    {
+        return ! $this->resetWhen['day'];
+    }
+
+    /**
+     * 取得流水号.
+     *
+     * @param  string  $issue
+     * @return int
+     */
+    public function getNumberFromIssue($issue)
+    {
+        if (preg_match('/\[n(\d+)\]/', $this->format, $match)) {
+            $figure = (int) $match[1];
+            $number = (int) substr($issue, -$figure);
+        } else {
+            $number = static::guessingNumber($issue);
+        }
+
+        return (int) max(intval($number), 1);
+    }
+
+    /**
+     * 猜测流水号.
+     *
+     * @param  string  $issue
+     * @return int|null
+     */
+    public static function guessingNumber($issue)
+    {
+        if (! is_null($number = static::guessingNumberWithDash($issue))) {
+            return $number;
+        } elseif (! is_null($number = static::guessingNumberWithDate($issue))) {
+            return $number;
+        }
+        return null;
+    }
+
+    /**
+     * 用 dash 符号 (-) 猜测号码.
+     *
+     * @param  string  $issue
+     * @return int|null
+     */
+    public static function guessingNumberWithDash($issue)
+    {
+        $segments = explode('-', $issue);
+        if (count($segments) > 1) {
+            return (int) end($segments);
+        }
+        return null;
+    }
+
+    /**
+     * 用日期格式猜测号码.
+     *
+     * @param  string  $issue
+     * @return int|null
+     */
+    public static function guessingNumberWithDate($issue)
+    {
+        if (
+            preg_match('/^(?<year>\d{4})(?<mon>\d{2})(?<day>\d{2})(?<num>\d{2,3})$/', $issue, $match) &&
+            checkdate($match['mon'], $match['day'], $match['year'])
+        ) {
+            return (int) $match['num'];
+
+        } elseif (
+            preg_match('/^(?<year>\d{4})(?<num>\d{5})$/', $issue, $match) &&
+            checkdate(1, 1, $match['year'])
+        ) {
+            return (int) $match['num'];
+        }
+        return null;
+    }
 }

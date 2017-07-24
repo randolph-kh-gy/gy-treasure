@@ -131,6 +131,16 @@ class IssueGenerator implements IssueGeneratorInterface
     }
 
     /**
+     * 取得 IssueRules.
+     *
+     * @return \GyTreasure\Issue\IssueGenerator\LegacyIssueRules\IssueRules
+     */
+    public function issueRules()
+    {
+        return $this->rules;
+    }
+
+    /**
      * 忽略奖期区间.
      *
      * @return \GyTreasure\Support\TimeRange

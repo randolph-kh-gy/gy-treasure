@@ -3,6 +3,7 @@
 namespace GyTreasure\Issue;
 
 use Carbon\Carbon;
+use GyTreasure\Issue\IssueGenerator\LegacyIssueRules\IssueRules;
 
 class QuickIssue
 {
@@ -23,5 +24,19 @@ class QuickIssue
         $generator = GeneratorFactory::make('legacy', $config, $startNumber);
         $generator->setDateRange($date, $date);
         return $generator->getArray($numbersOnly);
+    }
+
+    /**
+     * @param  string  $id
+     * @return \GyTreasure\Issue\IssueGenerator\LegacyIssueRules\IssueRules|null
+     */
+    public function getIssueRules($id)
+    {
+        $config = IssueInfoConfig::get($id);
+        if (! $config) {
+            return null;
+        }
+
+        return new IssueRules($config['issuerule']);
     }
 }

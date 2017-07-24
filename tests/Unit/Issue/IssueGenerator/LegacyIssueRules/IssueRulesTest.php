@@ -40,4 +40,40 @@ class IssueRulesTest extends TestCase
 
         $this->assertEquals($expects, $rule->toArray());
     }
+
+    public function testGetNumberFromIssue()
+    {
+        $string  = 'Ymd[n3]|0,0,1';
+        $rule    = new IssueRules($string);
+
+        $issue   = '20170621-056';
+        $expects = 56;
+
+        $returnValue = $rule->getNumberFromIssue($issue);
+        $this->assertSame($expects, $returnValue);
+    }
+
+    public function testGuessingNumberWithDash()
+    {
+        $issue       = '20170621-056';
+        $expects     = 56;
+        $returnValue = IssueRules::guessingNumberWithDash($issue);
+
+        $this->assertSame($expects, $returnValue);
+    }
+
+    public function testGuessingNumberWithDate()
+    {
+        $issue       = '20170621056';
+        $expects     = 56;
+        $returnValue = IssueRules::guessingNumberWithDate($issue);
+
+        $this->assertSame($expects, $returnValue);
+
+        $issue       = '201700156';
+        $expects     = 156;
+        $returnValue = IssueRules::guessingNumberWithDate($issue);
+
+        $this->assertSame($expects, $returnValue);
+    }
 }
