@@ -36,4 +36,18 @@ return [
         'Zx500Com'           => ['id' => 'pls'],
         'Api1680210Com'      => ['id' => '10043'],
     ],
+    'shiyix5_jiangxi'        => [
+        'ChartCp360Cn'       => ['id' => '168009'],
+        'Cp360Cn'            => ['id' => '168009'],
+        'Kaijiang500Com'     => ['id' => 'dlc'],
+        'Api1680210Com'      => ['id' => '10015'],
+    ],
+    'shiyix5_guangdong'      => [
+        'Caipiao163Com'      => ['id' => 'gdd11'],
+        'ChartCp360Cn'       => ['id' => '165707'],
+        'Cp360Cn'            => ['id' => '165707'],
+        'Kaijiang500Com'     => ['id' => 'gdsyxw'],
+        'TrendCaipiao163Com' => ['id' => 'gdd11'],
+        'Api1680210Com'      => ['id' => '10006'],
+    ],
 ];

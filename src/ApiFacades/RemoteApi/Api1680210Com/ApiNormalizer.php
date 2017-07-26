@@ -3,6 +3,7 @@
 namespace GyTreasure\ApiFacades\RemoteApi\Api1680210Com;
 
 use GyTreasure\ApiFacades\IssueConverter\EightThreeConverter;
+use GyTreasure\ApiFacades\IssueConverter\EightTwoConverter;
 use GyTreasure\ApiFacades\IssueConverter\SixTwoConverter;
 use GyTreasure\ApiFacades\IssueConverter\TwoThreeConverter;
 
@@ -22,6 +23,10 @@ class ApiNormalizer
                 return SixTwoConverter::convert($issue);
             case '10043':   // 排列3, 体彩P3
                 return TwoThreeConverter::convert($issue);
+            case '10015':   // 江西11选5
+                // no break
+            case '10006':   // 广东11选5
+                return EightTwoConverter::convert($issue);
             default:
                 return $issue;
         }
@@ -41,6 +46,10 @@ class ApiNormalizer
                 return SixTwoConverter::format($issue);
             case '10043':   // 排列3, 体彩P3
                 return TwoThreeConverter::format($issue);
+            case '10015':   // 江西11选5
+                // no break
+            case '10006':   // 广东11选5
+                return EightTwoConverter::format($issue);
             default:
                 return $issue;
         }

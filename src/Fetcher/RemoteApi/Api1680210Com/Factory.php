@@ -28,6 +28,10 @@ class Factory
             case '10002':   // 重庆时时彩
                 return GetBaseCQShiCai::forge();
             case '10008':   // 十一运夺金
+                // no break
+            case '10015':   // 江西11选5
+                // no break
+            case '10006':   // 广东11选5
                 return GetElevenFiveInfo::forge();
             case '10041':   // 福彩3D
                 // no break
@@ -52,6 +56,10 @@ class Factory
             case '10002':   // 重庆时时彩
                 return GetBaseCQShiCaiList::forge();
             case '10008':   // 十一运夺金
+                // no break
+            case '10015':   // 江西11选5
+                // no break
+            case '10006':   // 广东11选5
                 return GetElevenFiveList::forge();
             case '10041':   // 福彩3D
                 // no break

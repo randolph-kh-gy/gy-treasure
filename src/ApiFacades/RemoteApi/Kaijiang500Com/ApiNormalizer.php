@@ -18,6 +18,10 @@ class ApiNormalizer
             case 'qihaoxml':    // 重庆时时彩
                 return EightThreeConverter::format($issue);
             case 'shdsyxw':     // 十一运夺金, 山东11选5
+                // no break;
+            case 'dlc':
+                // no break;
+            case 'gdsyxw':
                 return SixDashTwoConverter::format($issue);
             default:
                 return $issue;

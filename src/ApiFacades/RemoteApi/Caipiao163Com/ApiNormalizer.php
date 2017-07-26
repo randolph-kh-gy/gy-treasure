@@ -22,6 +22,8 @@ class ApiNormalizer
                 return SixTwoConverter::convert($issue);
             case 'pl3':   // 排列3, 体彩P3
                 return TwoThreeConverter::convert($issue);
+            case 'gdd11': // 广东11选5, 粤11选5
+                return SixTwoConverter::convert($issue);
             default:
                 return $issue;
         }
@@ -41,6 +43,8 @@ class ApiNormalizer
                 return SixTwoConverter::format($issue);
             case 'pl3':   // 排列3, 体彩P3
                 return TwoThreeConverter::format($issue);
+            case 'gdd11': // 广东11选5, 粤11选5
+                return SixTwoConverter::format($issue);
             default:
                 return $issue;
         }

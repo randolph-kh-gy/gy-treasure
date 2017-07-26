@@ -242,4 +242,101 @@ class IssueGeneratorTest extends TestCase
         $this->assertEquals(new Carbon('2017-07-19 20:15:00'), $day1Last['canneldeadline']);
         $this->assertEquals(new Carbon('2017-07-19 20:25:00'), $day1Last['earliestwritetime']);
     }
+
+    /**
+     * 江西11选5
+     */
+    public function testShiyix5Jiangxi()
+    {
+        $start = Carbon::create(2017, 7, 26);
+        $end   = Carbon::create(2017, 7, 27);
+
+        $config = IssueInfoConfig::get('shiyix5_jiangxi');
+
+        $generator = IssueGenerator::forge($config['issuerule'], $config['issueset']);
+        $generator->setDateRange($start, $end);
+
+        $result = $generator->getArray();
+
+        $this->assertEquals(168, count($result));
+
+        $day1First = $result[0];
+        $this->assertEquals('20170726-01', $day1First['issue']);
+        $this->assertEquals('2017-07-26', $day1First['belongdate']);
+        $this->assertEquals(new Carbon('2017-07-26 06:58:00'), $day1First['salestart']);
+        $this->assertEquals(new Carbon('2017-07-26 09:08:00'), $day1First['saleend']);
+        $this->assertEquals(new Carbon('2017-07-26 09:08:00'), $day1First['canneldeadline']);
+        $this->assertEquals(new Carbon('2017-07-26 09:10:30'), $day1First['earliestwritetime']);
+
+        $day1Last = $result[83];
+        $this->assertEquals('20170726-84', $day1Last['issue']);
+        $this->assertEquals('2017-07-26', $day1Last['belongdate']);
+        $this->assertEquals(new Carbon('2017-07-26 22:48:00'), $day1Last['salestart']);
+        $this->assertEquals(new Carbon('2017-07-26 22:58:00'), $day1Last['saleend']);
+        $this->assertEquals(new Carbon('2017-07-26 22:58:00'), $day1Last['canneldeadline']);
+        $this->assertEquals(new Carbon('2017-07-26 23:00:30'), $day1Last['earliestwritetime']);
+
+        $day2First = $result[84];
+        $this->assertEquals('20170727-01', $day2First['issue']);
+        $this->assertEquals('2017-07-27', $day2First['belongdate']);
+        $this->assertEquals(new Carbon('2017-07-27 06:58:00'), $day2First['salestart']);
+        $this->assertEquals(new Carbon('2017-07-27 09:08:00'), $day2First['saleend']);
+        $this->assertEquals(new Carbon('2017-07-27 09:08:00'), $day2First['canneldeadline']);
+        $this->assertEquals(new Carbon('2017-07-27 09:10:30'), $day2First['earliestwritetime']);
+
+        $day2Last = $result[167];
+        $this->assertEquals('20170727-84', $day2Last['issue']);
+        $this->assertEquals('2017-07-27', $day2Last['belongdate']);
+        $this->assertEquals(new Carbon('2017-07-27 22:48:00'), $day2Last['salestart']);
+        $this->assertEquals(new Carbon('2017-07-27 22:58:00'), $day2Last['saleend']);
+        $this->assertEquals(new Carbon('2017-07-27 22:58:00'), $day2Last['canneldeadline']);
+        $this->assertEquals(new Carbon('2017-07-27 23:00:30'), $day2Last['earliestwritetime']);
+    }
+
+    public function testShiyix5Guangdong()
+    {
+        $start = Carbon::create(2017, 7, 26);
+        $end   = Carbon::create(2017, 7, 27);
+
+        $config = IssueInfoConfig::get('shiyix5_guangdong');
+
+        $generator = IssueGenerator::forge($config['issuerule'], $config['issueset']);
+        $generator->setDateRange($start, $end);
+
+        $result = $generator->getArray();
+
+        $this->assertEquals(168, count($result));
+
+        $day1First = $result[0];
+        $this->assertEquals('20170726-01', $day1First['issue']);
+        $this->assertEquals('2017-07-26', $day1First['belongdate']);
+        $this->assertEquals(new Carbon('2017-07-26 06:58:00'), $day1First['salestart']);
+        $this->assertEquals(new Carbon('2017-07-26 09:08:00'), $day1First['saleend']);
+        $this->assertEquals(new Carbon('2017-07-26 09:08:00'), $day1First['canneldeadline']);
+        $this->assertEquals(new Carbon('2017-07-26 09:10:30'), $day1First['earliestwritetime']);
+
+        $day1Last = $result[83];
+        $this->assertEquals('20170726-84', $day1Last['issue']);
+        $this->assertEquals('2017-07-26', $day1Last['belongdate']);
+        $this->assertEquals(new Carbon('2017-07-26 22:48:00'), $day1Last['salestart']);
+        $this->assertEquals(new Carbon('2017-07-26 22:58:00'), $day1Last['saleend']);
+        $this->assertEquals(new Carbon('2017-07-26 22:58:00'), $day1Last['canneldeadline']);
+        $this->assertEquals(new Carbon('2017-07-26 23:00:30'), $day1Last['earliestwritetime']);
+
+        $day2First = $result[84];
+        $this->assertEquals('20170727-01', $day2First['issue']);
+        $this->assertEquals('2017-07-27', $day2First['belongdate']);
+        $this->assertEquals(new Carbon('2017-07-27 06:58:00'), $day2First['salestart']);
+        $this->assertEquals(new Carbon('2017-07-27 09:08:00'), $day2First['saleend']);
+        $this->assertEquals(new Carbon('2017-07-27 09:08:00'), $day2First['canneldeadline']);
+        $this->assertEquals(new Carbon('2017-07-27 09:10:30'), $day2First['earliestwritetime']);
+
+        $day2Last = $result[167];
+        $this->assertEquals('20170727-84', $day2Last['issue']);
+        $this->assertEquals('2017-07-27', $day2Last['belongdate']);
+        $this->assertEquals(new Carbon('2017-07-27 22:48:00'), $day2Last['salestart']);
+        $this->assertEquals(new Carbon('2017-07-27 22:58:00'), $day2Last['saleend']);
+        $this->assertEquals(new Carbon('2017-07-27 22:58:00'), $day2Last['canneldeadline']);
+        $this->assertEquals(new Carbon('2017-07-27 23:00:30'), $day2Last['earliestwritetime']);
+    }
 }
