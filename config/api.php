@@ -37,6 +37,7 @@ return [
         'Api1680210Com'      => ['id' => '10043'],
     ],
     'shiyix5_jiangxi'        => [
+        'Caipiao163Com'      => ['id' => 'jxd11'],
         'ChartCp360Cn'       => ['id' => '168009'],
         'Cp360Cn'            => ['id' => '168009'],
         'Kaijiang500Com'     => ['id' => 'dlc'],
