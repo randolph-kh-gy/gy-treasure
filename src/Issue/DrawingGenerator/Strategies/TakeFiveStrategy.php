@@ -7,16 +7,6 @@ use GyTreasure\Issue\DrawingGenerator\DrawingStrategy;
 class TakeFiveStrategy extends DrawingStrategy
 {
     /**
-     * @return \RandomLib\Generator
-     */
-    protected function generator()
-    {
-        $factory = new \RandomLib\Factory;
-        $generator = $factory->getGenerator(new \SecurityLib\Strength(\SecurityLib\Strength::HIGH));
-        return $generator;
-    }
-
-    /**
      * @return array
      */
     public function generate()
@@ -44,6 +34,6 @@ class TakeFiveStrategy extends DrawingStrategy
      */
     protected function generateNumbers()
     {
-        return str_split(sprintf('%05d', $this->generator()->generateInt(0, 99999)));
+        return str_split(sprintf('%05d', $this->randomInt(0, 99999)));
     }
 }
