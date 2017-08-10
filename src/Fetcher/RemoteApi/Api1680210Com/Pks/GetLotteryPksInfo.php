@@ -9,7 +9,7 @@ class GetLotteryPksInfo extends ApiGetInfo
     /**
      * @return string
      */
-    protected static function apiPath()
+    protected function apiPath()
     {
         return 'pks/getLotteryPksInfo.do';
     }

@@ -9,7 +9,7 @@ class GetBaseCQShiCai extends ApiGetInfo
     /**
      * @return string
      */
-    protected static function apiPath()
+    protected function apiPath()
     {
         return 'CQShiCai/getBaseCQShiCai.do';
     }

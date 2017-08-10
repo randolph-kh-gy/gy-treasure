@@ -9,7 +9,7 @@ class GetElevenFiveInfo extends ApiGetInfo
     /**
      * @return string
      */
-    protected static function apiPath()
+    protected function apiPath()
     {
         return 'ElevenFive/getElevenFiveInfo.do';
     }

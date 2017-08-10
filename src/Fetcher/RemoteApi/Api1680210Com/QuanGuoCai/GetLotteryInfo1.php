@@ -9,7 +9,7 @@ class GetLotteryInfo1 extends ApiGetInfo
     /**
      * @return string
      */
-    protected static function apiPath()
+    protected function apiPath()
     {
         return 'QuanGuoCai/getLotteryInfo1.do';
     }

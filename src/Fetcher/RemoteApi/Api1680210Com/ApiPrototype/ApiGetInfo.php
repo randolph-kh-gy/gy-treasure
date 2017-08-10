@@ -12,7 +12,7 @@ abstract class ApiGetInfo extends ApiCall
     /**
      * @return string
      */
-    abstract protected static function apiPath();
+    abstract protected function apiPath();
 
     /**
      * @param  string  $issue
@@ -26,6 +26,6 @@ abstract class ApiGetInfo extends ApiCall
     public function call($issue, $lotCode)
     {
         $query = compact('issue', 'lotCode');
-        return $this->_apiCall(static::apiPath(), $query);
+        return $this->_apiCall($this->apiPath(), $query);
     }
 }
