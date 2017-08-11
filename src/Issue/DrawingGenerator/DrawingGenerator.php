@@ -27,4 +27,17 @@ class DrawingGenerator
         $strategy = DrawingStrategyFactory::make($id);
         return new static($strategy);
     }
+
+    /**
+     * @param  int  $num
+     * @return array
+     */
+    public function generate($num)
+    {
+        $returnArray = [];
+        for ($i = 0; $i < $num; $i++) {
+            $returnArray[] = $this->strategy->generate();
+        }
+        return $returnArray;
+    }
 }
