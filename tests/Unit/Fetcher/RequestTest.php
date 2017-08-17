@@ -42,14 +42,15 @@ class RequestTest extends TestCase
     {
         $url = 'http://www.test.com/test.json';
         $expects = 'testResponse';
+        $options = ['some-options' => true];
 
         $this->clientMock
             ->shouldReceive('request')
             ->once()
-            ->with('GET', $url)
+            ->with('GET', $url, $options)
             ->andReturn($this->mockResponse($expects, $streamMock));
 
-        $returnValue = $this->request->get($url);
+        $returnValue = $this->request->get($url, $options);
 
         $this->assertEquals($expects, $returnValue);
     }

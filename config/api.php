@@ -8,12 +8,12 @@ return [
         'Api1680210Com'      => ['id' => '10002'],
     ],
     'bjpk10'                 => [
-        'BwlcGovCn'          => ['id' => 'trax'],
+        // 'BwlcGovCn'          => ['id' => 'trax'],
         'Kaijiang500Com'     => ['id' => 'bjpkshi'],
         'Api1680210Com'      => ['id' => '10001'],
     ],
     'fucai3d'                => [
-        'BwlcGovCn'          => ['id' => 'pk3'],
+        // 'BwlcGovCn'          => ['id' => 'pk3'],
         'Caipiao163Com'      => ['id' => 'x3d'],
         'ChartCp360Cn'       => ['id' => '210053'],
         'Cp360Cn'            => ['id' => '210053'],
