@@ -34,7 +34,12 @@ abstract class DrawingStrategy
      */
     public function randomInt($min, $max)
     {
-        return static::getRandomLibGenerator()->generateInt($min, $max);
+        if (function_exists('random_int')) {
+            return random_int($min, $max);
+        } else {
+            // PHP 7.1+ 会得到 deprecated 讯息, 改采 random_int.
+            return static::getRandomLibGenerator()->generateInt($min, $max);
+        }
     }
 
     /**
