@@ -5,24 +5,6 @@ namespace GyTreasure\Issue\DrawingGenerator;
 abstract class DrawingStrategy
 {
     /**
-     * @var \RandomLib\Generator
-     */
-    protected static $randomLibGenerator;
-
-    /**
-     * @return \RandomLib\Generator
-     */
-    protected static function getRandomLibGenerator()
-    {
-        if (static::$randomLibGenerator === null) {
-            $factory = new \RandomLib\Factory;
-            static::$randomLibGenerator = $factory->getGenerator(new \SecurityLib\Strength(\SecurityLib\Strength::HIGH));
-        }
-
-        return static::$randomLibGenerator;
-    }
-
-    /**
      * @return array
      */
     abstract public function generate();
@@ -34,12 +16,7 @@ abstract class DrawingStrategy
      */
     public function randomInt($min, $max)
     {
-        if (function_exists('random_int')) {
-            return random_int($min, $max);
-        } else {
-            // PHP 7.1+ 会得到 deprecated 讯息, 改采 random_int.
-            return static::getRandomLibGenerator()->generateInt($min, $max);
-        }
+        return random_int($min, $max);
     }
 
     /**
