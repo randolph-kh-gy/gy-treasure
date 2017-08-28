@@ -87,6 +87,10 @@ class DrawNumbers implements ApiCurrentIssue, ApiDrawLatestGroupIssues, ApiDrawD
         return $data;
     }
 
+    /**
+     * @param  array  $data
+     * @return array
+     */
     protected function _fetchWinningNumbers(array $data)
     {
         $winningNumbers = explode(',', $data['preDrawCode']);
