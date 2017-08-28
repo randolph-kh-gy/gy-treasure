@@ -9,6 +9,7 @@ return [
     ],
     'bjpk10'                 => [
         // 'BwlcGovCn'          => ['id' => 'trax'],
+        'WwwPk10Me'          => ['id' => 'pk10'],
         'Kaijiang500Com'     => ['id' => 'bjpkshi'],
         'Api1680210Com'      => ['id' => '10001'],
     ],
