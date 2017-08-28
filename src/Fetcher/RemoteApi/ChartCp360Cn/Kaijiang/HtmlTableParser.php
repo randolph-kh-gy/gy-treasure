@@ -4,6 +4,9 @@ namespace GyTreasure\Fetcher\RemoteApi\ChartCp360Cn\Kaijiang;
 
 abstract class HtmlTableParser
 {
+    const HTML_START_TABLE = '<table width=\'100%\' class=\'his-table\'>';
+    const HTML_END_TABLE   = '</table>';
+
     /**
      * 撷取表格资料.
      *
@@ -12,6 +15,15 @@ abstract class HtmlTableParser
      */
     public function parse($html)
     {
+        /*
+         * 先检查是否为空表格.
+         * 空表格代表撷取成功，但没有资料.
+         * 此状况发生时回传空阵列，而不是 NULL.
+         */
+        if ($this->isEmptyTable($html)) {
+            return [];
+        }
+
         $table = $this->extractTable($html);
         if ($table === null) {
             return null;
@@ -19,6 +31,20 @@ abstract class HtmlTableParser
 
         $rows = $this->parseRows($this->extractRows($table));
         return $rows;
+    }
+
+    /**
+     * 是否为空表格.
+     *
+     * @param  string  $html
+     * @return bool
+     */
+    public function isEmptyTable($html)
+    {
+        $pattern = '/' . preg_quote(self::HTML_START_TABLE, '/')
+                   . '\s*'
+                   . preg_quote(self::HTML_END_TABLE, '/') . '/is';
+        return preg_match($pattern, $html);
     }
 
     /**
@@ -73,7 +99,7 @@ abstract class HtmlTableParser
     protected function patternStartTable($delimiter = null)
     {
         $arr = [
-            '<table width=\'100%\' class=\'his-table\'>',
+            self::HTML_START_TABLE,
             '<thead class=\'kaijiang\'>',
         ];
         return $this->patternTags($arr, $delimiter);
@@ -100,7 +126,7 @@ abstract class HtmlTableParser
     {
         $arr = [
             '</tbody>',
-            '</table>',
+            self::HTML_END_TABLE,
         ];
         return $this->patternTags($arr, $delimiter);
     }

@@ -23,6 +23,14 @@ class Type1HtmlTableParserTest extends TestCase
         $this->assertEquals(['1', '7', '3'], $last['winningNumbers']);
     }
 
+    public function testEmptyTable()
+    {
+        $parser = new Type1HtmlTableParser();
+        $array  = $parser->parse('<table width=\'100%\' class=\'his-table\'></table>');
+
+        $this->assertSame([], $array);
+    }
+
     private function _html()
     {
         return '<!DOCTYPE html>
