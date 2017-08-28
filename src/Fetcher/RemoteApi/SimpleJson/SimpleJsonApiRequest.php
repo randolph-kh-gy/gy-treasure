@@ -37,7 +37,7 @@ abstract class SimpleJsonApiRequest extends BaseApiRequest
     {
         $url = $this->apiUrl($path, $query);
 
-        $response = $this->request->get($url);
+        $response = $this->request($url);
 
         if ($response === null) {
             throw new ApiUnreachableException('API is unreachable.');
@@ -50,5 +50,18 @@ abstract class SimpleJsonApiRequest extends BaseApiRequest
         }
 
         return $data;
+    }
+
+    /**
+     * @param  string  $url
+     * @return string|null
+     */
+    protected function request($url)
+    {
+        return $this->request->get($url, [
+            'headers' => [
+                'X-Requested-With' => 'XMLHttpRequest'
+            ],
+        ]);
     }
 }
