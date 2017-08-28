@@ -95,7 +95,7 @@ class IssueRules
      * 取得流水号.
      *
      * @param  string  $issue
-     * @return int
+     * @return int|null
      */
     public function getNumberFromIssue($issue)
     {
