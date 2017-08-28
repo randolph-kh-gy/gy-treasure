@@ -76,7 +76,8 @@ class DrawNumbers implements ApiCurrentIssue, ApiDrawLatestGroupIssues, ApiDrawD
         $api        = $this->factory->apiList($id);
         $dateString = $date->toDateString();
         $response   = $api->call($id, $dateString);
-        $data       = array_map([$this, '_fetchWinningNumbers'], $response->getData());
+        $filter     = new ApiDateListFilter();
+        $data       = array_map([$this, '_fetchWinningNumbers'], $filter->filter($id, $response->getData(), $date));
 
         // 改变期号格式
         array_walk($data, function (&$row) use ($id) {
