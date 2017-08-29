@@ -2,26 +2,11 @@
 
 namespace GyTreasure\Fetcher\RemoteApi\Www52kjwangCom\Pk10;
 
+use GyTreasure\Fetcher\RemoteApi\Www52kjwangCom\ApiPrototype\ApiGetList;
 use GyTreasure\Fetcher\RemoteApi\Www52kjwangCom\XmlHttpRequest;
 
-class Kj
+class Kj extends ApiGetList
 {
-    const API_PATH = 'pk10/kj';
-
-    /**
-     * @var \GyTreasure\Fetcher\RemoteApi\Www52kjwangCom\XmlHttpRequest
-     */
-    protected $xmlHttpRequest;
-
-    /**
-     * Kj constructor.
-     * @param \GyTreasure\Fetcher\RemoteApi\Www52kjwangCom\XmlHttpRequest $xmlHttpRequest
-     */
-    public function __construct(XmlHttpRequest $xmlHttpRequest)
-    {
-        $this->xmlHttpRequest = $xmlHttpRequest;
-    }
-
     /**
      * @return static
      */
@@ -30,10 +15,11 @@ class Kj
         return new static(XmlHttpRequest::forge());
     }
 
-    public function call($date = null)
+    /**
+     * @return string
+     */
+    protected function apiPath()
     {
-        $html = $this->xmlHttpRequest->call(static::API_PATH, compact('date'));
-        // TODO 未完成分析
-        return $html;
+        return 'pk10/kj';
     }
 }
