@@ -37,7 +37,7 @@ abstract class HistoryData
     public function call($count = null, $date = null)
     {
         $query = compact('count', 'date');
-        $data  = $this->apiRequest->call(static::apiPath(), $query);
+        $data  = $this->apiRequest->call($this->apiPath(), $query);
 
         $success = ! empty($data['success']);
 
