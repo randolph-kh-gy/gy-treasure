@@ -8,8 +8,8 @@ $isWin = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
 // 若是 Windows系统, 使用 UTF-8 编码
 ($isWin) && system('chcp 65001');
 
-$process = GyTreasure\ApiFacades\RemoteApi\Api1680210Com\DrawNumbers::forge();
+$process = GyTreasure\ApiFacades\RemoteApi\WwwPk10Me\DrawNumbers::forge();
 
-$data = $process->drawDateGroupIssues('10001', new \Carbon\Carbon());
+$data = $process->drawLatestGroupIssues('pk10');
 
 print_r($data);

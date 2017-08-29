@@ -3,10 +3,13 @@
 namespace GyTreasure\ApiFacades\RemoteApi\WwwPk10Me;
 
 use Carbon\Carbon;
+use GyTreasure\ApiFacades\Interfaces\ApiCurrentIssue;
 use GyTreasure\ApiFacades\Interfaces\ApiDrawDateGroupIssues;
+use GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssues;
+use GyTreasure\ApiFacades\Interfaces\ApiDrawLatestGroupIssuesNum;
 use GyTreasure\Fetcher\RemoteApi\WwwPk10Me\Factory;
 
-class DrawNumbers implements ApiDrawDateGroupIssues
+class DrawNumbers implements ApiCurrentIssue, ApiDrawDateGroupIssues, ApiDrawLatestGroupIssuesNum, ApiDrawLatestGroupIssues
 {
     /**
      * @var \GyTreasure\Fetcher\RemoteApi\WwwPk10Me\Factory
@@ -28,6 +31,50 @@ class DrawNumbers implements ApiDrawDateGroupIssues
     public static function forge()
     {
         return new static(new Factory);
+    }
+
+    /**
+     * 取得目前的开奖号
+     *
+     * @param  string  $id
+     * @return string|null
+     */
+    public function currentIssue($id)
+    {
+        $api    = $this->factory->apiGetData($id);
+        $data   = $api->call();
+        return $data['periodNumber'];
+    }
+
+    /**
+     * 取得最近的开号.
+     *
+     * @param  string  $id
+     * @return array
+     */
+    public function drawLatestGroupIssues($id)
+    {
+        $api        = $this->factory->historyData($id);
+        $response   = $api->call();
+        $data       = array_map([$this, '_fetchWinningNumbers'], $response);
+
+        return $data;
+    }
+
+    /**
+     * 取得最近的开号.
+     *
+     * @param  string  $id
+     * @param  int     $num
+     * @return array
+     */
+    public function drawLatestGroupIssuesNum($id, $num)
+    {
+        $api        = $this->factory->historyData($id);
+        $response   = $api->call($num);
+        $data       = array_map([$this, '_fetchWinningNumbers'], $response);
+
+        return $data;
     }
 
     /**
