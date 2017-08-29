@@ -58,10 +58,6 @@ abstract class SimpleJsonApiRequest extends BaseApiRequest
      */
     protected function request($url)
     {
-        return $this->request->get($url, [
-            'headers' => [
-                'X-Requested-With' => 'XMLHttpRequest'
-            ],
-        ]);
+        return $this->request->get($url);
     }
 }
