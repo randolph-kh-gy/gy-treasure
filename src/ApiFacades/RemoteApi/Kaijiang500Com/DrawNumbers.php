@@ -58,7 +58,7 @@ class DrawNumbers implements ApiDrawDateGroupIssuesLess
         $returnArray = [];
         foreach ($rows as $row) {
             $returnArray[] = [
-                'winningNumbers' => $row['opencode'],
+                'winningNumbers' => ApiNormalizer::formatNumbers($id, $row['opencode']),
                 'issue'          => ApiNormalizer::formatIssue($id, $row['expect']),
             ];
         }

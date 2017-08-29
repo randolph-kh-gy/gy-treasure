@@ -54,4 +54,17 @@ class ApiNormalizerTest extends TestCase
         $returnValue = ApiNormalizer::formatIssue($id, $apiIssue);
         $this->assertEquals($issue, $returnValue);
     }
+
+    /**
+     * 北京PK拾
+     */
+    public function testPK10()
+    {
+        $id         = '10001';
+        $apiNumbers = ['03', '09', '10', '04', '08', '07', '06', '02', '01', '05'];
+        $numbers    = ['3', '9', '10', '4', '8', '7', '6', '2', '1', '5'];
+
+        $returnArray = ApiNormalizer::formatNumbers($id, $apiNumbers);
+        $this->assertSame($numbers, $returnArray);
+    }
 }

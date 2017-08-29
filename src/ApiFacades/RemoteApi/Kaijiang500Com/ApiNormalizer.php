@@ -27,4 +27,32 @@ class ApiNormalizer
                 return $issue;
         }
     }
+
+    /**
+     * 格式化开奖号.
+     *
+     * @param  string  $id
+     * @param  array   $numbers
+     * @return array
+     */
+    public static function formatNumbers($id, array $numbers)
+    {
+        switch ($id) {
+            case 'bjpkshi':     // 北京PK拾
+                return array_map('static::stripZero', $numbers);
+            default:
+                return $numbers;
+        }
+    }
+
+    /**
+     * 去除零.
+     *
+     * @param  string  $string
+     * @return string
+     */
+    protected static function stripZero($string)
+    {
+        return ltrim($string, '0');
+    }
 }
