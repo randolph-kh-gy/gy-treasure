@@ -19,7 +19,7 @@ class CodeFormatter
             case 'pailie3':
                 return static::singleFigureConvert($code);
             case 'bjpk10':
-                return static::commaConvert($code);
+                return static::stripZero(static::commaConvert($code));
             default:
                 return static::genericConvert($code);
         }
@@ -40,7 +40,7 @@ class CodeFormatter
             case 'pailie3':
                 return static::singleFigureFormat($winningNumbers);
             case 'bjpk10':
-                return static::commaFormat($winningNumbers);
+                return static::commaFormat(static::padZero($winningNumbers));
             default:
                 return static::genericFormat($winningNumbers);
         }
@@ -98,5 +98,31 @@ class CodeFormatter
     public static function commaFormat(array $winningNumbers)
     {
         return implode(',', $winningNumbers);
+    }
+
+    /**
+     * @param  array  $winningNumbers
+     * @return array
+     */
+    public static function padZero(array $winningNumbers)
+    {
+        $returnArray = [];
+        foreach ($winningNumbers as $number) {
+            $returnArray[] = str_pad($number, 2, '0', STR_PAD_LEFT);
+        }
+        return $returnArray;
+    }
+
+    /**
+     * @param  array  $winningNumbers
+     * @return array
+     */
+    public static function stripZero(array $winningNumbers)
+    {
+        $returnArray = [];
+        foreach ($winningNumbers as $number) {
+            $returnArray[] = ltrim($number, '0');
+        }
+        return $returnArray;
     }
 }
