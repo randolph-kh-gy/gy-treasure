@@ -339,4 +339,35 @@ class IssueGeneratorTest extends TestCase
         $this->assertEquals(new Carbon('2017-07-27 22:58:00'), $day2Last['canneldeadline']);
         $this->assertEquals(new Carbon('2017-07-27 23:00:30'), $day2Last['earliestwritetime']);
     }
+
+    public function testMmSsc()
+    {
+        $start = Carbon::create(2017, 8, 30);
+        $end   = Carbon::create(2017, 8, 30);
+
+        $config = IssueInfoConfig::get('miaomaio_ssc');
+
+        $generator = IssueGenerator::forge($config['issuerule'], $config['issueset']);
+        $generator->setDateRange($start, $end);
+
+        $result = $generator->getArray();
+
+        $this->assertEquals(2638, count($result));
+
+        $day1First = $result[0];
+        $this->assertEquals('20170830-0001', $day1First['issue']);
+        $this->assertEquals('2017-08-30', $day1First['belongdate']);
+        $this->assertEquals(new Carbon('2017-08-30 00:00:55'), $day1First['salestart']);
+        $this->assertEquals(new Carbon('2017-08-30 00:01:25'), $day1First['saleend']);
+        $this->assertEquals(new Carbon('2017-08-30 00:01:25'), $day1First['canneldeadline']);
+        $this->assertEquals(new Carbon('2017-08-30 00:01:25'), $day1First['earliestwritetime']);
+
+        $day1Last = $result[2637];
+        $this->assertEquals('20170830-2638', $day1Last['issue']);
+        $this->assertEquals('2017-08-30', $day1Last['belongdate']);
+        $this->assertEquals(new Carbon('2017-08-30 23:59:55'), $day1Last['salestart']);
+        $this->assertEquals(new Carbon('2017-08-31 00:00:25'), $day1Last['saleend']);
+        $this->assertEquals(new Carbon('2017-08-31 00:00:25'), $day1Last['canneldeadline']);
+        $this->assertEquals(new Carbon('2017-08-31 00:00:25'), $day1Last['earliestwritetime']);
+    }
 }
