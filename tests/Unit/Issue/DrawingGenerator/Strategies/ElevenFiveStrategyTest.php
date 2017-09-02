@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Unit\Issue\DrawingGenerator\Strategies;
 
 use GyTreasure\Issue\DrawingGenerator\Strategies\ElevenFiveStrategy;

@@ -20,6 +20,8 @@ class DrawingStrategyFactory
                 // no break
             case 'wufen115':
                 return new ElevenFiveStrategy();
+            case 'pk10':
+                break;
             default:
                 return new TakeFiveStrategy();
         }
