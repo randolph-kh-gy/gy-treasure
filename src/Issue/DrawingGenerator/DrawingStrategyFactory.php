@@ -3,6 +3,7 @@
 namespace GyTreasure\Issue\DrawingGenerator;
 
 use GyTreasure\Issue\DrawingGenerator\Strategies\ElevenFiveStrategy;
+use GyTreasure\Issue\DrawingGenerator\Strategies\ShuffleTenStrategy;
 use GyTreasure\Issue\DrawingGenerator\Strategies\TakeFiveStrategy;
 
 class DrawingStrategyFactory
@@ -21,7 +22,7 @@ class DrawingStrategyFactory
             case 'wufen115':
                 return new ElevenFiveStrategy();
             case 'pk10':
-                break;
+                return new ShuffleTenStrategy();
             default:
                 return new TakeFiveStrategy();
         }
