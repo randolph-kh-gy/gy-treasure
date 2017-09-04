@@ -3,6 +3,7 @@
 namespace GyTreasure\Issue\DrawingGenerator\Strategies;
 
 use GyTreasure\Issue\DrawingGenerator\DrawingStrategy;
+use GyTreasure\Support\Randomizer;
 
 class ElevenFiveStrategy extends DrawingStrategy
 {
@@ -16,7 +17,7 @@ class ElevenFiveStrategy extends DrawingStrategy
      */
     public function generate()
     {
-        $array = $this->shuffle($this->_rangeNumbers());
+        $array = Randomizer::shuffle($this->_rangeNumbers());
         return array_splice($array, 0, static::DRAW_NUM);
     }
 

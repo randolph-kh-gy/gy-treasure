@@ -3,6 +3,7 @@
 namespace GyTreasure\Issue\DrawingGenerator\Strategies;
 
 use GyTreasure\Issue\DrawingGenerator\DrawingStrategy;
+use GyTreasure\Support\Randomizer;
 
 class ShuffleTenStrategy extends DrawingStrategy
 {
@@ -11,7 +12,7 @@ class ShuffleTenStrategy extends DrawingStrategy
      */
     public function generate()
     {
-        return $this->shuffle($this->rangeNumbers());
+        return Randomizer::shuffle($this->rangeNumbers());
     }
 
     /**

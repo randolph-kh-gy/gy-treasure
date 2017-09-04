@@ -3,6 +3,7 @@
 namespace GyTreasure\Issue\DrawingGenerator\Strategies;
 
 use GyTreasure\Issue\DrawingGenerator\DrawingStrategy;
+use GyTreasure\Support\Randomizer;
 
 class TakeFiveStrategy extends DrawingStrategy
 {
@@ -34,6 +35,6 @@ class TakeFiveStrategy extends DrawingStrategy
      */
     protected function generateNumbers()
     {
-        return str_split(sprintf('%05d', $this->randomInt(0, 99999)));
+        return str_split(sprintf('%05d', Randomizer::randomInt(0, 99999)));
     }
 }
