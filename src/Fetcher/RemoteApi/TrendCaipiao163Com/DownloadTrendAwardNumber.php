@@ -54,7 +54,11 @@ class DownloadTrendAwardNumber
         $tmpfname   = tempnam(sys_get_temp_dir(), 'trend_xls_');
         file_put_contents($tmpfname, $raw);
 
-        $array = $this->reader->read($tmpfname);
+        try {
+            $array = $this->reader->read($tmpfname);
+        } catch (\Exception $e) {
+            $array = null;
+        }
 
         unlink($tmpfname);
 
