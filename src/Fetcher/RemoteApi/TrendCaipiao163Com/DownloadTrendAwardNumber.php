@@ -2,6 +2,7 @@
 
 namespace GyTreasure\Fetcher\RemoteApi\TrendCaipiao163Com;
 
+use GyTreasure\Fetcher\RemoteApi\Exceptions\ApiException;
 use GyTreasure\Fetcher\RemoteApi\Exceptions\ApiParseException;
 
 class DownloadTrendAwardNumber
@@ -44,9 +45,14 @@ class DownloadTrendAwardNumber
      * @return array
      *
      * @throws \GyTreasure\Fetcher\RemoteApi\Exceptions\ApiParseException  无法解析 XLS 档案
+     * @throws \GyTreasure\Fetcher\RemoteApi\Exceptions\ApiException
      */
     public function call($gameEn, $beginPeriod, $endPeriod)
     {
+        if (! class_exists('ZipArchive')) {
+            throw new ApiException('PHP extension \'libzip\' is unavailable.');
+        }
+
         $query      = compact('gameEn', 'beginPeriod', 'endPeriod');
         $raw        = $this->fileRequest->call(static::API_PATH, $query);
 
