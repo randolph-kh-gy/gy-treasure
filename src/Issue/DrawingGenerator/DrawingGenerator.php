@@ -21,6 +21,8 @@ class DrawingGenerator
     /**
      * @param  string  $id
      * @return static
+     *
+     * @throws \GyTreasure\Issue\DrawingGenerator\Exceptions\UnsupportedDrawingIdException
      */
     public static function forge($id)
     {
