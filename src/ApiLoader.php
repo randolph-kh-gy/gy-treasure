@@ -2,6 +2,7 @@
 
 namespace GyTreasure;
 
+use GyTreasure\Support\Arr;
 use ReflectionClass;
 
 class ApiLoader
@@ -99,7 +100,16 @@ class ApiLoader
             }
         }
 
-        return $this->instances[$name];
+        return $this->getCachedInstances($name);
+    }
+
+    /**
+     * @param  string  $name
+     * @return array
+     */
+    protected function getCachedInstances($name)
+    {
+        return Arr::get($this->instances, $name, []);
     }
 
     /**
@@ -135,7 +145,7 @@ class ApiLoader
 
         if ($instanceof) {
             $returnArray = [];
-            foreach ($this->instances[$name] as $instance) {
+            foreach ($this->getCachedInstances($name) as $instance) {
                 if (is_a($instance, $instanceof)) {
                     $returnArray[] = $instance;
                 }
