@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'type'      => '115',
+    'is_owner'  => true,
     'issuerule' => 'Ymd-[n3]|0,1,0',
     'issueset'  => [
         [

@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'type'      => 'pk10',
+    'is_owner'  => false,
     'issuerule' => '[n6]|1,1,1',
     'issueset'  => [
         [

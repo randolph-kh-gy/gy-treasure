@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'type'       => 'ssc',
+    'is_owner'   => false,
     'issuerule'  => 'Ymd-[n3]|0,1,0',
     'issueset'   => [
         [

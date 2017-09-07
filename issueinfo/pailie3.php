@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'type'      => '3d',
+    'is_owner'  => false,
     'issuerule' => 'Y[n3]|1,1,1',
     'issueset'  => [
         [
