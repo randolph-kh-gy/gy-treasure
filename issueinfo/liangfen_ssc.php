@@ -1,23 +1,23 @@
 <?php
 
 return [
-    'issuerule' => 'Ymd-[n4]|0,1,0',
+    'issuerule' => 'Ymd-[n3]|0,1,0',
     'issueset'  => [
         [
-            'starttime'     => '00:00:55',
-            'firstendtime'  => '00:01:25',
-            'endtime'       => '05:00:25',
-            'cycle'         => 30,
+            'starttime'     => '00:01:10',
+            'firstendtime'  => '00:03:10',
+            'endtime'       => '04:59:10',
+            'cycle'         => 120,
             'endsale'       => 0,
             'inputcodetime' => 0,
             'droptime'      => 0,
             'status'        => 1,
             'sort'          => 0,
         ], [
-            'starttime'     => '07:00:55',
-            'firstendtime'  => '07:01:25',
-            'endtime'       => '00:00:25',
-            'cycle'         => 30,
+            'starttime'     => '07:01:10',
+            'firstendtime'  => '07:03:10',
+            'endtime'       => '00:01:10',
+            'cycle'         => 120,
             'endsale'       => 0,
             'inputcodetime' => 0,
             'droptime'      => 0,

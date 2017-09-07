@@ -4,9 +4,9 @@ return [
     'issuerule' => 'Ymd-[n4]|0,1,0',
     'issueset'  => [
         [
-            'starttime'     => '00:00:55',
-            'firstendtime'  => '00:01:25',
-            'endtime'       => '05:00:25',
+            'starttime'     => '00:00:45',
+            'firstendtime'  => '00:00:45',
+            'endtime'       => '05:00:45',
             'cycle'         => 30,
             'endsale'       => 0,
             'inputcodetime' => 0,
@@ -14,9 +14,9 @@ return [
             'status'        => 1,
             'sort'          => 0,
         ], [
-            'starttime'     => '07:00:55',
-            'firstendtime'  => '07:01:25',
-            'endtime'       => '00:00:25',
+            'starttime'     => '07:00:15',
+            'firstendtime'  => '07:00:45',
+            'endtime'       => '00:00:15',
             'cycle'         => 30,
             'endsale'       => 0,
             'inputcodetime' => 0,
