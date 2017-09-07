@@ -2,6 +2,8 @@
 
 namespace GyTreasure\Framework\Legacy\Issue;
 
+use GyTreasure\Issue\IssueInfo;
+
 class CodeFormatter
 {
     /**
@@ -11,17 +13,12 @@ class CodeFormatter
      */
     public static function convert($id, $code)
     {
-        switch ($id) {
-            case 'chongqing_ssc':
-                // no break
-            case 'fucai3d':
-                // no break
-            case 'pailie3':
-                return static::singleFigureConvert($code);
-            case 'bjpk10':
-                return static::stripZero(static::commaConvert($code));
-            default:
-                return static::genericConvert($code);
+        if (IssueInfo::isSsc($id) || IssueInfo::is3D($id)) {
+            return static::singleFigureConvert($code);
+        } elseif (IssueInfo::isPK10($id)) {
+            return static::stripZero(static::commaConvert($code));
+        } else {
+            return static::genericConvert($code);
         }
     }
 
@@ -32,17 +29,12 @@ class CodeFormatter
      */
     public static function format($id, array $winningNumbers)
     {
-        switch ($id) {
-            case 'chongqing_ssc':
-                // no break
-            case 'fucai3d':
-                // no break
-            case 'pailie3':
-                return static::singleFigureFormat($winningNumbers);
-            case 'bjpk10':
-                return static::commaFormat(static::padZero($winningNumbers));
-            default:
-                return static::genericFormat($winningNumbers);
+        if (IssueInfo::isSsc($id) || IssueInfo::is3D($id)) {
+            return static::singleFigureFormat($winningNumbers);
+        } elseif (IssueInfo::isPK10($id)) {
+            return static::commaFormat(static::padZero($winningNumbers));
+        } else {
+            return static::genericFormat($winningNumbers);
         }
     }
 

@@ -2,10 +2,12 @@
 
 namespace GyTreasure\Issue\DrawingGenerator;
 
+use GyTreasure\Issue\DrawingGenerator\Exceptions\UnavailableDrawingIdException;
 use GyTreasure\Issue\DrawingGenerator\Exceptions\UnsupportedDrawingIdException;
 use GyTreasure\Issue\DrawingGenerator\Strategies\ElevenFiveStrategy;
 use GyTreasure\Issue\DrawingGenerator\Strategies\ShuffleTenStrategy;
 use GyTreasure\Issue\DrawingGenerator\Strategies\TakeFiveStrategy;
+use GyTreasure\Issue\IssueInfo;
 
 class DrawingStrategyFactory
 {
@@ -13,15 +15,20 @@ class DrawingStrategyFactory
      * @param  string  $id
      * @return \GyTreasure\Issue\DrawingGenerator\DrawingStrategy
      *
-     * @throws \GyTreasure\Issue\DrawingGenerator\Exceptions\UnsupportedDrawingIdException
+     * @throws \GyTreasure\Issue\DrawingGenerator\Exceptions\UnsupportedDrawingIdException 未支援的自主彩
+     * @throws \GyTreasure\Issue\DrawingGenerator\Exceptions\UnavailableDrawingIdException 无效的自主彩 ID
      */
     public static function make($id)
     {
-        if (static::isSsc($id)) {
+        if (! IssueInfo::isOwner($id)) {
+            throw new UnavailableDrawingIdException('Drawing Id is unavailable for generating.  ($id: ' . $id . ')');
+        }
+
+        if (IssueInfo::isSsc($id)) {
             return new TakeFiveStrategy;
-        } elseif (static::is115($id)) {
+        } elseif (IssueInfo::is115($id)) {
             return new ElevenFiveStrategy;
-        } elseif (static::isPK10($id)) {
+        } elseif (IssueInfo::isPK10($id)) {
             return new ShuffleTenStrategy;
         } else {
             throw new UnsupportedDrawingIdException('Unsupported drawing ID. ($id: ' . $id . ')');
@@ -36,39 +43,16 @@ class DrawingStrategyFactory
      */
     public static function isIdAvailable($id)
     {
-        return static::isSsc($id) || static::is115($id) || static::isPK10($id);
+        $isOwner = IssueInfo::isOwner($id);
+        $type    = IssueInfo::type($id);
+        return $isOwner && in_array($type, static::availableTypes());
     }
 
     /**
-     * 是否为自主时时彩.
-     *
-     * @param  string  $id
-     * @return bool
+     * @return array
      */
-    protected static function isSsc($id)
+    protected static function availableTypes()
     {
-        return in_array($id, ['miaomiao_ssc', 'yifen_ssc', 'liangfen_ssc', 'wufen_ssc']);
-    }
-
-    /**
-     * 是否为自主 11 选 5.
-     *
-     * @param  string  $id
-     * @return bool
-     */
-    protected static function is115($id)
-    {
-        return in_array($id, ['miaomiao115', 'yifen115', 'liangfen115', 'wufen115']);
-    }
-
-    /**
-     * 是否为自主 PK10.
-     *
-     * @param  string  $id
-     * @return bool
-     */
-    protected static function isPK10($id)
-    {
-        return in_array($id, ['jisu_pk10']);
+        return [IssueInfo::TYPE_SSC, IssueInfo::TYPE_115, IssueInfo::TYPE_PK10];
     }
 }
