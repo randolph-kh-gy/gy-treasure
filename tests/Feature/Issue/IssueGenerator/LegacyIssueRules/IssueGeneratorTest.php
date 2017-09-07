@@ -293,6 +293,9 @@ class IssueGeneratorTest extends TestCase
         $this->assertEquals(new Carbon('2017-07-27 23:00:30'), $day2Last['earliestwritetime']);
     }
 
+    /**
+     * 广东11选5
+     */
     public function testShiyix5Guangdong()
     {
         $start = Carbon::create(2017, 7, 26);
@@ -340,12 +343,15 @@ class IssueGeneratorTest extends TestCase
         $this->assertEquals(new Carbon('2017-07-27 23:00:30'), $day2Last['earliestwritetime']);
     }
 
+    /**
+     * 秒秒时时彩
+     */
     public function testMmSsc()
     {
         $start = Carbon::create(2017, 8, 30);
         $end   = Carbon::create(2017, 8, 30);
 
-        $config = IssueInfoConfig::get('miaomaio_ssc');
+        $config = IssueInfoConfig::get('miaomiao_ssc');
 
         $generator = IssueGenerator::forge($config['issuerule'], $config['issueset']);
         $generator->setDateRange($start, $end);
