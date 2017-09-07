@@ -34,9 +34,9 @@ class DrawingStrategyFactoryTest extends TestCase
     }
 
     /**
-     * @expectedException \GyTreasure\Issue\DrawingGenerator\Exceptions\UnsupportedDrawingIdException
+     * @expectedException \GyTreasure\Issue\DrawingGenerator\Exceptions\UnavailableDrawingIdException
      */
-    public function testUnsupportedDrawingIdException()
+    public function testUnavailableDrawingIdException()
     {
         $id = 'unknown';
         $this->assertFalse(DrawingStrategyFactory::isIdAvailable($id));

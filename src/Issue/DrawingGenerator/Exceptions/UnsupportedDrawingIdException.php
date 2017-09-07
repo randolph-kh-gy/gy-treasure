@@ -2,8 +2,6 @@
 
 namespace GyTreasure\Issue\DrawingGenerator\Exceptions;
 
-use Exception;
-
-class UnsupportedDrawingIdException extends Exception
+class UnsupportedDrawingIdException extends UnavailableDrawingIdException
 {
 }
