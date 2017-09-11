@@ -39,11 +39,10 @@ interface IssueGeneratorInterface
     /**
      * 执行产生号码.
      *
-     * @param  callable  $callback
-     * @param  bool      $numbersOnly
-     * @return $this
+     * @param  bool  $numbersOnly
+     * @return \Generator
      */
-    public function run($callback, $numbersOnly = false);
+    public function run($numbersOnly = false);
 
     /**
      * 产生号码, 把所有结果以阵列回传.

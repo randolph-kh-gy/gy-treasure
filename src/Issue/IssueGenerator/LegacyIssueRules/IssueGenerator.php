@@ -261,16 +261,14 @@ class IssueGenerator implements IssueGeneratorInterface
     /**
      * 执行产生号码.
      *
-     * @param  callable  $callback
-     * @param  bool      $numbersOnly
-     * @return $this
+     * @param  bool  $numbersOnly
+     * @return \Generator
      */
-    public function run($callback, $numbersOnly = false)
+    public function run($numbersOnly = false)
     {
         while ($newNumber = $this->newNumber($numbersOnly)) {
-            call_user_func_array($callback, [$newNumber]);
+            yield $newNumber;
         }
-        return $this;
     }
 
     /**
@@ -281,10 +279,6 @@ class IssueGenerator implements IssueGeneratorInterface
      */
     public function getArray($numbersOnly = false)
     {
-        $returnArray = [];
-        while ($newNumber = $this->newNumber($numbersOnly)) {
-            $returnArray[] = $newNumber;
-        }
-        return $returnArray;
+        return iterator_to_array($this->run($numbersOnly));
     }
 }
