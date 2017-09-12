@@ -3,6 +3,8 @@
 namespace GyTreasure\Issue\IssueGenerator\LegacyIssueRules;
 
 use Carbon\Carbon;
+use GyTreasure\Issue\IssueGenerator\GeneratorTraits\DateRangeTrait;
+use GyTreasure\Issue\IssueGenerator\GeneratorTraits\IgnoringTimeRangeTrait;
 use GyTreasure\Issue\IssueGenerator\IssueGeneratorInterface;
 use GyTreasure\Support\Arr;
 use GyTreasure\Support\TimeRange;
@@ -10,6 +12,10 @@ use GyTreasure\Issue\IssueGenerator\IssueDateTime;
 
 class IssueGenerator implements IssueGeneratorInterface
 {
+    use DateRangeTrait, IgnoringTimeRangeTrait {
+        setDateRange as baseSetDateRange;
+    }
+
     /**
      * @var \GyTreasure\Issue\IssueGenerator\LegacyIssueRules\IssueRules
      */
@@ -26,27 +32,6 @@ class IssueGenerator implements IssueGeneratorInterface
      * @var int
      */
     protected $number = 0;
-
-    /**
-     * 忽略奖期区间.
-     *
-     * @var \GyTreasure\Support\TimeRange
-     */
-    protected $ignoringTimeRange;
-
-    /**
-     * 开始日期.
-     *
-     * @var \Carbon\Carbon
-     */
-    protected $startDate;
-
-    /**
-     * 结束日期.
-     *
-     * @var \Carbon\Carbon
-     */
-    protected $endDate;
 
     /**
      * IssueGenerator constructor.
@@ -95,19 +80,6 @@ class IssueGenerator implements IssueGeneratorInterface
     }
 
     /**
-     * 取得日期范围.
-     *
-     * @return array
-     */
-    public function getDateRange()
-    {
-        return [
-            'start' => $this->startDate,
-            'end'   => $this->endDate,
-        ];
-    }
-
-    /**
      * 设定日期范围.
      *
      * @param  \Carbon\Carbon  $startDate
@@ -116,14 +88,7 @@ class IssueGenerator implements IssueGeneratorInterface
      */
     public function setDateRange(Carbon $startDate, Carbon $endDate)
     {
-        $this->startDate = $startDate->copy()->startOfDay();
-        $this->endDate   = $endDate->copy()->endOfDay();
-
-        $this->issueSetHandler->setDay(
-            $this->startDate->year,
-            $this->startDate->month,
-            $this->startDate->day
-        );
+        $this->baseSetDateRange($startDate, $endDate);
 
         $this->resetNumberIfNeeded();
 

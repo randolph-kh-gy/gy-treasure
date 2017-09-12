@@ -74,6 +74,11 @@ class IssueSet
     protected $sort;
 
     /**
+     * @var bool
+     */
+    protected $first = true;
+
+    /**
      * IssueSet constructor.
      * @param array $setting
      *

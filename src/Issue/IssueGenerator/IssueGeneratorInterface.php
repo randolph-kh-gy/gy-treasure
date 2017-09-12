@@ -3,7 +3,6 @@
 namespace GyTreasure\Issue\IssueGenerator;
 
 use Carbon\Carbon;
-use GyTreasure\Issue\IssueStructure;
 
 interface IssueGeneratorInterface
 {
