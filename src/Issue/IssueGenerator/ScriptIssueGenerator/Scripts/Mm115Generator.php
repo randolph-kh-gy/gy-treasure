@@ -4,28 +4,48 @@ namespace GyTreasure\Issue\IssueGenerator\ScriptIssueGenerator\Scripts;
 
 use Carbon\Carbon;
 
-class Mm115Generator
+class Mm115Generator implements IssueGenerationScript
 {
-    const NUM_ISSUES = 2641;
+    const FIRST_SEGMENT_START  = 2;
+    const FIRST_SEGMENT_END    = 601;
+    const SECOND_SEGMENT_START = 602;
+    const SECOND_SEGMENT_END   = 2641;
 
     /**
      * @param  \Carbon\Carbon  $date
-     * @return array
+     * @param  int  $number
+     * @return \Generator
      */
-    public function generate(Carbon $date)
+    public function generate(Carbon $date, &$number = 0)
     {
         $belongdate  = $date->toDateString();
         $issuePrefix = $date->format('Ymd-');
         $time        = $date->setTime(0, 0, 45)->getTimestamp();
 
-        $result = [];
-        $result[] = $this->row($belongdate, $issuePrefix, 1, $this->firstIssue($time));
+        // 第一期
+        yield $this->row($belongdate, $issuePrefix, 1, $this->firstIssue($time));
 
-        for ($num = 2, $len = static::NUM_ISSUES; $num <= $len; $num++) {
-            $result[] = $this->row($belongdate, $issuePrefix, $num, $this->nextIssue($time));
+        foreach ($this->segments() as $segment) {
+            $time = $date->setTime($segment['time'][0], $segment['time'][1], $segment['time'][2])->getTimestamp();
+            for ($num = $segment['start']; $num <= $segment['end']; $num++) {
+                yield $this->row($belongdate, $issuePrefix, $num, $this->nextIssue($time));
+            }
         }
 
-        return $result;
+    }
+
+    /**
+     * @return array
+     */
+    protected function segments()
+    {
+        return [
+            // 第一个区间, 00:00:45 至 05:00:45
+            ['start' => static::FIRST_SEGMENT_START, 'end' => static::FIRST_SEGMENT_END, 'time' => [0, 0, 45]],
+
+            // 第二个区间, 07:00:15 至 23:59:45
+            ['start' => static::SECOND_SEGMENT_START, 'end' => static::SECOND_SEGMENT_END, 'time' => [7, 0, 15]],
+        ];
     }
 
     /**

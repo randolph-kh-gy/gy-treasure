@@ -12,18 +12,19 @@ class QuickIssue
      * @param  \Carbon\Carbon  $date
      * @param  int     $startNumber
      * @param  bool    $numbersOnly
-     * @return array|null
+     * @return \Generator
      */
     public function generate($id, Carbon $date, $startNumber = 1, $numbersOnly = false)
     {
         $config = IssueInfoConfig::get($id);
-        if (! $config) {
-            return null;
-        }
+        if ($config) {
+            $generator = GeneratorFactory::make('default', $id, $config, $startNumber);
+            $generator->setDateRange($date, $date);
 
-        $generator = GeneratorFactory::make('legacy', $config, $startNumber);
-        $generator->setDateRange($date, $date);
-        return $generator->getArray($numbersOnly);
+            foreach ($generator->run() as $row) {
+                yield $row;
+            }
+        }
     }
 
     /**

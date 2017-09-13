@@ -7,11 +7,6 @@ use Carbon\Carbon;
 trait DateRangeTrait
 {
     /**
-     * @var \GyTreasure\Issue\IssueGenerator\LegacyIssueRules\IssueSetHandler
-     */
-    protected $issueSetHandler;
-
-    /**
      * 开始日期.
      *
      * @var \Carbon\Carbon
@@ -49,12 +44,6 @@ trait DateRangeTrait
     {
         $this->startDate = $startDate->copy()->startOfDay();
         $this->endDate   = $endDate->copy()->endOfDay();
-
-        $this->issueSetHandler->setDay(
-            $this->startDate->year,
-            $this->startDate->month,
-            $this->startDate->day
-        );
 
         return $this;
     }

@@ -87,7 +87,7 @@ class Drawer
     {
         $generator = new QuickIssue();
         if ($date->isToday()) {
-            $issues = $generator->generate($id, $date, $startNumber);
+            $issues = iterator_to_array($generator->generate($id, $date, $startNumber));
 
             $returnArray = [];
             foreach ($issues as $row) {
@@ -97,7 +97,7 @@ class Drawer
             }
             return $returnArray;
         } else {
-            return $generator->generate($id, $date, $startNumber, true);
+            return iterator_to_array($generator->generate($id, $date, $startNumber, true));
         }
     }
 }

@@ -90,6 +90,12 @@ class IssueGenerator implements IssueGeneratorInterface
     {
         $this->baseSetDateRange($startDate, $endDate);
 
+        $this->issueSetHandler->setDay(
+            $this->startDate->year,
+            $this->startDate->month,
+            $this->startDate->day
+        );
+
         $this->resetNumberIfNeeded();
 
         return $this;
