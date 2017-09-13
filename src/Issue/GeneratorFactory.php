@@ -10,10 +10,10 @@ use GyTreasure\Issue\IssueGenerator\ScriptIssueGenerator\ScriptIssueGenerator;
 class GeneratorFactory
 {
     /**
-     * @param  string  $generator
-     * @param  string  $id
-     * @param  array   $config
-     * @param  int     $startNumber
+     * @param  string       $generator
+     * @param  string|null  $id
+     * @param  array        $config
+     * @param  int          $startNumber
      * @return \GyTreasure\Issue\IssueGenerator\IssueGeneratorInterface
      *
      * @throws \Exception

@@ -21,7 +21,7 @@ class QuickIssue
             $generator = GeneratorFactory::make('default', $id, $config, $startNumber);
             $generator->setDateRange($date, $date);
 
-            foreach ($generator->run() as $row) {
+            foreach ($generator->run($numbersOnly) as $row) {
                 yield $row;
             }
         }
