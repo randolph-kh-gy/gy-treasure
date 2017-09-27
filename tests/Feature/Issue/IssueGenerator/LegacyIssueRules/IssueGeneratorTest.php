@@ -4,6 +4,7 @@ namespace Tests\Feature\Issue\IssueGenerator\LegacyIssueRules;
 
 use Carbon\Carbon;
 use GyTreasure\Issue\IssueGenerator\LegacyIssueRules\IssueGenerator;
+use GyTreasure\Issue\IssueGenerator\LegacyIssueRules\IssueSetCollection;
 use GyTreasure\Issue\IssueInfoConfig;
 use PHPUnit\Framework\TestCase;
 
@@ -18,12 +19,21 @@ class IssueGeneratorTest extends TestCase
         $end    = Carbon::create(2017, 7, 7);
 
         $config = IssueInfoConfig::get('chongqing_ssc');
+        $issueCollection = IssueSetCollection::loadRaw($config['issueset']);
 
         $generator = IssueGenerator::forge($config['issuerule'], $config['issueset']);
         $generator->setDateRange($start, $end);
 
-        $result = $generator->getArray();
+        /* 一天 120 期 */
+        $countIssues = $issueCollection->countIssues();
+        $this->assertEquals(120, $countIssues);
 
+        /* 测试最早开奖时间 */
+        $firstEarliestWriteTime = $issueCollection->firstEarliestWriteTime($start);
+        $this->assertEquals(new Carbon('2017-07-06 00:05:30'), $firstEarliestWriteTime);
+
+        /* 期号结果 */
+        $result = $generator->getArray();
         $this->assertEquals(240, count($result));
 
         $day1First = $result[0];
@@ -68,12 +78,21 @@ class IssueGeneratorTest extends TestCase
         $end   = Carbon::create(2017, 7, 6);
 
         $config = IssueInfoConfig::get('fucai3d');
+        $issueCollection = IssueSetCollection::loadRaw($config['issueset']);
 
         $generator = IssueGenerator::forge($config['issuerule'], $config['issueset'], 81);
         $generator->setDateRange($start, $end);
 
-        $result = $generator->getArray();
+        /* 一天 1 期 */
+        $countIssues = $issueCollection->countIssues();
+        $this->assertEquals(1, $countIssues);
 
+        /* 测试最早开奖时间 */
+        $firstEarliestWriteTime = $issueCollection->firstEarliestWriteTime($start);
+        $this->assertEquals(new Carbon('2017-03-29 20:30:00'), $firstEarliestWriteTime);
+
+        /* 期号结果 */
+        $result = $generator->getArray();
         $this->assertEquals(100, count($result));
 
         $day1 = $result[0];
@@ -118,12 +137,21 @@ class IssueGeneratorTest extends TestCase
         $end   = Carbon::create(2017, 7, 11);
 
         $config = IssueInfoConfig::get('bjpk10');
+        $issueCollection = IssueSetCollection::loadRaw($config['issueset']);
 
         $generator = IssueGenerator::forge($config['issuerule'], $config['issueset'], 627899);
         $generator->setDateRange($start, $end);
 
-        $result = $generator->getArray();
+        /* 一天 179 期 */
+        $countIssues = $issueCollection->countIssues();
+        $this->assertEquals(179, $countIssues);
 
+        /* 测试最早开奖时间 */
+        $firstEarliestWriteTime = $issueCollection->firstEarliestWriteTime($start);
+        $this->assertEquals(new Carbon('2017-07-10 09:07:45'), $firstEarliestWriteTime);
+
+        /* 期号结果 */
+        $result = $generator->getArray();
         $this->assertEquals(358, count($result));
 
         $day1First = $result[0];
@@ -168,12 +196,21 @@ class IssueGeneratorTest extends TestCase
         $end   = Carbon::create(2017, 7, 20);
 
         $config = IssueInfoConfig::get('shiyix5');
+        $issueCollection = IssueSetCollection::loadRaw($config['issueset']);
 
         $generator = IssueGenerator::forge($config['issuerule'], $config['issueset']);
         $generator->setDateRange($start, $end);
 
-        $result = $generator->getArray();
+        /* 一天 78 期 */
+        $countIssues = $issueCollection->countIssues();
+        $this->assertEquals(78, $countIssues);
 
+        /* 测试最早开奖时间 */
+        $firstEarliestWriteTime = $issueCollection->firstEarliestWriteTime($start);
+        $this->assertEquals(new Carbon('2017-07-19 09:05:30'), $firstEarliestWriteTime);
+
+        /* 期号结果 */
+        $result = $generator->getArray();
         $this->assertEquals(156, count($result));
 
         $day1First = $result[0];
@@ -218,12 +255,21 @@ class IssueGeneratorTest extends TestCase
         $end   = Carbon::create(2017, 7, 19);
 
         $config = IssueInfoConfig::get('pailie3');
+        $issueCollection = IssueSetCollection::loadRaw($config['issueset']);
 
         $generator = IssueGenerator::forge($config['issuerule'], $config['issueset'], 182);
         $generator->setDateRange($start, $end);
 
-        $result = $generator->getArray();
+        /* 一天 1 期 */
+        $countIssues = $issueCollection->countIssues();
+        $this->assertEquals(1, $countIssues);
 
+        /* 测试最早开奖时间 */
+        $firstEarliestWriteTime = $issueCollection->firstEarliestWriteTime($start);
+        $this->assertEquals(new Carbon('2017-07-08 20:25:00'), $firstEarliestWriteTime);
+
+        /* 期号结果 */
+        $result = $generator->getArray();
         $this->assertEquals(12, count($result));
 
         $first = $result[0];
@@ -252,12 +298,21 @@ class IssueGeneratorTest extends TestCase
         $end   = Carbon::create(2017, 7, 27);
 
         $config = IssueInfoConfig::get('shiyix5_jiangxi');
+        $issueCollection = IssueSetCollection::loadRaw($config['issueset']);
 
         $generator = IssueGenerator::forge($config['issuerule'], $config['issueset']);
         $generator->setDateRange($start, $end);
 
-        $result = $generator->getArray();
+        /* 一天 84 期 */
+        $countIssues = $issueCollection->countIssues();
+        $this->assertEquals(84, $countIssues);
 
+        /* 测试最早开奖时间 */
+        $firstEarliestWriteTime = $issueCollection->firstEarliestWriteTime($start);
+        $this->assertEquals(new Carbon('2017-07-26 09:10:30'), $firstEarliestWriteTime);
+
+        /* 期号结果 */
+        $result = $generator->getArray();
         $this->assertEquals(168, count($result));
 
         $day1First = $result[0];
@@ -302,12 +357,21 @@ class IssueGeneratorTest extends TestCase
         $end   = Carbon::create(2017, 7, 27);
 
         $config = IssueInfoConfig::get('shiyix5_guangdong');
+        $issueCollection = IssueSetCollection::loadRaw($config['issueset']);
 
         $generator = IssueGenerator::forge($config['issuerule'], $config['issueset']);
         $generator->setDateRange($start, $end);
 
-        $result = $generator->getArray();
+        /* 一天 84 期 */
+        $countIssues = $issueCollection->countIssues();
+        $this->assertEquals(84, $countIssues);
 
+        /* 测试最早开奖时间 */
+        $firstEarliestWriteTime = $issueCollection->firstEarliestWriteTime($start);
+        $this->assertEquals(new Carbon('2017-07-26 09:10:30'), $firstEarliestWriteTime);
+
+        /* 期号结果 */
+        $result = $generator->getArray();
         $this->assertEquals(168, count($result));
 
         $day1First = $result[0];
@@ -352,12 +416,21 @@ class IssueGeneratorTest extends TestCase
         $end   = Carbon::create(2017, 8, 30);
 
         $config = IssueInfoConfig::get('miaomiao_ssc');
+        $issueCollection = IssueSetCollection::loadRaw($config['issueset']);
 
         $generator = IssueGenerator::forge($config['issuerule'], $config['issueset']);
         $generator->setDateRange($start, $end);
 
-        $result = $generator->getArray();
+        /* 一天 2638 期 */
+        $countIssues = $issueCollection->countIssues();
+        $this->assertEquals(2638, $countIssues);
 
+        /* 测试最早开奖时间 */
+        $firstEarliestWriteTime = $issueCollection->firstEarliestWriteTime($start);
+        $this->assertEquals(new Carbon('2017-08-30 00:01:25'), $firstEarliestWriteTime);
+
+        /* 期号结果 */
+        $result = $generator->getArray();
         $this->assertEquals(2638, count($result));
 
         $day1First = $result[0];

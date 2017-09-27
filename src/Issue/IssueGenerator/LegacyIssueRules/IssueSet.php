@@ -302,4 +302,26 @@ class IssueSet
             'sort'          => $this->sort,
         ];
     }
+
+    /**
+     * @return int
+     */
+    public function count()
+    {
+        $range         = $this->getRange(Carbon::today());  // 计算日期并不重要
+        $firstEndTime  = $this->setTime($range['starttime'], $this->firstendtime);
+
+        return floor($firstEndTime->diffInSeconds($range['endtime']) / $this->cycle) + 1;
+    }
+
+    /**
+     * 最早开奖时间.
+     *
+     * @param  \Carbon\Carbon  $date
+     * @return \Carbon\Carbon
+     */
+    public function firstEarliestWriteTime(Carbon $date)
+    {
+        return $this->setTime($date->copy(), $this->firstendtime)->addSeconds($this->inputcodetime);
+    }
 }

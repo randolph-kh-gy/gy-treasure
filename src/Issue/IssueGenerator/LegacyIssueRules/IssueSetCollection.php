@@ -2,6 +2,7 @@
 
 namespace GyTreasure\Issue\IssueGenerator\LegacyIssueRules;
 
+use Carbon\Carbon;
 use GyTreasure\Support\Collection;
 
 class IssueSetCollection extends Collection
@@ -97,5 +98,29 @@ class IssueSetCollection extends Collection
     {
         $this->activatedIndex = 0;
         return $this;
+    }
+
+    /**
+     * 总期号数量.
+     *
+     * @return int
+     */
+    public function countIssues()
+    {
+        return $this->reduce(function ($count, IssueSet $issueSet) {
+            return $count + $issueSet->count();
+        }, 0);
+    }
+
+    /**
+     * 最早开奖时间.
+     *
+     * @param  \Carbon\Carbon  $date
+     * @return \Carbon\Carbon|null
+     */
+    public function firstEarliestWriteTime(Carbon $date)
+    {
+        $first = $this->first();
+        return ($first) ? $first->firstEarliestWriteTime($date) : null;
     }
 }
