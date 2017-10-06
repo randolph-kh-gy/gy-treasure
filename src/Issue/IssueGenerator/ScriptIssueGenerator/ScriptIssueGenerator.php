@@ -8,6 +8,7 @@ use GyTreasure\Issue\IssueGenerator\GeneratorTraits\DateRangeTrait;
 use GyTreasure\Issue\IssueGenerator\GeneratorTraits\IgnoringTimeRangeTrait;
 use GyTreasure\Issue\IssueGenerator\IssueGeneratorInterface;
 use GyTreasure\Issue\IssueGenerator\ScriptIssueGenerator\Scripts\Mm115Generator;
+use GyTreasure\Issue\IssueGenerator\ScriptIssueGenerator\Scripts\MmSscGenerator;
 use GyTreasure\Support\TimeRange;
 
 class ScriptIssueGenerator implements IssueGeneratorInterface
@@ -76,6 +77,9 @@ class ScriptIssueGenerator implements IssueGeneratorInterface
         switch ($id) {
             case 'miaomiao115':
                 $this->script = new Mm115Generator();
+                break;
+            case 'miaomiao_ssc':
+                $this->script = new MmSscGenerator();
                 break;
             default:
                 throw new NoAvailableIssueScriptException('No available script for this lottery: ' . $id);
