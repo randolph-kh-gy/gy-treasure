@@ -106,7 +106,7 @@ class DrawDateTask
     public function apiDrawRangeIssuesStrategy(array $expects)
     {
         if (! $expects) {
-            return [];
+            return null;
         }
 
         $api  = ['apiName' => 'DrawNumbers', 'forge' => 'forge', 'instanceof' => ApiDrawRangeIssues::class];
@@ -141,7 +141,7 @@ class DrawDateTask
     public function apiDrawLatestGroupIssuesNumStrategy(array $expects)
     {
         if (! $expects) {
-            return [];
+            return null;
         }
 
         $api  = ['apiName' => 'DrawNumbers', 'forge' => 'forge', 'instanceof' => ApiDrawLatestGroupIssuesNum::class];
@@ -172,7 +172,7 @@ class DrawDateTask
     public function apiDrawLatestGroupIssuesNumLessStrategy(array $expects)
     {
         if (! $expects) {
-            return [];
+            return null;
         }
 
         $api  = ['apiName' => 'DrawNumbers', 'forge' => 'forge', 'instanceof' => ApiDrawLatestGroupIssuesNumLess::class];

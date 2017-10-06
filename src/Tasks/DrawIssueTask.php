@@ -47,13 +47,13 @@ class DrawIssueTask
             return $result;
         } elseif (! is_null($result = $this->apiDrawRangeIssuesStrategy($issue))) {
             return $result;
-        } elseif (! is_null($result = $this->apiDrawDateGroupIssuesStrategy($issue, $date))) {
+        } elseif ($date && ! is_null($result = $this->apiDrawDateGroupIssuesStrategy($issue, $date))) {
             return $result;
-        } elseif (! is_null($result = $this->apiDrawDateGroupIssuesWeakPerformanceStrategy($issue, $date))) {
+        } elseif ($date && ! is_null($result = $this->apiDrawDateGroupIssuesWeakPerformanceStrategy($issue, $date))) {
             return $result;
-        } elseif (! is_null($result = $this->apiDrawDateGroupIssuesLessStrategy($issue, $date))) {
+        } elseif ($date && ! is_null($result = $this->apiDrawDateGroupIssuesLessStrategy($issue, $date))) {
             return $result;
-        } elseif (! is_null($result = $this->apiDrawLatestGroupIssuesStrategy($issue, $date))) {
+        } elseif (! is_null($result = $this->apiDrawLatestGroupIssuesStrategy($issue))) {
             return $result;
         }
 
@@ -139,14 +139,13 @@ class DrawIssueTask
 
     /**
      * @param  string  $issue
-     * @param  \Carbon\Carbon  $date
      * @return array|null
      */
-    public function apiDrawLatestGroupIssuesStrategy($issue, Carbon $date)
+    public function apiDrawLatestGroupIssuesStrategy($issue)
     {
         $api  = ['apiName' => 'DrawNumbers', 'forge' => 'forge', 'instanceof' => ApiDrawLatestGroupIssues::class];
 
-        return $this->task->call($api, function (ApiDrawLatestGroupIssues $instance, $info) use ($issue, $date) {
+        return $this->task->call($api, function (ApiDrawLatestGroupIssues $instance, $info) use ($issue) {
 
             $data = $instance->drawLatestGroupIssues($info['id']);
             return $this->getWinningNumbers($data, $issue);
